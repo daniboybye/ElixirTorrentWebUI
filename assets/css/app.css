@@ -1,0 +1,105 @@
+/* See the Tailwind configuration guide for advanced usage
+   https://tailwindcss.com/docs/configuration */
+
+@import "tailwindcss" source(none);
+@source "../css";
+@source "../js";
+@source "../../lib/elixir_torrent_web_ui_web";
+
+/* A Tailwind plugin that makes "hero-#{ICON}" classes available.
+   The heroicons installation itself is managed by your mix.exs */
+@plugin "../vendor/heroicons";
+
+/* daisyUI Tailwind Plugin. You can update this file by fetching the latest version with:
+   curl -sLO https://github.com/saadeghi/daisyui/releases/latest/download/daisyui.js
+   Make sure to look at the daisyUI changelog: https://daisyui.com/docs/changelog/ */
+@plugin "../vendor/daisyui" {
+  themes: false;
+}
+
+/* daisyUI theme plugin. You can update this file by fetching the latest version with:
+  curl -sLO https://github.com/saadeghi/daisyui/releases/latest/download/daisyui-theme.js
+  We ship with two themes, a light one inspired on Phoenix colors and a dark one inspired
+  on Elixir colors. Build your own at: https://daisyui.com/theme-generator/ */
+@plugin "../vendor/daisyui-theme" {
+  name: "dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: "dark";
+  --color-base-100: #17141f;
+  --color-base-200: #211b2d;
+  --color-base-300: #2b2340;
+  --color-base-content: #f3effc;
+  --color-primary: #5e2d91;
+  --color-primary-content: #f7f0ff;
+  --color-secondary: #7b42bd;
+  --color-secondary-content: #f8f2ff;
+  --color-accent: #fd4f00;
+  --color-accent-content: #2f1407;
+  --color-neutral: #241d33;
+  --color-neutral-content: #f3effc;
+  --color-info: #4f8cff;
+  --color-info-content: #f2f7ff;
+  --color-success: #39c071;
+  --color-success-content: #0d2216;
+  --color-warning: #f2b84b;
+  --color-warning-content: #2d1a05;
+  --color-error: #ef5b6c;
+  --color-error-content: #2d0d12;
+  --radius-selector: 0.25rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.21875rem;
+  --size-field: 0.21875rem;
+  --border: 1.5px;
+  --depth: 1;
+  --noise: 0;
+}
+
+@plugin "../vendor/daisyui-theme" {
+  name: "light";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: #faf8fd;
+  --color-base-200: #f2edf8;
+  --color-base-300: #e6ddf3;
+  --color-base-content: #2a2140;
+  --color-primary: #5e2d91;
+  --color-primary-content: #f7f0ff;
+  --color-secondary: #7b42bd;
+  --color-secondary-content: #f8f2ff;
+  --color-accent: #fd4f00;
+  --color-accent-content: #ffffff;
+  --color-neutral: #4a3a68;
+  --color-neutral-content: #f7f4ff;
+  --color-info: #3d78ea;
+  --color-info-content: #eff4ff;
+  --color-success: #2ea45f;
+  --color-success-content: #f2fff8;
+  --color-warning: #d99324;
+  --color-warning-content: #fff8eb;
+  --color-error: #d84d5f;
+  --color-error-content: #fff0f2;
+  --radius-selector: 0.25rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.21875rem;
+  --size-field: 0.21875rem;
+  --border: 1.5px;
+  --depth: 1;
+  --noise: 0;
+}
+
+/* Add variants based on LiveView classes */
+@custom-variant phx-click-loading (.phx-click-loading&, .phx-click-loading &);
+@custom-variant phx-submit-loading (.phx-submit-loading&, .phx-submit-loading &);
+@custom-variant phx-change-loading (.phx-change-loading&, .phx-change-loading &);
+
+/* Use the data attribute for dark mode  */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* Make LiveView wrapper divs transparent for layout */
+[data-phx-session], [data-phx-teleported-src] { display: contents }
+
+/* This file is for your main application CSS */

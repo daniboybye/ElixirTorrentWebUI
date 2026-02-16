@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content={get_csrf_token()} />
+    <.live_title default="ElixirTorrentWebUI" suffix=" · Phoenix Framework">
+      {assigns[:page_title]}
+    </.live_title>
+    <link phx-track-static rel="icon" type="image/x-icon" href={~p"/favicon.ico"} />
+    <link
+      phx-track-static
+      rel="apple-touch-icon"
+      type="image/png"
+      href={~p"/images/elixir-logo.png"}
+    />
+    <link phx-track-static rel="stylesheet" href={~p"/assets/css/app.css"} />
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/js/app.js"}>
+    </script>
+    <script>
+      (() => {
+        const normalizeTheme = (theme) => (theme === "light" ? "light" : "dark");
+        const setTheme = (theme) => {
+          const normalized = normalizeTheme(theme);
+          localStorage.setItem("phx:theme", normalized);
+          document.documentElement.setAttribute("data-theme", normalized);
+        };
+
+        const toggleTheme = () => {
+          const current = normalizeTheme(document.documentElement.getAttribute("data-theme"));
+          setTheme(current === "dark" ? "light" : "dark");
+        };
+
+        if (!document.documentElement.hasAttribute("data-theme")) {
+          setTheme(localStorage.getItem("phx:theme") || "dark");
+        }
+
+        window.addEventListener("storage", (e) =>
+          e.key === "phx:theme" && setTheme(e.newValue || "dark")
+        );
+
+        window.addEventListener("phx:set-theme", (e) => setTheme(e.target.dataset.phxTheme));
+        window.addEventListener("phx:toggle-theme", toggleTheme);
+      })();
+    </script>
+  </head>
+  <body>
+    {@inner_content}
+  </body>
+</html>
