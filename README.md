@@ -9,7 +9,9 @@ The engine lives in a separate project (sibling folder) and this repo is the **U
 
 ## Architecture
 
-- **Engine**: `../ElixirTorrent` (Elixir/OTP BitTorrent implementation)
+- **Engine**: [`elixir_torrent`](https://hex.pm/packages/elixir_torrent) — Elixir/OTP BitTorrent implementation
+  ([Hex docs](https://hexdocs.pm/elixir_torrent/readme.html) ·
+  [GitHub](https://github.com/daniboybye/ElixirTorrent))
 - **UI server**: Phoenix + LiveView (local HTTP + WebSocket)
 - **Desktop strategy**: start with browser UI; later we can wrap the local UI in
   Electron/Tauri/WKWebView for a native window, without changing the backend.
