@@ -32,8 +32,27 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   # The form's `phx-change` is required to wire `<.live_file_input>` into the
   # upload protocol — without it the JS hook never preflights. The actual work
   # (consume + add to engine) happens in the `progress` callback below.
+  #
+  # We still use `validate` to catch files that Phoenix has flagged as invalid
+  # (e.g. dropped `.png` triggers `:not_accepted` because of `accept: ~w(.torrent)`).
+  # We cancel them so they don't sit in the upload state forever, and surface a
+  # flash so the user knows what happened.
   @impl true
-  def handle_event("validate", _params, socket), do: {:noreply, socket}
+  def handle_event("validate", _params, socket) do
+    invalid = Enum.reject(socket.assigns.uploads.torrent.entries, & &1.valid?)
+
+    socket =
+      Enum.reduce(invalid, socket, fn entry, acc ->
+        cancel_upload(acc, :torrent, entry.ref)
+      end)
+
+    socket =
+      if invalid == [],
+        do: socket,
+        else: put_flash(socket, :error, "Only .torrent files are allowed")
+
+    {:noreply, socket}
+  end
 
   # The `progress` callback (idiomatic for `auto_upload: true`) fires once per
   # upload progress update. We bail until `entry.done?` and then consume the
@@ -59,8 +78,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
            |> assign(:torrents, Engine.list_torrents())}
 
         {:error, reason} ->
-          {:noreply,
-           put_flash(socket, :error, "Failed to add torrent: #{inspect(reason)}")}
+          {:noreply, put_flash(socket, :error, "Failed to add torrent: #{inspect(reason)}")}
       end
     else
       {:noreply,
@@ -81,46 +99,189 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   def render(assigns) do
     ~H"""
     <Layouts.app flash={@flash}>
-      <div class="flex flex-wrap items-center justify-end gap-3 rounded-xl border border-base-300 bg-base-200 px-4 py-3">
-        <div class="flex items-center gap-2">
-          <.theme_toggle />
+      <div class="space-y-4">
+        <div class="flex flex-wrap items-center justify-end gap-3 rounded-xl border border-base-300 bg-base-200 px-4 py-3">
+          <div class="flex items-center gap-2">
+            <.theme_toggle />
 
-          <form id="add-torrent-form" phx-change="validate" phx-submit="validate">
-            <.live_file_input upload={@uploads.torrent} class="sr-only" />
-            <label
-              for={@uploads.torrent.ref}
-              class="inline-flex cursor-pointer items-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-semibold text-primary-content hover:brightness-110"
-            >
-              Add torrent
-            </label>
-          </form>
+            <form id="add-torrent-form" phx-change="validate" phx-submit="validate">
+              <.live_file_input upload={@uploads.torrent} class="sr-only" />
+              <label
+                for={@uploads.torrent.ref}
+                class="inline-flex cursor-pointer items-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-semibold text-primary-content hover:brightness-110"
+              >
+                Add torrent
+              </label>
+            </form>
+          </div>
         </div>
-      </div>
 
-      <div class="space-y-3">
-        <.torrent_card :for={torrent <- @torrents} torrent={torrent} />
+        <div class="space-y-3">
+          <.torrent_card :for={torrent <- @torrents} torrent={torrent} />
+
+          <div class="rounded-2xl border border-dashed border-base-300 bg-base-200 px-6 py-10 text-center text-base-content/60">
+            Drag and drop a `.torrent` file here, or <label
+              for={@uploads.torrent.ref}
+              class="cursor-pointer text-primary underline"
+            >
+              Click to Add
+            </label>.
+          </div>
+        </div>
 
         <div
-          id="torrent-drop-zone"
-          phx-drop-target={@uploads.torrent.ref}
-          class="rounded-2xl border border-dashed border-base-300 bg-base-200 px-6 py-10 text-center text-base-content/60"
+          :if={@torrents == []}
+          class="rounded-xl border border-base-300 bg-base-200 px-4 py-8 text-center text-base-content/70"
         >
-          Drag and drop a `.torrent` file here, or <label
-            for={@uploads.torrent.ref}
-            class="cursor-pointer text-primary underline"
-          >
-            Click to Add
-          </label>.
+          No active torrents. Add a `.torrent` file to start downloading.
         </div>
       </div>
-
-      <div
-        :if={@torrents == []}
-        class="rounded-xl border border-base-300 bg-base-200 px-4 py-8 text-center text-base-content/70"
-      >
-        No active torrents. Add a `.torrent` file to start downloading.
-      </div>
     </Layouts.app>
+
+    <div
+      id="drag-overlay"
+      phx-hook=".DragOverlay"
+      phx-update="ignore"
+      class="pointer-events-none fixed inset-0 z-40 hidden items-center justify-center bg-base-100/80 backdrop-blur-sm transition-opacity"
+      aria-hidden="true"
+    >
+      <div
+        data-overlay-card
+        class="rounded-3xl border-4 border-dashed border-primary bg-base-200/90 px-12 py-10 text-center shadow-2xl"
+      >
+        <span data-overlay-icon-ok class="block">
+          <.icon name="hero-arrow-down-tray" class="mx-auto size-16 text-primary" />
+        </span>
+        <span data-overlay-icon-no class="hidden">
+          <.icon name="hero-no-symbol" class="mx-auto size-16 text-error" />
+        </span>
+        <p data-overlay-title class="mt-4 text-4xl font-bold text-base-content">
+          Drop files here!
+        </p>
+        <p data-overlay-hint class="mt-2 text-sm text-base-content/70">
+          Only <code>.torrent</code> files accepted
+        </p>
+      </div>
+    </div>
+
+    <script :type={Phoenix.LiveView.ColocatedHook} name=".DragOverlay">
+      export default {
+        mounted() {
+          this.overlay = this.el
+          this.dragCounter = 0
+
+          this.handlers = {
+            dragenter: (e) => {
+              if (!this.hasFiles(e)) return
+              e.preventDefault()
+              this.dragCounter++
+              if (this.dragCounter === 1) this.show(this.acceptsDrag(e))
+            },
+            dragleave: (e) => {
+              if (!this.hasFiles(e)) return
+              this.dragCounter--
+              if (this.dragCounter <= 0) {
+                this.dragCounter = 0
+                this.hide()
+              }
+            },
+            dragover: (e) => {
+              if (!this.hasFiles(e)) return
+              e.preventDefault()
+              const accepted = this.acceptsDrag(e)
+              e.dataTransfer.dropEffect = accepted ? "copy" : "none"
+              this.setOverlayState(accepted)
+            },
+            drop: (e) => {
+              this.dragCounter = 0
+              this.hide()
+              if (!this.hasFiles(e) || !e.dataTransfer.files.length) return
+              e.preventDefault()
+              e.stopPropagation()
+
+              // Forward files to the live upload input directly. We can't trust
+              // a static `phx-drop-target` ref because the input's id is
+              // re-issued by Phoenix on upload state changes; the data-attr
+              // selector always matches the current input.
+              const input = document.querySelector('input[type="file"][data-phx-upload-ref]')
+              if (!input || input.disabled) return
+
+              const dt = new DataTransfer()
+              for (const f of e.dataTransfer.files) dt.items.add(f)
+              input.files = dt.files
+              input.dispatchEvent(new Event("input", { bubbles: true }))
+              input.dispatchEvent(new Event("change", { bubbles: true }))
+            }
+          }
+
+          for (const [event, handler] of Object.entries(this.handlers)) {
+            window.addEventListener(event, handler)
+          }
+        },
+
+        destroyed() {
+          if (!this.handlers) return
+          for (const [event, handler] of Object.entries(this.handlers)) {
+            window.removeEventListener(event, handler)
+          }
+        },
+
+        show(accepted) {
+          this.overlay.classList.remove("hidden", "pointer-events-none")
+          this.overlay.classList.add("flex", "pointer-events-auto")
+          this.setOverlayState(accepted)
+        },
+
+        hide() {
+          this.overlay.classList.add("hidden", "pointer-events-none")
+          this.overlay.classList.remove("flex", "pointer-events-auto")
+          this.setOverlayState(true)
+        },
+
+        setOverlayState(accepted) {
+          const card = this.overlay.querySelector("[data-overlay-card]")
+          const title = this.overlay.querySelector("[data-overlay-title]")
+          const hint = this.overlay.querySelector("[data-overlay-hint]")
+          const okIcon = this.overlay.querySelector("[data-overlay-icon-ok]")
+          const noIcon = this.overlay.querySelector("[data-overlay-icon-no]")
+          if (!card) return
+          if (accepted) {
+            card.classList.remove("border-error")
+            card.classList.add("border-primary")
+            if (title) title.textContent = "Drop files here!"
+            if (hint) hint.classList.remove("text-error")
+            if (okIcon) { okIcon.classList.remove("hidden"); okIcon.classList.add("block") }
+            if (noIcon) { noIcon.classList.add("hidden"); noIcon.classList.remove("block") }
+          } else {
+            card.classList.add("border-error")
+            card.classList.remove("border-primary")
+            if (title) title.textContent = "This file type is not supported"
+            if (hint) hint.classList.add("text-error")
+            if (okIcon) { okIcon.classList.add("hidden"); okIcon.classList.remove("block") }
+            if (noIcon) { noIcon.classList.remove("hidden"); noIcon.classList.add("block") }
+          }
+        },
+
+        hasFiles(e) {
+          return e.dataTransfer && Array.from(e.dataTransfer.types).includes("Files")
+        },
+
+        // We can only inspect MIME `kind`/`type` during drag (file *names* are
+        // hidden by the browser for security). Finder sometimes reports an
+        // empty MIME for `.torrent` because the type isn't registered in macOS,
+        // so we treat empty as "maybe accepted" — final extension validation
+        // happens server-side in the `progress` callback after drop.
+        acceptsDrag(e) {
+          const items = e.dataTransfer && e.dataTransfer.items
+          if (!items || items.length === 0) return true
+          return Array.from(items).every(item => {
+            if (item.kind !== "file") return false
+            const type = (item.type || "").toLowerCase()
+            return type === "" || type === "application/x-bittorrent"
+          })
+        }
+      }
+    </script>
     """
   end
 
