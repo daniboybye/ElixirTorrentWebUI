@@ -14,7 +14,8 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         accept: ~w(.torrent),
         max_entries: 1,
         max_file_size: 5_000_000,
-        auto_upload: true
+        auto_upload: true,
+        progress: &handle_progress/3
       )
 
     if connected?(socket), do: Process.send_after(self(), :refresh, @refresh_ms)
@@ -28,47 +29,44 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     {:noreply, assign(socket, :torrents, Engine.list_torrents())}
   end
 
+  # The form's `phx-change` is required to wire `<.live_file_input>` into the
+  # upload protocol — without it the JS hook never preflights. The actual work
+  # (consume + add to engine) happens in the `progress` callback below.
   @impl true
-  def handle_event("add_torrent", _params, socket) do
-    {completed, _in_progress} = uploaded_entries(socket, :torrent)
+  def handle_event("validate", _params, socket), do: {:noreply, socket}
 
-    if completed == [] do
-      # With auto_upload enabled this event fires during upload progress too.
-      {:noreply, socket}
-    else
-      invalid = Enum.reject(completed, &torrent_file?/1)
+  # The `progress` callback (idiomatic for `auto_upload: true`) fires once per
+  # upload progress update. We bail until `entry.done?` and then consume the
+  # single entry. Using `consume_uploaded_entry/3` (singular) avoids the race
+  # that crashes `consume_uploaded_entries/3` (plural) when chunks arrive
+  # interleaved with the change event.
+  @spec handle_progress(:torrent, Phoenix.LiveView.UploadEntry.t(), Phoenix.LiveView.Socket.t()) ::
+          {:noreply, Phoenix.LiveView.Socket.t()}
+  defp handle_progress(:torrent, %{done?: false}, socket), do: {:noreply, socket}
 
-      socket =
-        Enum.reduce(invalid, socket, fn entry, acc ->
-          cancel_upload(acc, :torrent, entry.ref)
+  defp handle_progress(:torrent, entry, socket) do
+    if torrent_file?(entry) do
+      path =
+        consume_uploaded_entry(socket, entry, fn %{path: tmp_path} ->
+          {:ok, persist_upload(tmp_path, entry)}
         end)
 
-      if invalid != [] do
-        {:noreply, put_flash(socket, :error, "Only .torrent files are allowed")}
-      else
-        {paths, socket} =
-          consume_uploaded_entries(socket, :torrent, fn %{path: path}, entry ->
-            dest = persist_upload(path, entry)
-            {:ok, dest}
-          end)
+      case Engine.add_torrent(path) do
+        {:ok, _pid} ->
+          {:noreply,
+           socket
+           |> put_flash(:info, "Torrent added: #{entry.client_name}")
+           |> assign(:torrents, Engine.list_torrents())}
 
-        case paths do
-          [path | _] ->
-            case Engine.add_torrent(path) do
-              {:ok, _pid} ->
-                {:noreply,
-                 socket
-                 |> put_flash(:info, "Torrent added")
-                 |> assign(:torrents, Engine.list_torrents())}
-
-              {:error, reason} ->
-                {:noreply, put_flash(socket, :error, "Failed to add torrent: #{inspect(reason)}")}
-            end
-
-          _ ->
-            {:noreply, put_flash(socket, :error, "Failed to add torrent")}
-        end
+        {:error, reason} ->
+          {:noreply,
+           put_flash(socket, :error, "Failed to add torrent: #{inspect(reason)}")}
       end
+    else
+      {:noreply,
+       socket
+       |> cancel_upload(:torrent, entry.ref)
+       |> put_flash(:error, "Only .torrent files are allowed")}
     end
   end
 
@@ -87,7 +85,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         <div class="flex items-center gap-2">
           <.theme_toggle />
 
-          <form phx-change="add_torrent" phx-submit="add_torrent">
+          <form id="add-torrent-form" phx-change="validate" phx-submit="validate">
             <.live_file_input upload={@uploads.torrent} class="sr-only" />
             <label
               for={@uploads.torrent.ref}
@@ -100,34 +98,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
       </div>
 
       <div class="space-y-3">
-        <div
-          :for={torrent <- @torrents}
-          id={"torrent-#{Torrent.hex_encoded_hash(torrent.hash)}"}
-          class="rounded-2xl border border-base-300 bg-base-200 px-4 py-4"
-        >
-          <div class="flex items-start justify-between gap-3">
-            <div>
-              <p class="text-lg font-medium text-base-content">{torrent.name}</p>
-              <p class="text-sm text-base-content/70">{torrent.status}</p>
-            </div>
-            <span class={status_badge_class(torrent.status)}>{short_status(torrent.status)}</span>
-          </div>
-
-          <div class="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-base-content/80">
-            <span class="tabular-nums text-success">↓ {format_kbps(torrent.down_kbps)}</span>
-            <span class="tabular-nums text-secondary">↑ {format_kbps(torrent.up_kbps)}</span>
-            <span class="tabular-nums">👥 {torrent.peers}</span>
-            <span class="tabular-nums">{format_percent(torrent.progress)}</span>
-          </div>
-
-          <div class="mt-3 h-1.5 overflow-hidden rounded-full bg-base-300">
-            <div
-              class="h-full rounded-full bg-gradient-to-r from-primary to-accent"
-              style={"width: #{min(max(torrent.progress, 0.0), 100.0)}%"}
-            >
-            </div>
-          </div>
-        </div>
+        <.torrent_card :for={torrent <- @torrents} torrent={torrent} />
 
         <div
           id="torrent-drop-zone"
@@ -164,27 +135,134 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     dest
   end
 
-  @spec format_kbps(number()) :: String.t()
-  defp format_kbps(n) when is_integer(n) and n >= 1024, do: "#{Float.round(n / 1024, 2)} MB/s"
-  defp format_kbps(n) when is_integer(n), do: "#{n} KB/s"
-  defp format_kbps(n) when is_float(n) and n >= 1024.0, do: "#{Float.round(n / 1024.0, 2)} MB/s"
-  defp format_kbps(n) when is_float(n), do: "#{Float.round(n, 1)} KB/s"
-  defp format_kbps(_), do: "0 KB/s"
+  attr :torrent, Engine.TorrentRow, required: true
+
+  defp torrent_card(assigns) do
+    ~H"""
+    <div
+      id={"torrent-#{Torrent.hex_encoded_hash(@torrent.hash)}"}
+      class="rounded-2xl border border-base-300 bg-base-200 px-4 py-4"
+    >
+      <div class="flex items-start gap-3">
+        <span
+          class={[
+            "mt-2 inline-block size-2.5 shrink-0 rounded-full",
+            status_dot_class(@torrent.status)
+          ]}
+          aria-hidden="true"
+        />
+        <div class="min-w-0 flex-1">
+          <p class="truncate text-base font-medium text-base-content" title={@torrent.name}>
+            {@torrent.name}
+          </p>
+          <p class={["text-sm font-medium", status_text_class(@torrent.status)]}>
+            {@torrent.status}
+          </p>
+        </div>
+      </div>
+
+      <%= if @torrent.status == "Seeding" do %>
+        <div class="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm tabular-nums text-base-content/80">
+          <span class="min-w-[3rem] text-secondary">↑ {format_speed(@torrent.up_kbps)}</span>
+          <span class="text-base-content/40">|</span>
+          <span class="min-w-[1.6rem]">👥 {@torrent.peers}</span>
+        </div>
+      <% else %>
+        <div class="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm tabular-nums text-base-content/80">
+          <span class="min-w-[3rem] text-success">↓ {format_speed(@torrent.down_kbps)}</span>
+          <span class="text-base-content/40">|</span>
+          <span class="min-w-[3rem] text-secondary">↑ {format_speed(@torrent.up_kbps)}</span>
+          <span class="text-base-content/40">|</span>
+          <span class="min-w-[1.6rem]">👥 {@torrent.peers}</span>
+          <span class="text-base-content/40">|</span>
+          <span class="min-w-[4.8rem]">
+            {format_bytes(@torrent.bytes_downloaded)} / {format_bytes(@torrent.bytes_size)}
+          </span>
+          <span class="text-base-content/40">|</span>
+          <span class="min-w-[2.2rem]">⏱ {format_eta(@torrent.eta_seconds)}</span>
+          <span class="text-base-content/40">|</span>
+          <span class="min-w-[1.4rem]">{format_percent(@torrent.progress)}</span>
+        </div>
+
+        <div class="mt-3 h-1.5 overflow-hidden rounded-full bg-base-300">
+          <div
+            class="h-full rounded-full bg-gradient-to-r from-primary to-accent transition-[width] duration-500"
+            style={"width: #{clamp_percent(@torrent.progress)}%"}
+          >
+          </div>
+        </div>
+      <% end %>
+    </div>
+    """
+  end
+
+  @spec format_speed(number()) :: String.t()
+  defp format_speed(kbps) when is_number(kbps) and kbps > 0,
+    do: format_bytes(round(kbps * 1024)) <> "/s"
+
+  defp format_speed(_), do: "0 B/s"
+
+  @spec format_bytes(number()) :: String.t()
+  defp format_bytes(n) when is_number(n) and n >= 1024 * 1024 * 1024 * 1024,
+    do: format_unit(n / (1024 * 1024 * 1024 * 1024), "TB")
+
+  defp format_bytes(n) when is_number(n) and n >= 1024 * 1024 * 1024,
+    do: format_unit(n / (1024 * 1024 * 1024), "GB")
+
+  defp format_bytes(n) when is_number(n) and n >= 1024 * 1024,
+    do: format_unit(n / (1024 * 1024), "MB")
+
+  defp format_bytes(n) when is_number(n) and n >= 1024,
+    do: format_unit(n / 1024, "KB")
+
+  defp format_bytes(n) when is_integer(n) and n >= 0, do: "#{n} B"
+  defp format_bytes(_), do: "0 B"
+
+  defp format_unit(value, unit) do
+    rounded = Float.round(value, 2)
+
+    if rounded == Float.floor(rounded) do
+      "#{trunc(rounded)} #{unit}"
+    else
+      "#{rounded} #{unit}"
+    end
+  end
+
+  @spec format_eta(nil | :infinity | number()) :: String.t()
+  defp format_eta(nil), do: "—"
+  defp format_eta(:infinity), do: "∞"
+
+  defp format_eta(seconds) when is_number(seconds) do
+    seconds = round(seconds)
+
+    cond do
+      seconds < 60 -> "#{seconds}s"
+      seconds < 3600 -> "#{div(seconds, 60)}m #{rem(seconds, 60)}s"
+      seconds < 86_400 -> "#{div(seconds, 3600)}h #{rem(div(seconds, 60), 60)}m"
+      true -> "#{div(seconds, 86_400)}d #{rem(div(seconds, 3600), 24)}h"
+    end
+  end
 
   @spec format_percent(number()) :: String.t()
   defp format_percent(n) when is_float(n), do: "#{Float.round(n, 1)}%"
   defp format_percent(n) when is_integer(n), do: "#{n}%"
   defp format_percent(_), do: "0%"
 
-  @spec status_badge_class(String.t()) :: String.t()
-  defp status_badge_class("Seeding"), do: "badge badge-success"
-  defp status_badge_class("Connecting"), do: "badge badge-warning"
-  defp status_badge_class("Idle"), do: "badge badge-ghost"
-  defp status_badge_class(_), do: "badge badge-primary"
+  @spec clamp_percent(number()) :: float()
+  defp clamp_percent(n) when is_number(n), do: min(max(n * 1.0, 0.0), 100.0)
+  defp clamp_percent(_), do: 0.0
 
-  @spec short_status(String.t()) :: String.t()
-  defp short_status("Downloading" <> _), do: "Downloading"
-  defp short_status(status), do: status
+  @spec status_text_class(String.t()) :: String.t()
+  defp status_text_class("Seeding"), do: "text-success"
+  defp status_text_class("Connecting"), do: "text-warning"
+  defp status_text_class("Idle"), do: "text-base-content/60"
+  defp status_text_class(_), do: "text-info"
+
+  @spec status_dot_class(String.t()) :: String.t()
+  defp status_dot_class("Seeding"), do: "bg-success"
+  defp status_dot_class("Connecting"), do: "bg-warning animate-pulse"
+  defp status_dot_class("Idle"), do: "bg-base-content/40"
+  defp status_dot_class(_), do: "bg-info"
 
   @spec theme_toggle(map()) :: Phoenix.LiveView.Rendered.t()
   defp theme_toggle(assigns) do
