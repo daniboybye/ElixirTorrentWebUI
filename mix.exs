@@ -5,8 +5,9 @@ defmodule ElixirTorrentWebUI.MixProject do
     [
       app: :elixir_torrent_web_ui,
       version: "0.1.0",
-      elixir: "~> 1.19",
+      elixir: "~> 1.20",
       elixirc_paths: elixirc_paths(Mix.env()),
+      elixirc_options: elixirc_options(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
@@ -34,6 +35,10 @@ defmodule ElixirTorrentWebUI.MixProject do
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
+
+  defp elixirc_options do
+    [warnings_as_errors: true]
+  end
 
   # Specifies your project dependencies.
   #
@@ -103,7 +108,12 @@ defmodule ElixirTorrentWebUI.MixProject do
         "esbuild elixir_torrent_web_ui --minify",
         "phx.digest"
       ],
-      precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"]
+      precommit: [
+        "compile --warnings-as-errors",
+        "deps.unlock --unused",
+        "format",
+        "test --warnings-as-errors"
+      ]
     ]
   end
 end
