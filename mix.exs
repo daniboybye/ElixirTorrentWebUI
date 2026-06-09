@@ -83,7 +83,7 @@ defmodule ElixirTorrentWebUI.MixProject do
   # convenient for iterating on the engine without releasing a new package.
   defp elixir_torrent_dep do
     case System.get_env("ELIXIR_TORRENT_PATH") do
-      nil -> {:elixir_torrent, "~> 0.1.1"}
+      nil -> {:elixir_torrent, "~> 0.1.2"}
       path -> {:elixir_torrent, path: path}
     end
   end

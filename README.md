@@ -47,7 +47,7 @@ Open `http://127.0.0.1:4000`.
 The canonical, committed dependency is the published Hex package:
 
 ```elixir
-{:elixir_torrent, "~> 0.1.1"}
+{:elixir_torrent, "~> 0.1.2"}
 ```
 
 `mix.exs` resolves this dynamically. By default the Hex version is used, so a
