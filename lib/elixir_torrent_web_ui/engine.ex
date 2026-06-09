@@ -5,8 +5,24 @@ defmodule ElixirTorrentWebUI.Engine do
   UI code should depend on this module (not on engine internals).
   """
 
+  defmodule FileRow do
+    @enforce_keys [:index, :path, :name, :length, :downloaded, :progress, :complete?]
+    defstruct [:index, :path, :name, :length, :downloaded, :progress, :complete?]
+
+    @type t :: %__MODULE__{
+            index: non_neg_integer(),
+            path: String.t(),
+            name: String.t(),
+            length: non_neg_integer(),
+            downloaded: non_neg_integer(),
+            progress: float(),
+            complete?: boolean()
+          }
+  end
+
   defmodule TorrentRow do
     @enforce_keys [
+      :id,
       :hash,
       :name,
       :progress,
@@ -16,9 +32,13 @@ defmodule ElixirTorrentWebUI.Engine do
       :up_kbps,
       :peers,
       :status,
-      :eta_seconds
+      :eta_seconds,
+      :file_count,
+      :added_at,
+      :files
     ]
     defstruct [
+      :id,
       :hash,
       :name,
       :progress,
@@ -28,10 +48,14 @@ defmodule ElixirTorrentWebUI.Engine do
       :up_kbps,
       :peers,
       :status,
-      :eta_seconds
+      :eta_seconds,
+      :file_count,
+      :added_at,
+      :files
     ]
 
     @type t :: %__MODULE__{
+            id: String.t(),
             hash: Torrent.hash(),
             name: String.t(),
             progress: float(),
@@ -41,22 +65,22 @@ defmodule ElixirTorrentWebUI.Engine do
             up_kbps: number(),
             peers: non_neg_integer(),
             status: String.t(),
-            eta_seconds: nil | :infinity | float()
+            eta_seconds: nil | :infinity | float(),
+            file_count: non_neg_integer(),
+            added_at: DateTime.t() | nil,
+            files: [FileRow.t()]
           }
   end
 
-  @spec list_torrents() :: list(TorrentRow.t())
-  def list_torrents do
+  @spec list_torrents(MapSet.t()) :: list(TorrentRow.t())
+  def list_torrents(expanded \\ MapSet.new()) do
     Torrents
     |> DynamicSupervisor.which_children()
     |> Enum.flat_map(fn
       {_id, pid, _type, _modules} when is_pid(pid) ->
         case Torrent.get_hash(pid) do
-          nil ->
-            []
-
-          hash ->
-            [row_for(hash)]
+          nil -> []
+          hash -> [row_for(hash, expanded)]
         end
 
       _ ->
@@ -70,10 +94,12 @@ defmodule ElixirTorrentWebUI.Engine do
     ElixirTorrent.download(path)
   end
 
-  @spec row_for(Torrent.hash()) :: TorrentRow.t()
-  defp row_for(hash) do
-    [name, speed, downloaded, size, peer_status] =
-      Torrent.get(hash, [:name, :speed, :downloaded, :bytes_size, :peer_status])
+  @spec row_for(Torrent.hash(), MapSet.t()) :: TorrentRow.t()
+  defp row_for(hash, expanded) do
+    id = Torrent.hex_encoded_hash(hash)
+
+    [name, speed, downloaded, size, peer_status, added_at] =
+      Torrent.get(hash, [:name, :speed, :downloaded, :bytes_size, :peer_status, :added_at])
 
     progress =
       if size > 0 do
@@ -91,7 +117,15 @@ defmodule ElixirTorrentWebUI.Engine do
 
     status = status_string(peer_status)
 
+    files =
+      if MapSet.member?(expanded, id) do
+        list_files(hash)
+      else
+        []
+      end
+
     %TorrentRow{
+      id: id,
       hash: hash,
       name: name,
       progress: progress,
@@ -101,8 +135,28 @@ defmodule ElixirTorrentWebUI.Engine do
       up_kbps: speed.upload,
       peers: peers,
       status: status,
-      eta_seconds: compute_eta(status, size - downloaded, speed.download, peers)
+      eta_seconds: compute_eta(status, size - downloaded, speed.download, peers),
+      file_count: Torrent.file_count(hash),
+      added_at: added_at,
+      files: files
     }
+  end
+
+  @spec list_files(Torrent.hash()) :: [FileRow.t()]
+  defp list_files(hash) do
+    hash
+    |> Torrent.list_files()
+    |> Enum.map(fn entry ->
+      %FileRow{
+        index: entry.index,
+        path: entry.path,
+        name: entry.name,
+        length: entry.length,
+        downloaded: entry.downloaded,
+        progress: entry.progress,
+        complete?: entry.complete?
+      }
+    end)
   end
 
   @spec compute_eta(String.t(), non_neg_integer(), number(), non_neg_integer()) ::
@@ -113,7 +167,6 @@ defmodule ElixirTorrentWebUI.Engine do
   defp compute_eta(_status, _left, kbps, _peers) when kbps <= 0, do: :infinity
 
   defp compute_eta(_status, left, kbps, _peers) do
-    # `kbps` from the engine is approximately KB/s; convert to bytes/sec.
     left / (kbps * 1024)
   end
 

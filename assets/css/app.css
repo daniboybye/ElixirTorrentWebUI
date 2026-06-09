@@ -102,4 +102,13 @@
 /* Make LiveView wrapper divs transparent for layout */
 [data-phx-session], [data-phx-teleported-src] { display: contents }
 
+.tooltip:hover {
+  z-index: 50;
+}
+
+.tooltip::before,
+.tooltip::after {
+  z-index: 50;
+}
+
 /* This file is for your main application CSS */

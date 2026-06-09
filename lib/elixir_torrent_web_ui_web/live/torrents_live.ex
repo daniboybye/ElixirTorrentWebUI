@@ -7,9 +7,12 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
 
   @impl true
   def mount(_params, _session, socket) do
+    expanded = MapSet.new()
+
     socket =
       socket
-      |> assign(:torrents, Engine.list_torrents())
+      |> assign(:expanded, expanded)
+      |> assign(:torrents, Engine.list_torrents(expanded))
       |> allow_upload(:torrent,
         accept: ~w(.torrent),
         max_entries: 1,
@@ -26,7 +29,22 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   @impl true
   def handle_info(:refresh, socket) do
     Process.send_after(self(), :refresh, @refresh_ms)
-    {:noreply, assign(socket, :torrents, Engine.list_torrents())}
+    {:noreply, assign(socket, :torrents, Engine.list_torrents(socket.assigns.expanded))}
+  end
+
+  @impl true
+  def handle_event("toggle_expand", %{"id" => id}, socket) do
+    expanded =
+      if MapSet.member?(socket.assigns.expanded, id) do
+        MapSet.delete(socket.assigns.expanded, id)
+      else
+        MapSet.put(socket.assigns.expanded, id)
+      end
+
+    {:noreply,
+     socket
+     |> assign(:expanded, expanded)
+     |> assign(:torrents, Engine.list_torrents(expanded))}
   end
 
   # The form's `phx-change` is required to wire `<.live_file_input>` into the
@@ -75,7 +93,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
           {:noreply,
            socket
            |> put_flash(:info, "Torrent added: #{entry.client_name}")
-           |> assign(:torrents, Engine.list_torrents())}
+           |> assign(:torrents, Engine.list_torrents(socket.assigns.expanded))}
 
         {:error, reason} ->
           {:noreply, put_flash(socket, :error, "Failed to add torrent: #{inspect(reason)}")}
@@ -117,7 +135,11 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         </div>
 
         <div class="space-y-3">
-          <.torrent_card :for={torrent <- @torrents} torrent={torrent} />
+          <.torrent_card
+            :for={torrent <- @torrents}
+            torrent={torrent}
+            expanded={MapSet.member?(@expanded, torrent.id)}
+          />
 
           <div class="rounded-2xl border border-dashed border-base-300 bg-base-200 px-6 py-10 text-center text-base-content/60">
             Drag and drop a `.torrent` file here, or <label
@@ -297,14 +319,15 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   end
 
   attr :torrent, Engine.TorrentRow, required: true
+  attr :expanded, :boolean, required: true
 
   defp torrent_card(assigns) do
     ~H"""
     <div
-      id={"torrent-#{Torrent.hex_encoded_hash(@torrent.hash)}"}
-      class="rounded-2xl border border-base-300 bg-base-200 px-4 py-4"
+      id={"torrent-#{@torrent.id}"}
+      class="relative overflow-visible rounded-2xl border border-base-300 bg-base-200"
     >
-      <div class="flex items-start gap-3">
+      <div class="flex items-start gap-3 px-4 py-4">
         <span
           class={[
             "mt-2 inline-block size-2.5 shrink-0 rounded-full",
@@ -320,16 +343,53 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
             {@torrent.status}
           </p>
         </div>
+        <div class="mt-1 flex shrink-0 items-center gap-1">
+          <div class="tooltip tooltip-top" data-tip="Remove Torrent">
+            <button
+              type="button"
+              id={"torrent-remove-#{@torrent.id}"}
+              phx-click="open_remove_dialog"
+              phx-value-id={@torrent.id}
+              class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-base-content/70 transition hover:bg-base-300 hover:text-error"
+              aria-label="Remove Torrent"
+            >
+              <.icon name="hero-trash" class="size-5" />
+            </button>
+          </div>
+          <div
+            class="tooltip tooltip-top"
+            data-tip={if(@expanded, do: "Hide Torrents Files", else: "Show Torrents Files")}
+          >
+            <button
+              type="button"
+              id={"torrent-expand-#{@torrent.id}"}
+              phx-click="toggle_expand"
+              phx-value-id={@torrent.id}
+              class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-base-content/70 transition hover:bg-base-300 hover:text-base-content"
+              aria-expanded={to_string(@expanded)}
+              aria-controls={"torrent-files-#{@torrent.id}"}
+              aria-label={if(@expanded, do: "Hide Torrents Files", else: "Show Torrents Files")}
+            >
+              <.icon
+                name={if(@expanded, do: "hero-chevron-up", else: "hero-chevron-down")}
+                class="size-5"
+              />
+            </button>
+          </div>
+        </div>
       </div>
 
       <%= if @torrent.status == "Seeding" do %>
-        <div class="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm tabular-nums text-base-content/80">
+        <div class={[
+          "flex flex-wrap items-center gap-x-5 gap-y-2 px-4 pb-4 text-sm tabular-nums text-base-content/80",
+          !@expanded && "rounded-b-2xl"
+        ]}>
           <span class="min-w-[3rem] text-secondary">↑ {format_speed(@torrent.up_kbps)}</span>
           <span class="text-base-content/40">|</span>
           <span class="min-w-[1.6rem]">👥 {@torrent.peers}</span>
         </div>
       <% else %>
-        <div class="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm tabular-nums text-base-content/80">
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 px-4 pb-3 text-sm tabular-nums text-base-content/80">
           <span class="min-w-[3rem] text-success">↓ {format_speed(@torrent.down_kbps)}</span>
           <span class="text-base-content/40">|</span>
           <span class="min-w-[3rem] text-secondary">↑ {format_speed(@torrent.up_kbps)}</span>
@@ -345,11 +405,79 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
           <span class="min-w-[1.4rem]">{format_percent(@torrent.progress)}</span>
         </div>
 
-        <div class="mt-3 h-1.5 overflow-hidden rounded-full bg-base-300">
+        <div class="mx-4 mb-4 h-1.5 overflow-hidden rounded-full bg-base-300">
           <div
             class="h-full rounded-full bg-gradient-to-r from-primary to-accent transition-[width] duration-500"
             style={"width: #{clamp_percent(@torrent.progress)}%"}
           >
+          </div>
+        </div>
+      <% end %>
+
+      <%= if @expanded do %>
+        <div
+          id={"torrent-files-#{@torrent.id}"}
+          class="rounded-b-2xl border-t border-base-300 bg-base-100/40 px-4 py-4"
+        >
+          <div class="flex flex-col gap-6 lg:flex-row">
+            <div class="w-full shrink-0 space-y-3 text-sm text-base-content/80 lg:w-44">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wide text-base-content/50">
+                  Date Added
+                </p>
+                <p class="mt-1 tabular-nums">{format_date(@torrent.added_at)}</p>
+              </div>
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wide text-base-content/50">
+                  Total Files
+                </p>
+                <p class="mt-1 tabular-nums">{@torrent.file_count}</p>
+              </div>
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wide text-base-content/50">
+                  Total Size
+                </p>
+                <p class="mt-1 tabular-nums">{format_bytes(@torrent.bytes_size)}</p>
+              </div>
+            </div>
+
+            <div class="min-w-0 flex-1">
+              <p class="mb-3 text-sm font-semibold text-base-content">Torrent files</p>
+              <div class="overflow-hidden rounded-xl border border-base-300">
+                <div class="grid grid-cols-[minmax(0,1fr)_5rem_6rem] gap-3 border-b border-base-300 bg-base-300/50 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-base-content/60">
+                  <span>Name</span>
+                  <span class="text-right">Size</span>
+                  <span class="text-right">Download</span>
+                </div>
+                <div
+                  :for={file <- @torrent.files}
+                  id={"torrent-file-#{@torrent.id}-#{file.index}"}
+                  class="grid grid-cols-[minmax(0,1fr)_5rem_6rem] gap-3 border-b border-base-300/70 px-4 py-3 text-sm last:border-b-0 hover:bg-base-200/60"
+                >
+                  <div class="min-w-0">
+                    <p class="truncate font-medium text-base-content" title={file.path}>
+                      {file.name}
+                    </p>
+                    <p :if={file.path != file.name} class="truncate text-xs text-base-content/50">
+                      {file.path}
+                    </p>
+                  </div>
+                  <span class="self-center text-right tabular-nums text-base-content/80">
+                    {format_bytes(file.length)}
+                  </span>
+                  <div class="self-center text-right">
+                    <%= if file.complete? do %>
+                      <span class="inline-flex items-center justify-end gap-1 text-success">
+                        <.icon name="hero-check-circle" class="size-4" />
+                        <span class="sr-only">Downloaded</span>
+                      </span>
+                    <% else %>
+                      <span class="tabular-nums text-info">{format_percent(file.progress)}</span>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       <% end %>
@@ -403,6 +531,10 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
       true -> "#{div(seconds, 86_400)}d #{rem(div(seconds, 3600), 24)}h"
     end
   end
+
+  @spec format_date(DateTime.t() | nil) :: String.t()
+  defp format_date(%DateTime{} = dt), do: Calendar.strftime(dt, "%-m/%-d/%Y")
+  defp format_date(_), do: "—"
 
   @spec format_percent(number()) :: String.t()
   defp format_percent(n) when is_float(n), do: "#{Float.round(n, 1)}%"
