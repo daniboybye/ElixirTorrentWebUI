@@ -26,10 +26,24 @@ import {hooks as colocatedHooks} from "phoenix-colocated/elixir_torrent_web_ui"
 import topbar from "../vendor/topbar"
 
 const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
+
+const AutoDismissFlash = {
+  mounted() {
+    const ms = Number.parseInt(this.el.dataset.autoDismissMs, 10) || 5000
+
+    this.timer = window.setTimeout(() => {
+      this.el.click()
+    }, ms)
+  },
+  destroyed() {
+    window.clearTimeout(this.timer)
+  },
+}
+
 const liveSocket = new LiveSocket("/live", Socket, {
   longPollFallbackMs: 2500,
   params: {_csrf_token: csrfToken},
-  hooks: {...colocatedHooks},
+  hooks: {AutoDismissFlash, ...colocatedHooks},
 })
 
 // Show progress bar on live navigation and form submits

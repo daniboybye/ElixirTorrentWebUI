@@ -485,6 +485,10 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     """
   end
 
+  @spec removed_flash(String.t(), boolean()) :: String.t()
+  defp removed_flash(name, true), do: "Removed torrent and data: #{name}"
+  defp removed_flash(name, false), do: "Removed torrent: #{name}"
+
   @spec format_speed(number()) :: String.t()
   defp format_speed(kbps) when is_number(kbps) and kbps > 0,
     do: format_bytes(round(kbps * 1024)) <> "/s"

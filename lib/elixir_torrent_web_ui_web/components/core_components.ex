@@ -54,9 +54,11 @@ defmodule ElixirTorrentWebUIWeb.CoreComponents do
     <div
       :if={msg = render_slot(@inner_block) || Phoenix.Flash.get(@flash, @kind)}
       id={@id}
+      phx-hook="AutoDismissFlash"
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
-      class="toast toast-top toast-end z-50"
+      class="toast toast-bottom toast-end z-50"
+      data-auto-dismiss-ms="5000"
       {@rest}
     >
       <div class={[
