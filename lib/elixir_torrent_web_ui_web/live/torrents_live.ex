@@ -12,6 +12,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     socket =
       socket
       |> assign(:expanded, expanded)
+      |> assign(:remove_dialog, nil)
       |> assign(:torrents, Engine.list_torrents(expanded))
       |> allow_upload(:torrent,
         accept: ~w(.torrent),
@@ -30,6 +31,49 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   def handle_info(:refresh, socket) do
     Process.send_after(self(), :refresh, @refresh_ms)
     {:noreply, assign(socket, :torrents, Engine.list_torrents(socket.assigns.expanded))}
+  end
+
+  @impl true
+  def handle_event("open_remove_dialog", %{"id" => id}, socket) do
+    case Enum.find(socket.assigns.torrents, &(&1.id == id)) do
+      nil ->
+        {:noreply, socket}
+
+      torrent ->
+        {:noreply,
+         assign(socket, :remove_dialog, %{id: torrent.id, name: torrent.name, hash: torrent.hash})}
+    end
+  end
+
+  @impl true
+  def handle_event("close_remove_dialog", _params, socket) do
+    {:noreply, assign(socket, :remove_dialog, nil)}
+  end
+
+  @impl true
+  def handle_event("confirm_remove", %{"delete_data" => delete_data}, socket) do
+    case socket.assigns.remove_dialog do
+      %{hash: hash, name: name, id: id} ->
+        delete? = delete_data == "true"
+
+        case Engine.remove_torrent(hash, delete_data: delete?) do
+          :ok ->
+            expanded = MapSet.delete(socket.assigns.expanded, id)
+
+            {:noreply,
+             socket
+             |> assign(:remove_dialog, nil)
+             |> assign(:expanded, expanded)
+             |> put_flash(:info, removed_flash(name, delete?))
+             |> assign(:torrents, Engine.list_torrents(expanded))}
+
+          {:error, reason} ->
+            {:noreply, put_flash(socket, :error, "Failed to remove torrent: #{inspect(reason)}")}
+        end
+
+      nil ->
+        {:noreply, socket}
+    end
   end
 
   @impl true
@@ -158,6 +202,8 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
           No active torrents. Add a `.torrent` file to start downloading.
         </div>
       </div>
+
+      <.remove_torrent_dialog dialog={@remove_dialog} />
     </Layouts.app>
 
     <div
@@ -481,6 +527,71 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
           </div>
         </div>
       <% end %>
+    </div>
+    """
+  end
+
+  attr :dialog, :map, default: nil
+
+  defp remove_torrent_dialog(assigns) do
+    ~H"""
+    <div
+      :if={@dialog}
+      id="remove-torrent-dialog"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="remove-torrent-dialog-title"
+    >
+      <button
+        type="button"
+        id="remove-torrent-dialog-backdrop"
+        phx-click="close_remove_dialog"
+        class="absolute inset-0 cursor-default bg-black/50"
+        aria-label="Close dialog"
+      />
+      <div class="relative z-10 w-full max-w-lg rounded-2xl border border-base-300 bg-base-100 p-6 shadow-2xl">
+        <div class="flex items-start justify-between gap-4">
+          <h2 id="remove-torrent-dialog-title" class="text-xl font-semibold text-[#d15555]">
+            Remove Torrent?
+          </h2>
+          <button
+            type="button"
+            id="remove-torrent-dialog-close"
+            phx-click="close_remove_dialog"
+            class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-base-content/60 transition hover:bg-base-300 hover:text-base-content"
+            aria-label="Close"
+          >
+            <.icon name="hero-x-mark" class="size-5" />
+          </button>
+        </div>
+
+        <p class="mt-4 text-sm text-base-content/80">
+          Are you sure you want to remove the selected torrent?
+        </p>
+        <p class="mt-3 break-words text-sm font-medium text-base-content">{@dialog.name}</p>
+
+        <div class="mt-6 flex flex-wrap justify-end gap-3">
+          <button
+            type="button"
+            id="remove-torrent-confirm"
+            phx-click="confirm_remove"
+            phx-value-delete_data="false"
+            class="inline-flex cursor-pointer items-center rounded-lg bg-[#d15555] px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
+          >
+            Remove Torrent
+          </button>
+          <button
+            type="button"
+            id="remove-torrent-confirm-data"
+            phx-click="confirm_remove"
+            phx-value-delete_data="true"
+            class="inline-flex cursor-pointer items-center rounded-lg bg-[#d15555] px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
+          >
+            Remove Torrent + Data
+          </button>
+        </div>
+      </div>
     </div>
     """
   end

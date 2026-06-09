@@ -94,6 +94,11 @@ defmodule ElixirTorrentWebUI.Engine do
     ElixirTorrent.download(path)
   end
 
+  @spec remove_torrent(Torrent.hash(), keyword()) :: :ok | {:error, term()}
+  def remove_torrent(hash, opts \\ []) do
+    ElixirTorrent.remove(hash, opts)
+  end
+
   @spec row_for(Torrent.hash(), MapSet.t()) :: TorrentRow.t()
   defp row_for(hash, expanded) do
     id = Torrent.hex_encoded_hash(hash)
