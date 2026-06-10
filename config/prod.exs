@@ -8,15 +8,15 @@ import Config
 config :elixir_torrent_web_ui, ElixirTorrentWebUIWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json"
 
-# Force using SSL in production. This also sets the "strict-security-transport" header,
-# known as HSTS. If you have a health check endpoint, you may want to exclude it below.
-# Note `:force_ssl` is required to be set at compile-time.
-config :elixir_torrent_web_ui, ElixirTorrentWebUIWeb.Endpoint,
-  force_ssl: [rewrite_on: [:x_forwarded_proto]],
-  exclude: [
-    # paths: ["/health"],
-    hosts: ["localhost", "127.0.0.1"]
-  ]
+# Force SSL for server deployments. Skipped for the local desktop .app bundle
+# (see ELIXIR_TORRENT_DESKTOP_BUILD when running `mix mac.dmg`).
+unless System.get_env("ELIXIR_TORRENT_DESKTOP_BUILD") == "1" do
+  config :elixir_torrent_web_ui, ElixirTorrentWebUIWeb.Endpoint,
+    force_ssl: [rewrite_on: [:x_forwarded_proto]],
+    exclude: [
+      hosts: ["localhost", "127.0.0.1"]
+    ]
+end
 
 # Do not print debug messages in production
 config :logger, level: :info

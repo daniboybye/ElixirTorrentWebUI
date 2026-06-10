@@ -96,7 +96,7 @@ defmodule ElixirTorrentWebUI.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get", "assets.setup", "assets.build"],
+      setup: ["deps.get", "assets.setup", "assets.build", "mac.icon"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": [
         "compile",
@@ -104,6 +104,7 @@ defmodule ElixirTorrentWebUI.MixProject do
         "esbuild elixir_torrent_web_ui"
       ],
       "assets.deploy": [
+        "compile",
         "tailwind elixir_torrent_web_ui --minify",
         "esbuild elixir_torrent_web_ui --minify",
         "phx.digest"
@@ -113,7 +114,9 @@ defmodule ElixirTorrentWebUI.MixProject do
         "deps.unlock --unused",
         "format",
         "test --warnings-as-errors"
-      ]
+      ],
+      "mac.icon": ["cmd python3 priv/scripts/generate-app-icon.py"],
+      "mac.dmg": ["cmd priv/scripts/build-macos-dmg.sh"]
     ]
   end
 end

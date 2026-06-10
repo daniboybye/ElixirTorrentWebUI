@@ -447,6 +447,20 @@ defmodule ElixirTorrentWebUIWeb.CoreComponents do
     """
   end
 
+  attr :class, :any, default: "size-8"
+  attr :rest, :global
+
+  def app_logo(assigns) do
+    ~H"""
+    <img
+      src="/images/app-icon.png"
+      alt="ElixirTorrent Web"
+      class={["select-none", @class]}
+      {@rest}
+    />
+    """
+  end
+
   ## JS Commands
 
   def show(js \\ %JS{}, selector) do

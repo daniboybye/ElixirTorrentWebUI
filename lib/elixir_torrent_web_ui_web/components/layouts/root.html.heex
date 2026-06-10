@@ -4,15 +4,24 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title default="ElixirTorrentWebUI" suffix=" · Phoenix Framework">
+    <.live_title default="ElixirTorrent Web" suffix="">
       {assigns[:page_title]}
     </.live_title>
-    <link phx-track-static rel="icon" type="image/x-icon" href={~p"/favicon.ico"} />
+    <% icon_v = Application.spec(:elixir_torrent_web_ui, :vsn) %>
+    <link phx-track-static rel="icon" type="image/x-icon" href={"/favicon.ico?v=#{icon_v}"} />
+    <link
+      phx-track-static
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href={"/images/app-icon-32.png?v=#{icon_v}"}
+    />
     <link
       phx-track-static
       rel="apple-touch-icon"
       type="image/png"
-      href={~p"/images/elixir-logo.png"}
+      sizes="180x180"
+      href={"/images/app-icon-180.png?v=#{icon_v}"}
     />
     <link phx-track-static rel="stylesheet" href={~p"/assets/css/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/js/app.js"}>

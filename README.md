@@ -13,8 +13,8 @@ The engine lives in a separate project (sibling folder) and this repo is the **U
   ([Hex docs](https://hexdocs.pm/elixir_torrent/readme.html) ·
   [GitHub](https://github.com/daniboybye/ElixirTorrent))
 - **UI server**: Phoenix + LiveView (local HTTP + WebSocket)
-- **Desktop strategy**: start with browser UI; later we can wrap the local UI in
-  Electron/Tauri/WKWebView for a native window, without changing the backend.
+- **Desktop (macOS)**: `mix mac.dmg` bundles a Swift launcher + `mix release`
+  into `ElixirTorrent Web.app`; the UI still runs in the system browser.
 
 ### Process model
 
@@ -41,6 +41,28 @@ mix phx.server
 ```
 
 Open `http://127.0.0.1:4000`.
+
+`mix setup` also runs `mix mac.icon` to generate app icons. That step needs
+**Python 3** and **Pillow** (`pip install Pillow`).
+
+## macOS desktop app
+
+Build a local `.app` bundle and `.dmg` installer:
+
+```bash
+mix mac.dmg
+```
+
+Output lands in `dist/` (e.g. `ElixirTorrent Web.app`,
+`ElixirTorrent Web-0.1.0-macos-arm64.dmg` on Apple Silicon, or `…-macos-x64.dmg`
+on Intel).
+
+Icon generation (`mix mac.icon`, also part of `mix setup`):
+
+- **Liquid Glass** (`Assets.car` for macOS 26+): requires **Xcode 26+**
+  (`xcrun actool`). Without it, the build still produces a classic `.icns`
+  fallback icon.
+- **Python 3 + Pillow** for `priv/scripts/generate-app-icon.py`.
 
 ## Engine dependency
 
@@ -85,4 +107,4 @@ Notes:
 - LiveView dashboard: torrents list + status + speeds
 - Torrent details: pieces/peers/trackers/errors
 - Controls: add torrent, start/stop, remove
-- Packaging: `mix release` + optional desktop wrapper
+- Packaging: `mix mac.dmg` (macOS `.app` + `.dmg`)

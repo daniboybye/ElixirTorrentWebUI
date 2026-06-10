@@ -39,6 +39,10 @@ defmodule ElixirTorrentWebUIWeb.Layouts do
       <div class="mx-auto max-w-7xl space-y-4">
         {render_slot(@inner_block)}
       </div>
+
+      <p id="app-creator" class="fixed bottom-4 left-4 text-xs text-base-content/50">
+        Creator: Daniel Urumov
+      </p>
     </main>
 
     <.flash_group flash={@flash} />

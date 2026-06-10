@@ -25,11 +25,27 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 elixir_torrent_web_ui-*.tar
 
+# macOS distribution artifacts (`mix mac.dmg`)
+/dist/
+/priv/macos/AppIcon.iconset/
+/priv/macos/AppIcon-1024.png
+/priv/macos/AppIcon.icon/
+/priv/macos/icon-build/
+/priv/macos/Assets.car
+/priv/macos/icon-layers/
+/priv/macos/AppIcon.icns
+
 # Ignore assets that are produced by build tools.
 /priv/static/assets/
 
-# Ignore digested assets cache.
+# Ignore digested assets cache and generated copies (`mix phx.digest`).
 /priv/static/cache_manifest.json
+/priv/static/favicon-*.ico
+/priv/static/**/*.gz
+/priv/static/images/*-[0-9a-f]*.png
+!/priv/static/images/app-icon-32.png
+!/priv/static/images/app-icon-180.png
+/priv/static/robots-*.txt*
 
 # In case you use Node.js/npm, you want to ignore these.
 npm-debug.log

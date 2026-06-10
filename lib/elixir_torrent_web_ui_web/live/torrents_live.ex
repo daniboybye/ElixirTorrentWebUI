@@ -162,7 +162,13 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     ~H"""
     <Layouts.app flash={@flash}>
       <div class="space-y-4">
-        <div class="flex flex-wrap items-center justify-end gap-3 rounded-xl border border-base-300 bg-base-200 px-4 py-3">
+        <div class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-base-300 bg-base-200 px-4 py-3">
+          <div class="flex items-center gap-3">
+            <.app_logo id="app-logo" class="size-9 shrink-0" />
+            <div>
+              <p class="text-base font-semibold text-base-content">ElixirTorrent Web</p>
+            </div>
+          </div>
           <div class="flex items-center gap-2">
             <.theme_toggle />
 
@@ -218,7 +224,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         class="rounded-3xl border-4 border-dashed border-primary bg-base-200/90 px-12 py-10 text-center shadow-2xl"
       >
         <span data-overlay-icon-ok class="block">
-          <.icon name="hero-arrow-down-tray" class="mx-auto size-16 text-primary" />
+          <.app_logo class="mx-auto size-16" />
         </span>
         <span data-overlay-icon-no class="hidden">
           <.icon name="hero-no-symbol" class="mx-auto size-16 text-error" />
