@@ -1,4 +1,4 @@
-# ElixirTorrentWebUI
+# ElixirTorrent Web
 
 Phoenix (LiveView) Web UI for the `elixir_torrent` BitTorrent engine.
 
@@ -25,7 +25,7 @@ This application starts the engine on boot:
 
 ## Tech stack
 
-- **Elixir**: 1.19.x
+- **Elixir**: 1.20.x
 - **Phoenix**: 1.8.x
 - **Phoenix LiveView**: 1.1.x
 - **Bandit**: HTTP server
