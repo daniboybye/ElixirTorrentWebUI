@@ -55,8 +55,21 @@ fileprivate actor ServerLifecycle {
 
     func shutdown(port: Int) async {
         stopRelease(port: port)
+        await waitUntilPortClosed(port, timeout: 10)
         await terminateOwnedProcess()
         await killListenersOnPort(port)
+    }
+
+    private func waitUntilPortClosed(_ port: Int, timeout: TimeInterval) async {
+        let deadline = Date().addingTimeInterval(timeout)
+
+        while Date() < deadline {
+            if !isPortListening(port) {
+                return
+            }
+
+            try? await Task.sleep(nanoseconds: 100_000_000)
+        }
     }
 
     private func stopRelease(port: Int) {
@@ -190,7 +203,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         Task {
             await server.shutdown(port: port)
-            NSApp.reply(toApplicationShouldTerminate: true)
+
+            await MainActor.run {
+                NSApp.reply(toApplicationShouldTerminate: true)
+            }
         }
         return .terminateLater
     }
@@ -230,5 +246,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 }
 
 let app = NSApplication.shared
-app.delegate = AppDelegate()
+let appDelegate = AppDelegate()
+app.delegate = appDelegate
 app.run()

@@ -12,20 +12,26 @@ defmodule ElixirTorrentWebUI.Application do
     {:ok, _} = Application.ensure_all_started(:elixir_torrent)
 
     children = [
+      ElixirTorrentWebUI.TorrentCatalog,
       ElixirTorrentWebUIWeb.Telemetry,
       {DNSCluster,
        query: Application.get_env(:elixir_torrent_web_ui, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: ElixirTorrentWebUI.PubSub},
-      # Start a worker by calling: ElixirTorrentWebUI.Worker.start_link(arg)
-      # {ElixirTorrentWebUI.Worker, arg},
-      # Start to serve requests, typically the last entry
       ElixirTorrentWebUIWeb.Endpoint
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: ElixirTorrentWebUI.Supervisor]
-    Supervisor.start_link(children, opts)
+
+    with {:ok, pid} <- Supervisor.start_link(children, opts) do
+      ElixirTorrentWebUI.TorrentCatalog.restore_torrents()
+      {:ok, pid}
+    end
+  end
+
+  @impl true
+  def stop(_state) do
+    ElixirTorrentWebUI.TorrentCatalog.persist_state()
+    :ok
   end
 
   # Tell Phoenix to update the endpoint configuration

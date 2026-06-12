@@ -10,10 +10,6 @@ When the user quits and reopens the desktop app (or restarts the release), the U
 should restore the last known view of the world: active torrents, per-torrent
 metadata the engine already tracks, expanded cards, theme preference, etc.
 
-- **Engine layer:** ensure torrent session / resume data survives process restarts
-(download paths, `.torrent` state, partial files).
-- **UI layer:** avoid treating every launch as a blank slate; reconnect LiveView
-to whatever the engine reports after boot.
 - **Desktop:** data directory under `~/Library/Application Support/ElixirTorrentWebUI`
 should remain the canonical workspace across launcher restarts.
 

@@ -5,7 +5,7 @@ defmodule ElixirTorrentWebUI.Engine do
   UI code should depend on this module (not on engine internals).
   """
 
-  alias ElixirTorrentWebUI.Media
+  alias ElixirTorrentWebUI.{Media, TorrentCatalog}
 
   @min_play_progress_percent 1.0
 
@@ -78,6 +78,15 @@ defmodule ElixirTorrentWebUI.Engine do
 
   @spec list_torrents(MapSet.t()) :: list(TorrentRow.t())
   def list_torrents(expanded \\ MapSet.new()) do
+    catalog =
+      TorrentCatalog.entries()
+      |> Map.new(&{&1.id, &1})
+
+    order =
+      TorrentCatalog.ordered_ids()
+      |> Enum.with_index()
+      |> Map.new()
+
     Torrents
     |> DynamicSupervisor.which_children()
     |> Enum.flat_map(fn
@@ -90,17 +99,42 @@ defmodule ElixirTorrentWebUI.Engine do
       _ ->
         []
     end)
-    |> Enum.sort_by(& &1.name)
+    |> Enum.map(&merge_catalog(&1, catalog))
+    |> Enum.sort_by(&Map.get(order, &1.id, 999_999))
   end
 
   @spec add_torrent(Path.t()) :: DynamicSupervisor.on_start_child()
   def add_torrent(path) do
-    ElixirTorrent.download(path)
+    with {:ok, pid} <- ElixirTorrent.download(path),
+         hash when is_binary(hash) <- Torrent.get_hash(pid),
+         [name] <- Torrent.get(hash, [:name]) do
+      id = Torrent.hex_encoded_hash(hash)
+      dest = TorrentCatalog.durable_torrent_path(id)
+
+      File.mkdir_p!(TorrentCatalog.torrents_dir())
+      File.cp!(path, dest)
+      :ok = TorrentCatalog.register(hash, dest, name)
+
+      {:ok, pid}
+    end
   end
 
   @spec remove_torrent(Torrent.hash(), keyword()) :: :ok | {:error, term()}
   def remove_torrent(hash, opts \\ []) do
-    ElixirTorrent.remove(hash, opts)
+    id = Torrent.hex_encoded_hash(hash)
+
+    with :ok <- ElixirTorrent.remove(hash, opts),
+         :ok <- TorrentCatalog.remove(id) do
+      :ok
+    end
+  end
+
+  @spec merge_catalog(TorrentRow.t(), map()) :: TorrentRow.t()
+  defp merge_catalog(row, catalog) do
+    case Map.get(catalog, row.id) do
+      %{name: name, added_at: added_at} -> %{row | name: name, added_at: added_at}
+      _ -> row
+    end
   end
 
   @spec playable_file?(FileRow.t()) :: boolean()
