@@ -1,27 +1,35 @@
 # ElixirTorrent Web
 
-Phoenix (LiveView) Web UI for the `elixir_torrent` BitTorrent engine.
+Phoenix (LiveView) Web UI for the [`elixir_torrent`](https://hex.pm/packages/elixir_torrent)
+BitTorrent engine.
 
 ## Goal
 
 Build a **stable, correct, long-running BitTorrent client UI** on top of an Elixir/OTP engine.
-The engine lives in a separate project (sibling folder) and this repo is the **UI + product shell**.
+The engine lives in a separate project and this repo is the **UI + desktop product shell**.
+
+## Features
+
+- **Torrent dashboard** — list with progress, speeds, peers, ETA, expandable file rows
+- **Add & remove torrents** — `.torrent` upload via LiveView; optional delete downloaded data
+- **macOS desktop app** — `mix mac.dmg` bundles a Swift launcher + release into
+  `ElixirTorrent Web.app` (browser UI on loopback)
 
 ## Architecture
 
-- **Engine**: [`elixir_torrent`](https://hex.pm/packages/elixir_torrent) — Elixir/OTP BitTorrent implementation
+- **Engine**: [`elixir_torrent` ~> 0.2.0](https://hex.pm/packages/elixir_torrent)
   ([Hex docs](https://hexdocs.pm/elixir_torrent/readme.html) ·
   [GitHub](https://github.com/daniboybye/ElixirTorrent))
+  — session persistence, graceful shutdown (`stop_and_serialize/1`), peer disconnect
 - **UI server**: Phoenix + LiveView (local HTTP + WebSocket)
-- **Desktop (macOS)**: `mix mac.dmg` bundles a Swift launcher + `mix release`
-  into `ElixirTorrent Web.app`; the UI still runs in the system browser.
+- **Desktop (macOS)**: Swift launcher starts the release, opens the browser, graceful shutdown on Quit
 
 ### Process model
 
-This application starts the engine on boot:
+On boot, `ElixirTorrentWebUI.Application` calls `Application.ensure_all_started(:elixir_torrent)`.
+The Phoenix endpoint listens on loopback only by default (`127.0.0.1`).
 
-- `ElixirTorrentWebUI.Application` calls `Application.ensure_all_started(:elixir_torrent)`
-- Phoenix endpoint listens on loopback only by default (`127.0.0.1`)
+UI code talks to the engine through `ElixirTorrentWebUI.Engine` — not `ElixirTorrent.*` directly.
 
 ## Tech stack
 
@@ -69,17 +77,19 @@ Icon generation (`mix mac.icon`, also part of `mix setup`):
 The canonical, committed dependency is the published Hex package:
 
 ```elixir
-{:elixir_torrent, "~> 0.1.2"}
+{:elixir_torrent, "~> 0.2.0"}
 ```
+
+Requires **elixir_torrent 0.2.0+** for session persistence APIs used by the desktop app
+(`stop_and_serialize/1`, `stop_all_and_serialize/0`, `list/0`).
 
 `mix.exs` resolves this dynamically. By default the Hex version is used, so a
 fresh clone just needs `mix deps.get`.
 
 ### Local development against the engine
 
-When iterating on both this UI and the engine in tandem, you can override the
-source with a path on disk by setting the `ELIXIR_TORRENT_PATH` environment
-variable:
+When iterating on both this UI and the engine in tandem, override the source with
+`ELIXIR_TORRENT_PATH`:
 
 ```bash
 export ELIXIR_TORRENT_PATH=../ElixirTorrent
@@ -99,12 +109,10 @@ Notes:
 ## Security notes (local UI)
 
 - The endpoint is bound to loopback (`127.0.0.1`) in dev config.
-- Before exposing anything beyond localhost, we should add auth (token/cookie) and
-  review any endpoints that could control downloads or read files.
+- Before exposing anything beyond localhost, add auth (token/cookie) and review endpoints
+  that control downloads or read files.
 
-## Roadmap (high level)
+## Roadmap
 
-- LiveView dashboard: torrents list + status + speeds
-- Torrent details: pieces/peers/trackers/errors
-- Controls: add torrent, start/stop, remove
-- Packaging: `mix mac.dmg` (macOS `.app` + `.dmg`)
+See [`TODO.md`](TODO.md) for planned work (persistence polish, magnet links, search,
+cross-platform packaging, Dock menu, and more).
