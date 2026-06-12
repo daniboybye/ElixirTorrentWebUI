@@ -57,17 +57,10 @@ failures) in flash UI.
 
 ### Open in Finder button
 
-Per torrent (or global “open download folder”), a control that reveals the
-torrent’s data directory in Finder/macOS file manager. Implementation: resolve
-engine path for that torrent, call desktop opener (`open` on macOS) via a small
+Per torrent (or global “open download folder”), a control that reveals the  
+torrent’s data directory in Finder/macOS file manager. Implementation: resolve  
+engine path for that torrent, call desktop opener (`open` on macOS) via a small  
 desktop-only code path or LiveView event that the launcher does not need to own.
-
-### Video player in the app
-
-In-browser playback for completed video files (single-file torrents or selected
-file inside a multi-file torrent). Scope TBD: HTML5 `<video>` with range requests,
-MIME sniffing, subtitle tracks later. Likely needs a dedicated LiveView route or
-modal; engine must expose file path + serve bytes safely on loopback only.
 
 ### Deferred disk space reservation on torrent start
 

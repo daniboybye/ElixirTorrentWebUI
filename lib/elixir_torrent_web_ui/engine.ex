@@ -5,6 +5,10 @@ defmodule ElixirTorrentWebUI.Engine do
   UI code should depend on this module (not on engine internals).
   """
 
+  alias ElixirTorrentWebUI.Media
+
+  @min_play_progress_percent 1.0
+
   defmodule FileRow do
     @enforce_keys [:index, :path, :name, :length, :downloaded, :progress, :complete?]
     defstruct [:index, :path, :name, :length, :downloaded, :progress, :complete?]
@@ -99,6 +103,25 @@ defmodule ElixirTorrentWebUI.Engine do
     ElixirTorrent.remove(hash, opts)
   end
 
+  @spec playable_file?(FileRow.t()) :: boolean()
+  def playable_file?(%FileRow{progress: progress, name: name, path: path}) do
+    progress >= @min_play_progress_percent and (Media.video?(name) or Media.video?(path))
+  end
+
+  @spec resolve_video(String.t(), non_neg_integer()) ::
+          {:ok, %{name: String.t(), path: Path.t(), content_type: String.t()}}
+          | {:error, term()}
+  def resolve_video(torrent_id, file_index) do
+    with {:ok, hash} <- hash_from_hex_id(torrent_id),
+         {:ok, file} <- find_file(hash, file_index),
+         :ok <- validate_playable(file),
+         {:ok, path} <- safe_disk_path(file.path),
+         :ok <- ensure_readable(path),
+         {:ok, content_type} <- Media.content_type(file.name) do
+      {:ok, %{name: file.name, path: path, content_type: content_type}}
+    end
+  end
+
   @spec row_for(Torrent.hash(), MapSet.t()) :: TorrentRow.t()
   defp row_for(hash, expanded) do
     id = Torrent.hex_encoded_hash(hash)
@@ -173,6 +196,45 @@ defmodule ElixirTorrentWebUI.Engine do
 
   defp compute_eta(_status, left, kbps, _peers) do
     left / (kbps * 1024)
+  end
+
+  @spec hash_from_hex_id(String.t()) :: {:ok, Torrent.hash()} | {:error, :invalid_torrent}
+  defp hash_from_hex_id(hex) when is_binary(hex) do
+    case Base.decode16(hex, case: :mixed) do
+      {:ok, hash} when byte_size(hash) == 20 -> {:ok, hash}
+      _ -> {:error, :invalid_torrent}
+    end
+  end
+
+  @spec find_file(Torrent.hash(), non_neg_integer()) ::
+          {:ok, FileRow.t()} | {:error, :file_not_found}
+  defp find_file(hash, file_index) do
+    case Enum.find(list_files(hash), &(&1.index == file_index)) do
+      nil -> {:error, :file_not_found}
+      file -> {:ok, file}
+    end
+  end
+
+  @spec validate_playable(FileRow.t()) :: :ok | {:error, term()}
+  defp validate_playable(file) do
+    if playable_file?(file), do: :ok, else: {:error, :not_playable}
+  end
+
+  @spec safe_disk_path(String.t()) :: {:ok, Path.t()} | {:error, :invalid_path}
+  defp safe_disk_path(relative) when is_binary(relative) do
+    base = Path.expand(File.cwd!())
+    path = Path.expand(Path.join(base, relative))
+
+    if String.starts_with?(path, base <> "/") or path == base do
+      {:ok, path}
+    else
+      {:error, :invalid_path}
+    end
+  end
+
+  @spec ensure_readable(Path.t()) :: :ok | {:error, :missing}
+  defp ensure_readable(path) do
+    if File.regular?(path), do: :ok, else: {:error, :missing}
   end
 
   @spec status_string(Peer.status()) :: String.t()

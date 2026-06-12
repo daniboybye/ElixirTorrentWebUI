@@ -13,6 +13,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
       socket
       |> assign(:expanded, expanded)
       |> assign(:remove_dialog, nil)
+      |> assign(:player, nil)
       |> assign(:torrents, Engine.list_torrents(expanded))
       |> allow_upload(:torrent,
         accept: ~w(.torrent),
@@ -48,6 +49,32 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   @impl true
   def handle_event("close_remove_dialog", _params, socket) do
     {:noreply, assign(socket, :remove_dialog, nil)}
+  end
+
+  @impl true
+  def handle_event(
+        "open_player",
+        %{"torrent_id" => torrent_id, "file_index" => file_index},
+        socket
+      ) do
+    with {index, ""} <- Integer.parse(file_index),
+         {:ok, file} <- Engine.resolve_video(torrent_id, index) do
+      {:noreply,
+       assign(socket, :player, %{
+         torrent_id: torrent_id,
+         file_index: index,
+         name: file.name,
+         src: ~p"/media/#{torrent_id}/#{index}"
+       })}
+    else
+      _ ->
+        {:noreply, put_flash(socket, :error, "Cannot play this file")}
+    end
+  end
+
+  @impl true
+  def handle_event("close_player", _params, socket) do
+    {:noreply, assign(socket, :player, nil)}
   end
 
   @impl true
@@ -210,6 +237,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
       </div>
 
       <.remove_torrent_dialog dialog={@remove_dialog} />
+      <.media_player_modal player={@player} />
     </Layouts.app>
 
     <div
@@ -504,15 +532,30 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
                 <div
                   :for={file <- @torrent.files}
                   id={"torrent-file-#{@torrent.id}-#{file.index}"}
-                  class="grid grid-cols-[minmax(0,1fr)_5rem_6rem] gap-3 border-b border-base-300/70 px-4 py-3 text-sm last:border-b-0 hover:bg-base-200/60"
+                  class="grid grid-cols-[minmax(0,1fr)_5rem_6rem] gap-3 border-b border-base-300/70 px-4 py-3 text-sm last:border-b-0 transition-colors hover:bg-base-300/70"
                 >
-                  <div class="min-w-0">
-                    <p class="truncate font-medium text-base-content" title={file.path}>
-                      {file.name}
-                    </p>
-                    <p :if={file.path != file.name} class="truncate text-xs text-base-content/50">
-                      {file.path}
-                    </p>
+                  <div class="flex min-w-0 items-center gap-3">
+                    <%= if Engine.playable_file?(file) do %>
+                      <button
+                        type="button"
+                        id={"torrent-file-play-#{@torrent.id}-#{file.index}"}
+                        phx-click="open_player"
+                        phx-value-torrent_id={@torrent.id}
+                        phx-value-file_index={file.index}
+                        class="inline-flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-base-content bg-transparent text-base-content transition hover:border-success hover:bg-success hover:text-white"
+                        aria-label={"Play #{file.name}"}
+                      >
+                        <.icon name="hero-play" class="size-4 translate-x-px" />
+                      </button>
+                    <% end %>
+                    <div class="min-w-0 flex-1">
+                      <p class="truncate font-medium text-base-content" title={file.path}>
+                        {file.name}
+                      </p>
+                      <p :if={file.path != file.name} class="truncate text-xs text-base-content/50">
+                        {file.path}
+                      </p>
+                    </div>
                   </div>
                   <span class="self-center text-right tabular-nums text-base-content/80">
                     {format_bytes(file.length)}
@@ -533,6 +576,59 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
           </div>
         </div>
       <% end %>
+    </div>
+    """
+  end
+
+  attr :player, :map, default: nil
+
+  defp media_player_modal(assigns) do
+    ~H"""
+    <div
+      :if={@player}
+      id="media-player-modal"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="media-player-title"
+    >
+      <button
+        type="button"
+        id="media-player-backdrop"
+        phx-click="close_player"
+        class="absolute inset-0 cursor-default bg-black/80"
+        aria-label="Close player"
+      />
+      <div class="relative z-10 w-full max-w-5xl rounded-2xl border border-base-300 bg-base-100 p-4 shadow-2xl sm:p-6">
+        <div class="mb-4 flex items-start justify-between gap-4">
+          <h2
+            id="media-player-title"
+            class="min-w-0 truncate text-base font-semibold text-base-content sm:text-lg"
+            title={@player.name}
+          >
+            {@player.name}
+          </h2>
+          <button
+            type="button"
+            id="media-player-close"
+            phx-click="close_player"
+            class="inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md text-base-content/60 transition hover:bg-base-300 hover:text-base-content"
+            aria-label="Close"
+          >
+            <.icon name="hero-x-mark" class="size-5" />
+          </button>
+        </div>
+        <div phx-update="ignore" id="media-player-video">
+          <video
+            id="media-player-element"
+            controls
+            autoplay
+            playsinline
+            class="aspect-video w-full rounded-xl bg-black"
+            src={@player.src}
+          />
+        </div>
+      </div>
     </div>
     """
   end

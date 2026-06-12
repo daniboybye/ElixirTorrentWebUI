@@ -18,6 +18,7 @@ defmodule ElixirTorrentWebUIWeb.Router do
     pipe_through :browser
 
     live "/", TorrentsLive
+    get "/media/:torrent_id/:file_index", MediaController, :show
   end
 
   # Other scopes may use custom stacks.
