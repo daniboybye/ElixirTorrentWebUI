@@ -130,6 +130,20 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   end
 
   @impl true
+  def handle_event("show_folder", %{"id" => id}, socket) do
+    case Engine.show_folder(id) do
+      :ok ->
+        {:noreply, socket}
+
+      {:error, :unsupported_platform} ->
+        {:noreply, put_flash(socket, :error, "Show Folder is only available on macOS")}
+
+      {:error, _} ->
+        {:noreply, put_flash(socket, :error, "Could not open folder in Finder")}
+    end
+  end
+
+  @impl true
   def handle_event("toggle_theme", _params, socket) do
     theme = if(socket.assigns.theme == "dark", do: "light", else: "dark")
     :ok = ElixirTorrentWebUI.UiState.put_theme(theme)
@@ -446,6 +460,18 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
           </p>
         </div>
         <div class="mt-1 flex shrink-0 items-center gap-1">
+          <div class="tooltip tooltip-top" data-tip="Show Folder">
+            <button
+              type="button"
+              id={"torrent-folder-#{@torrent.id}"}
+              phx-click="show_folder"
+              phx-value-id={@torrent.id}
+              class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-base-content/70 transition hover:bg-base-300 hover:text-base-content"
+              aria-label="Show Folder"
+            >
+              <.icon name="hero-folder-open" class="size-5" />
+            </button>
+          </div>
           <div class="tooltip tooltip-top" data-tip="Remove Torrent">
             <button
               type="button"

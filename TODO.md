@@ -40,13 +40,6 @@ upload—paste field, drag-to-add, or OS handler. Engine adapter needs a stable 
 for magnet → download session; surface errors (invalid magnet, DHT/bootstrap
 failures) in flash UI.
 
-### Open in Finder button
-
-Per torrent (or global “open download folder”), a control that reveals the  
-torrent’s data directory in Finder/macOS file manager. Implementation: resolve  
-engine path for that torrent, call desktop opener (`open` on macOS) via a small  
-desktop-only code path or LiveView event that the launcher does not need to own.
-
 ### Deferred disk space reservation on torrent start
 
 When a download starts, do **not** pre-allocate the full torrent size immediately

@@ -156,6 +156,21 @@ defmodule ElixirTorrentWebUI.Engine do
     end
   end
 
+  @spec show_folder(String.t()) :: :ok | {:error, term()}
+  def show_folder(torrent_id) when is_binary(torrent_id) do
+    with {:ok, hash} <- hash_from_hex_id(torrent_id),
+         :ok <- ensure_darwin(),
+         paths <- data_paths(hash),
+         {:ok, cmd, args} <- open_command(hash, paths) do
+      case System.cmd(cmd, args, stderr_to_stdout: true) do
+        {_, 0} -> :ok
+        _ -> {:error, :open_failed}
+      end
+    end
+  rescue
+    ArgumentError -> {:error, :torrent_not_found}
+  end
+
   @spec row_for(Torrent.hash(), MapSet.t()) :: TorrentRow.t()
   defp row_for(hash, expanded) do
     id = Torrent.hex_encoded_hash(hash)
@@ -269,6 +284,68 @@ defmodule ElixirTorrentWebUI.Engine do
   @spec ensure_readable(Path.t()) :: :ok | {:error, :missing}
   defp ensure_readable(path) do
     if File.regular?(path), do: :ok, else: {:error, :missing}
+  end
+
+  @spec ensure_darwin() :: :ok | {:error, :unsupported_platform}
+  defp ensure_darwin do
+    case :os.type() do
+      {:unix, :darwin} -> :ok
+      _ -> {:error, :unsupported_platform}
+    end
+  end
+
+  @spec data_paths(Torrent.hash()) :: [Path.t()]
+  defp data_paths(hash) do
+    hash
+    |> Torrent.Removal.data_paths()
+    |> Enum.map(&Path.expand/1)
+  end
+
+  @spec open_command(Torrent.hash(), [Path.t()]) ::
+          {:ok, String.t(), [String.t()]} | {:error, term()}
+  defp open_command(hash, [path]) when is_binary(path) do
+    if Torrent.file_count(hash) == 1 do
+      reveal_in_finder(path)
+    else
+      open_directory(common_ancestor([path]))
+    end
+  end
+
+  defp open_command(_hash, paths) when is_list(paths) and paths != [] do
+    open_directory(common_ancestor(paths))
+  end
+
+  defp open_command(_hash, []), do: {:error, :missing}
+
+  @spec reveal_in_finder(Path.t()) :: {:ok, String.t(), [String.t()]} | {:error, :missing}
+  defp reveal_in_finder(path) do
+    cond do
+      File.regular?(path) -> {:ok, "open", ["-R", path]}
+      File.dir?(path) -> {:ok, "open", [path]}
+      File.dir?(Path.dirname(path)) -> {:ok, "open", [Path.dirname(path)]}
+      true -> {:error, :missing}
+    end
+  end
+
+  @spec open_directory(Path.t()) :: {:ok, String.t(), [String.t()]} | {:error, :missing}
+  defp open_directory(dir) do
+    if File.dir?(dir), do: {:ok, "open", [dir]}, else: {:error, :missing}
+  end
+
+  @spec common_ancestor([Path.t()]) :: Path.t()
+  defp common_ancestor([first | rest]) do
+    rest
+    |> Enum.reduce(Path.split(first), fn path, acc ->
+      path
+      |> Path.split()
+      |> then(fn parts ->
+        acc
+        |> Enum.zip(parts)
+        |> Enum.take_while(fn {left, right} -> left == right end)
+        |> Enum.map(fn {part, _} -> part end)
+      end)
+    end)
+    |> Path.join()
   end
 
   @spec status_string(Peer.status()) :: String.t()
