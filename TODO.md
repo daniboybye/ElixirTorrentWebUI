@@ -2,17 +2,6 @@
 
 ---
 
-## Persistence & configuration
-
-### Persist state between app launches
-
-When the user quits and reopens the desktop app (or restarts the release), the UI
-should restore the last known view of the world: active torrents, per-torrent
-metadata the engine already tracks, expanded cards, theme preference, etc.
-
-- **Desktop:** data directory under `~/Library/Application Support/ElixirTorrentWebUI`
-should remain the canonical workspace across launcher restarts.
-
 ### User-configurable download directory
 
 Today downloads land in a fixed location. Add a setting (and persistence) so the

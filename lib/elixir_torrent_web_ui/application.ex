@@ -13,6 +13,7 @@ defmodule ElixirTorrentWebUI.Application do
 
     children = [
       ElixirTorrentWebUI.TorrentCatalog,
+      ElixirTorrentWebUI.UiState,
       ElixirTorrentWebUIWeb.Telemetry,
       {DNSCluster,
        query: Application.get_env(:elixir_torrent_web_ui, :dns_cluster_query) || :ignore},

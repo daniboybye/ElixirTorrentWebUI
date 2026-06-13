@@ -40,10 +40,20 @@ const AutoDismissFlash = {
   },
 }
 
+const UiState = {
+  mounted() {
+    this.handleEvent("set-theme", ({theme}) => {
+      const normalized = theme === "light" ? "light" : "dark"
+      localStorage.setItem("phx:theme", normalized)
+      document.documentElement.setAttribute("data-theme", normalized)
+    })
+  },
+}
+
 const liveSocket = new LiveSocket("/live", Socket, {
   longPollFallbackMs: 2500,
   params: {_csrf_token: csrfToken},
-  hooks: {AutoDismissFlash, ...colocatedHooks},
+  hooks: {AutoDismissFlash, UiState, ...colocatedHooks},
 })
 
 // Show progress bar on live navigation and form submits

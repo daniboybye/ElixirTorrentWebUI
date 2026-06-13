@@ -7,10 +7,11 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    expanded = MapSet.new()
+    %{theme: theme, expanded: expanded} = ElixirTorrentWebUI.UiState.get()
 
     socket =
       socket
+      |> assign(:theme, theme)
       |> assign(:expanded, expanded)
       |> assign(:remove_dialog, nil)
       |> assign(:player, nil)
@@ -22,6 +23,13 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         auto_upload: true,
         progress: &handle_progress/3
       )
+
+    socket =
+      if connected?(socket) do
+        push_event(socket, "set-theme", %{theme: theme})
+      else
+        socket
+      end
 
     if connected?(socket), do: Process.send_after(self(), :refresh, @refresh_ms)
 
@@ -86,6 +94,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         case Engine.remove_torrent(hash, delete_data: delete?) do
           :ok ->
             expanded = MapSet.delete(socket.assigns.expanded, id)
+            :ok = ElixirTorrentWebUI.UiState.put_expanded(expanded)
 
             {:noreply,
              socket
@@ -112,10 +121,23 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         MapSet.put(socket.assigns.expanded, id)
       end
 
+    :ok = ElixirTorrentWebUI.UiState.put_expanded(expanded)
+
     {:noreply,
      socket
      |> assign(:expanded, expanded)
      |> assign(:torrents, Engine.list_torrents(expanded))}
+  end
+
+  @impl true
+  def handle_event("toggle_theme", _params, socket) do
+    theme = if(socket.assigns.theme == "dark", do: "light", else: "dark")
+    :ok = ElixirTorrentWebUI.UiState.put_theme(theme)
+
+    {:noreply,
+     socket
+     |> assign(:theme, theme)
+     |> push_event("set-theme", %{theme: theme})}
   end
 
   # The form's `phx-change` is required to wire `<.live_file_input>` into the
@@ -188,7 +210,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   def render(assigns) do
     ~H"""
     <Layouts.app flash={@flash}>
-      <div class="space-y-4">
+      <div id="torrents-live" phx-hook="UiState" class="space-y-4">
         <div class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-base-300 bg-base-200 px-4 py-3">
           <div class="flex items-center gap-3">
             <.app_logo id="app-logo" class="size-9 shrink-0" />
@@ -197,7 +219,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <.theme_toggle />
+            <.theme_toggle theme={@theme} />
 
             <form id="add-torrent-form" phx-change="validate" phx-submit="validate">
               <.live_file_input upload={@uploads.torrent} class="sr-only" />
@@ -774,18 +796,20 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   defp status_dot_class("Idle"), do: "bg-base-content/40"
   defp status_dot_class(_), do: "bg-info"
 
+  attr :theme, :string, required: true
+
   @spec theme_toggle(map()) :: Phoenix.LiveView.Rendered.t()
   defp theme_toggle(assigns) do
     ~H"""
     <button
       type="button"
-      phx-click={JS.dispatch("phx:toggle-theme")}
+      phx-click="toggle_theme"
       class="inline-flex cursor-pointer items-center gap-2 rounded-md border border-base-300 bg-base-300 px-4 py-2 text-sm font-semibold text-base-content hover:bg-base-100"
       title="Toggle theme"
       aria-label="Toggle theme"
     >
-      <.icon name="hero-sun-mini" class="size-4 [[data-theme=dark]_&]:hidden" />
-      <.icon name="hero-moon-mini" class="hidden size-4 [[data-theme=dark]_&]:inline" />
+      <.icon name="hero-sun-mini" class={["size-4", @theme == "light" && "hidden"]} />
+      <.icon name="hero-moon-mini" class={["size-4", @theme == "dark" && "hidden"]} />
       <span>Theme</span>
     </button>
     """
