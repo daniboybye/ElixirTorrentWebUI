@@ -34,19 +34,34 @@ defmodule ElixirTorrentWebUIWeb.Layouts do
   slot :inner_block, required: true
 
   def app(assigns) do
+    assigns = assign(assigns, :app_version, app_version())
+
     ~H"""
     <main class="min-h-screen bg-base-100 text-base-content px-4 py-6 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl space-y-4">
         {render_slot(@inner_block)}
       </div>
 
-      <p id="app-creator" class="fixed bottom-4 left-4 text-xs text-base-content/50">
-        Creator: Daniel Urumov
-      </p>
+      <div
+        id="app-footer"
+        class="fixed bottom-4 left-4 space-y-1 rounded-md bg-base-300/90 px-2.5 py-1.5 shadow-sm ring-1 ring-base-content/5"
+      >
+        <p id="app-version" class="text-xs font-medium text-base-content/70">
+          ElixirTorrent Web Version {@app_version}
+        </p>
+        <p id="app-creator" class="text-xs font-medium text-base-content/70">
+          Creator: Daniel Urumov
+        </p>
+      </div>
     </main>
 
     <.flash_group flash={@flash} />
     """
+  end
+
+  @spec app_version() :: String.t()
+  defp app_version do
+    Application.spec(:elixir_torrent_web_ui, :vsn) |> to_string()
   end
 
   @doc """

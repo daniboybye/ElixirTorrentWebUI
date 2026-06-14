@@ -1,5 +1,9 @@
 import Config
 
+System.put_env("MIX_BUILD_ROOT", Path.expand("../_build", __DIR__))
+
+config :elixir_torrent_web_ui, :use_data_cwd, false
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #

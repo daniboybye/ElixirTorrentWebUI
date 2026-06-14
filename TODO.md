@@ -27,6 +27,28 @@ on first run.
 
 ## UI & UX (web)
 
+### Settings
+
+Add a Settings screen or panel for user preferences—download directory, theme default,
+Dock/menu bar options (when available), and other app behavior. Persist choices to
+disk (e.g. alongside existing UI state) and apply on startup without requiring a
+restart where possible.
+
+### Multiple language support
+
+Add i18n for the web UI—extract user-visible strings, wire Gettext (or equivalent),
+and allow switching language from Settings. Start with English plus at least one
+additional locale; persist the chosen language across sessions.
+
+### Lifetime download & seed statistics
+
+Track and persist all-time totals for how much data the user has **downloaded**
+and **uploaded (seeded)**—shown in the UI (e.g. Settings or a stats panel) in
+human-readable units (MB/GB). Counters must survive app restarts; define whether
+totals are per-machine or tied to a user profile. Engine or UI layer needs a
+durable accumulator (increment on completed bytes / peer upload), with a clear
+policy for recounting after torrent removal.
+
 ### Search field
 
 Add a filter/search control on the torrent list (by name, hash fragment, state).
@@ -64,6 +86,22 @@ or periodic poll).
 Optional menu bar extra (status item) with quick actions: open UI, pause/resume
 all, quit, maybe top-N torrents. Distinct from Dock icon; uses `NSStatusItem`.
 Consider battery/menu bar clutter—may be opt-in in settings.
+
+### Auto-update
+
+Implement in-app update flow for the desktop bundle so users are not stuck on old
+`.dmg` installs. Check for a newer release (e.g. GitHub Releases or a version
+manifest), download the update, verify integrity (checksum and/or code signature),
+then apply with minimal friction.
+
+- Graceful shutdown before replace: `stop_all_and_serialize/0`, preserve Application
+Support data and active torrent sessions where possible.
+- Launcher responsibility: download, swap `.app` or run installer, relaunch; surface
+progress and errors in UI or a native dialog.
+- User control: opt-in automatic checks vs manual “Check for updates” in Settings;
+allow skip/defer for a version.
+- Plan for macOS first (Sparkle, custom, or scripted); align with Windows/Linux
+packaging when those ship.
 
 ---
 

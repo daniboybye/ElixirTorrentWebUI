@@ -50,7 +50,7 @@ defmodule ElixirTorrentWebUI.UiState do
 
   @spec path() :: Path.t()
   defp path do
-    Path.join([File.cwd!(), "session", "ui.json"])
+    Path.join([ElixirTorrentWebUI.DataDir.root(), "session", "ui.json"])
   end
 
   @spec persist(t()) :: t()

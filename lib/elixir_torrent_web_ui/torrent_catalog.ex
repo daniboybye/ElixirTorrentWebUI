@@ -17,7 +17,7 @@ defmodule ElixirTorrentWebUI.TorrentCatalog do
 
   @spec data_dir() :: Path.t()
   def data_dir do
-    File.cwd!()
+    ElixirTorrentWebUI.DataDir.root()
   end
 
   @spec torrents_dir() :: Path.t()
@@ -75,9 +75,7 @@ defmodule ElixirTorrentWebUI.TorrentCatalog do
     state =
       state
       |> Map.update!(:entries, &Map.put(&1, id, entry))
-      |> then(fn s ->
-        if id in s.order, do: s, else: update_in(s, [:order], &(&1 ++ [id]))
-      end)
+      |> update_in([:order], fn order -> [id | List.delete(order, id)] end)
       |> persist()
 
     {:reply, :ok, state}

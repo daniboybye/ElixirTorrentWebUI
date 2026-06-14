@@ -50,6 +50,16 @@ mix phx.server
 
 Open `http://127.0.0.1:4000`.
 
+`mix phx.server` and the macOS `.app` share **catalog, UI state, and `.torrent` files**
+via `~/Library/Application Support/ElixirTorrentWebUI/` (see `ElixirTorrentWebUI.DataDir`).
+
+In **dev**, the process working directory stays in the project root so Phoenix code
+reloading works; engine session files and downloads land under the repo unless you
+symlink `.elixir_torrent` to Application Support. The **desktop app** uses that
+folder as its cwd, so torrent data and the catalog stay in sync there.
+
+Override the data root with `ELIXIR_TORRENT_DATA_DIR` if needed.
+
 `mix setup` also runs `mix mac.icon` to generate app icons. That step needs
 **Python 3** and **Pillow** (`pip install Pillow`).
 

@@ -271,7 +271,7 @@ defmodule ElixirTorrentWebUI.Engine do
 
   @spec safe_disk_path(String.t()) :: {:ok, Path.t()} | {:error, :invalid_path}
   defp safe_disk_path(relative) when is_binary(relative) do
-    base = Path.expand(File.cwd!())
+    base = Path.expand(ElixirTorrentWebUI.DataDir.root())
     path = Path.expand(Path.join(base, relative))
 
     if String.starts_with?(path, base <> "/") or path == base do

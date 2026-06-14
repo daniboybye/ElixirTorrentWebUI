@@ -547,21 +547,21 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
           id={"torrent-files-#{@torrent.id}"}
           class="rounded-b-2xl border-t border-base-300 bg-base-100/40 px-4 py-4"
         >
-          <div class="flex flex-col gap-6 lg:flex-row">
-            <div class="w-full shrink-0 space-y-3 text-sm text-base-content/80 lg:w-44">
-              <div>
+          <div class="flex flex-col gap-4 md:grid md:grid-cols-[max-content_minmax(0,1fr)] md:items-start md:gap-x-4">
+            <div class="flex flex-row gap-8 text-sm text-base-content/80 md:flex-col md:gap-3 md:shrink-0">
+              <div class="shrink-0">
                 <p class="text-xs font-semibold uppercase tracking-wide text-base-content/50">
                   Date Added
                 </p>
                 <p class="mt-1 tabular-nums">{format_date(@torrent.added_at)}</p>
               </div>
-              <div>
+              <div class="shrink-0">
                 <p class="text-xs font-semibold uppercase tracking-wide text-base-content/50">
                   Total Files
                 </p>
                 <p class="mt-1 tabular-nums">{@torrent.file_count}</p>
               </div>
-              <div>
+              <div class="shrink-0">
                 <p class="text-xs font-semibold uppercase tracking-wide text-base-content/50">
                   Total Size
                 </p>
@@ -569,9 +569,8 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
               </div>
             </div>
 
-            <div class="min-w-0 flex-1">
-              <p class="mb-3 text-sm font-semibold text-base-content">Torrent files</p>
-              <div class="overflow-hidden rounded-xl border border-base-300">
+            <div class="min-w-0 w-full">
+              <div class="w-full overflow-hidden rounded-xl border border-base-300">
                 <div class="grid grid-cols-[minmax(0,1fr)_5rem_6rem] gap-3 border-b border-base-300 bg-base-300/50 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-base-content/60">
                   <span>Name</span>
                   <span class="text-right">Size</span>
@@ -580,21 +579,24 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
                 <div
                   :for={file <- @torrent.files}
                   id={"torrent-file-#{@torrent.id}-#{file.index}"}
-                  class="grid grid-cols-[minmax(0,1fr)_5rem_6rem] gap-3 border-b border-base-300/70 px-4 py-3 text-sm last:border-b-0 transition-colors hover:bg-base-300/70"
+                  class={[
+                    "grid grid-cols-[minmax(0,1fr)_5rem_6rem] gap-3 border-b border-base-300/70 px-4 py-3 text-sm last:border-b-0 transition-colors hover:bg-base-300/70",
+                    Engine.playable_file?(file) && "group cursor-pointer"
+                  ]}
+                  phx-click={Engine.playable_file?(file) && "open_player"}
+                  phx-value-torrent_id={@torrent.id}
+                  phx-value-file_index={file.index}
+                  aria-label={Engine.playable_file?(file) && "Play #{file.name}"}
                 >
                   <div class="flex min-w-0 items-center gap-3">
                     <%= if Engine.playable_file?(file) do %>
-                      <button
-                        type="button"
+                      <span
                         id={"torrent-file-play-#{@torrent.id}-#{file.index}"}
-                        phx-click="open_player"
-                        phx-value-torrent_id={@torrent.id}
-                        phx-value-file_index={file.index}
-                        class="inline-flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-base-content bg-transparent text-base-content transition hover:border-success hover:bg-success hover:text-white"
-                        aria-label={"Play #{file.name}"}
+                        class="inline-flex size-9 shrink-0 items-center justify-center rounded-full border-2 border-base-content bg-transparent text-base-content transition group-hover:border-success group-hover:bg-success group-hover:text-white"
+                        aria-hidden="true"
                       >
                         <.icon name="hero-play" class="size-4 translate-x-px" />
-                      </button>
+                      </span>
                     <% end %>
                     <div class="min-w-0 flex-1">
                       <p class="truncate font-medium text-base-content" title={file.path}>
