@@ -1,6 +1,31 @@
 import AppKit
 import Darwin
 import Foundation
+import UniformTypeIdentifiers
+
+private enum BitTorrentDocument {
+    static let contentType = UTType(importedAs: "org.bittorrent.torrent")
+
+    static func matches(_ url: URL) -> Bool {
+        guard url.isFileURL else { return false }
+
+        if let type = try? url.resourceValues(forKeys: [.contentTypeKey]).contentType,
+           type.conforms(to: contentType) {
+            return true
+        }
+
+        if let type = UTType(filenameExtension: url.pathExtension),
+           type.conforms(to: contentType) {
+            return true
+        }
+
+        return false
+    }
+
+    static var defaultFilename: String {
+        "download.\(contentType.preferredFilenameExtension ?? "torrent")"
+    }
+}
 
 fileprivate actor ServerLifecycle {
     private var ownedProcess: Process?
@@ -195,6 +220,24 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         Task { await bootstrap() }
     }
 
+    func application(_ application: NSApplication, open urls: [URL]) {
+        Task {
+            await ensureServerReady()
+
+            var handled = false
+
+            for url in urls {
+                if BitTorrentDocument.matches(url) {
+                    handled = await submitTorrentFile(at: url) || handled
+                }
+            }
+
+            if handled {
+                await MainActor.run { openBrowser() }
+            }
+        }
+    }
+
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         openBrowser()
         return true
@@ -211,9 +254,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         return .terminateLater
     }
 
+    private var dataDirectory: URL {
+        FileManager.default.urls(for: .applicationSupportDirectory,
+                                 in: .userDomainMask).first!
+            .appendingPathComponent("ElixirTorrentWebUI",
+                                    isDirectory: true)
+    }
+
     private func bootstrap() async {
+        await ensureServerReady()
+        await MainActor.run { openBrowser() }
+    }
+
+    private func ensureServerReady() async {
         if await server.isPortListening(port) {
-            await MainActor.run { openBrowser() }
             return
         }
 
@@ -225,8 +279,59 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
 
-        if await server.waitUntilReady(url: appURL, attempts: 60, intervalNanos: 250_000_000) {
-            await MainActor.run { openBrowser() }
+        _ = await server.waitUntilReady(url: appURL, attempts: 60, intervalNanos: 250_000_000)
+    }
+
+    private func submitTorrentFile(at url: URL) async -> Bool {
+        guard let staged = stageTorrent(at: url) else { return false }
+        return await submitTorrentPath(staged.path)
+    }
+
+    private func stageTorrent(at url: URL) -> URL? {
+        let inbox = dataDirectory.appendingPathComponent("inbox", isDirectory: true)
+
+        do {
+            try FileManager.default.createDirectory(at: inbox,
+                                                    withIntermediateDirectories: true)
+
+            let baseName = url.lastPathComponent.isEmpty ? BitTorrentDocument.defaultFilename : url.lastPathComponent
+            let dest = inbox.appendingPathComponent("\(UUID().uuidString)-\(baseName)")
+
+            if FileManager.default.fileExists(atPath: dest.path) {
+                try FileManager.default.removeItem(at: dest)
+            }
+
+            try FileManager.default.copyItem(at: url, to: dest)
+            return dest
+        } catch {
+            return nil
+        }
+    }
+
+    private func submitTorrentPath(_ path: String) async -> Bool {
+        guard let endpoint = URL(string: "http://127.0.0.1:\(port)/api/torrents") else {
+            return false
+        }
+
+        var request = URLRequest(url: endpoint)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.timeoutInterval = 30
+
+        let payload = ["path": path]
+
+        guard let body = try? JSONSerialization.data(withJSONObject: payload) else {
+            return false
+        }
+
+        request.httpBody = body
+
+        do {
+            let (_, response) = try await URLSession.shared.data(for: request)
+            guard let http = response as? HTTPURLResponse else { return false }
+            return http.statusCode == 202
+        } catch {
+            return false
         }
     }
 

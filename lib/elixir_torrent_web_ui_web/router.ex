@@ -21,10 +21,11 @@ defmodule ElixirTorrentWebUIWeb.Router do
     get "/media/:torrent_id/:file_index", MediaController, :show
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", ElixirTorrentWebUIWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", ElixirTorrentWebUIWeb do
+    pipe_through :api
+
+    post "/torrents", TorrentController, :create
+  end
 
   # Enable LiveDashboard in development
   if Application.compile_env(:elixir_torrent_web_ui, :dev_routes) do

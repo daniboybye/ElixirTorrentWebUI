@@ -1,7 +1,7 @@
 defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   use ElixirTorrentWebUIWeb, :live_view
 
-  alias ElixirTorrentWebUI.Engine
+  alias ElixirTorrentWebUI.{Engine, TorrentIngest}
 
   @refresh_ms 1_000
 
@@ -31,9 +31,26 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         socket
       end
 
-    if connected?(socket), do: Process.send_after(self(), :refresh, @refresh_ms)
+    if connected?(socket) do
+      Phoenix.PubSub.subscribe(ElixirTorrentWebUI.PubSub, TorrentIngest.topic())
+      Process.send_after(self(), :refresh, @refresh_ms)
+    end
 
     {:ok, socket}
+  end
+
+  @impl true
+  def handle_info({:torrent_ingest, path, {:ok, _pid}}, socket) do
+    name = Path.basename(path)
+
+    {:noreply,
+     socket
+     |> put_flash(:info, "Torrent added: #{name}")
+     |> assign(:torrents, Engine.list_torrents(socket.assigns.expanded))}
+  end
+
+  def handle_info({:torrent_ingest, _path, {:error, reason}}, socket) do
+    {:noreply, put_flash(socket, :error, "Failed to add torrent: #{inspect(reason)}")}
   end
 
   @impl true
