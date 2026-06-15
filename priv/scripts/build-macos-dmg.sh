@@ -66,6 +66,10 @@ if [[ -f "$ROOT/priv/macos/AppIcon.icns" ]]; then
   cp "$ROOT/priv/macos/AppIcon.icns" "$APP/Contents/Resources/AppIcon.icns"
 fi
 
+if [[ -f "$ROOT/priv/macos/TorrentDocument.icns" ]]; then
+  cp "$ROOT/priv/macos/TorrentDocument.icns" "$APP/Contents/Resources/TorrentDocument.icns"
+fi
+
 if [[ -f "$ROOT/priv/macos/Assets.car" ]]; then
   cp "$ROOT/priv/macos/Assets.car" "$APP/Contents/Resources/Assets.car"
 fi

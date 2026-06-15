@@ -38,7 +38,9 @@
         <string>torrent</string>
       </array>
       <key>CFBundleTypeIconFile</key>
-      <string>AppIcon</string>
+      <string>TorrentDocument</string>
+      <key>CFBundleTypeIconSystemGeneratedFile</key>
+      <false/>
       <key>CFBundleTypeName</key>
       <string>BitTorrent Document</string>
       <key>CFBundleTypeRole</key>
@@ -60,6 +62,8 @@
       </array>
       <key>UTTypeDescription</key>
       <string>BitTorrent Document</string>
+      <key>UTTypeIconFile</key>
+      <string>TorrentDocument</string>
       <key>UTTypeIdentifier</key>
       <string>org.bittorrent.torrent</string>
       <key>UTTypeTagSpecification</key>

@@ -34,6 +34,7 @@ elixir_torrent_web_ui-*.tar
 /priv/macos/Assets.car
 /priv/macos/icon-layers/
 /priv/macos/AppIcon.icns
+/priv/macos/TorrentDocument.iconset/
 
 # Ignore assets that are produced by build tools.
 /priv/static/assets/
