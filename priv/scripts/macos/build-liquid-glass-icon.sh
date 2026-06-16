@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
 ICON_BUNDLE="$ROOT/priv/macos/AppIcon.icon"
 BUILD_DIR="$ROOT/priv/macos/icon-build"
 ASSETS_CAR="$ROOT/priv/macos/Assets.car"

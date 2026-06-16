@@ -80,7 +80,7 @@ Icon generation (`mix mac.icon`, also part of `mix setup`):
 - **Liquid Glass** (`Assets.car` for macOS 26+): requires **Xcode 26+**
   (`xcrun actool`). Without it, the build still produces a classic `.icns`
   fallback icon.
-- **Python 3 + Pillow** for `priv/scripts/generate-app-icon.py`.
+- **Python 3 + Pillow** for `priv/scripts/macos/generate-app-icon.py`.
 
 ## Engine dependency
 

@@ -10,7 +10,7 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 MACOS = ROOT / "priv" / "macos"
 STATIC = ROOT / "priv" / "static"
 IMAGES = STATIC / "images"
@@ -199,7 +199,7 @@ def write_web_assets() -> None:
 
 
 def compile_liquid_glass() -> bool:
-    script = ROOT / "priv" / "scripts" / "build-liquid-glass-icon.sh"
+    script = ROOT / "priv" / "scripts" / "macos" / "build-liquid-glass-icon.sh"
     if not script.exists():
         return False
 
@@ -221,7 +221,7 @@ def main() -> int:
     if compile_liquid_glass():
         print(f"Generated {MACOS / 'Assets.car'} (Liquid Glass)")
     else:
-        print("Skipped Liquid Glass compile (run priv/scripts/build-liquid-glass-icon.sh manually)")
+        print("Skipped Liquid Glass compile (run priv/scripts/macos/build-liquid-glass-icon.sh manually)")
 
     return 0
 

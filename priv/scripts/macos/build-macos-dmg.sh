@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
 cd "$ROOT"
 
 APP_DISPLAY_NAME="ElixirTorrent Web"
@@ -25,12 +25,12 @@ DMG="$DIST/${APP_DISPLAY_NAME}-${VERSION}-macos-${ARCH_TAG}.dmg"
 
 if [[ ! -f "$ROOT/priv/macos/AppIcon.icns" ]]; then
   echo "==> Generating app icon…"
-  python3 "$ROOT/priv/scripts/generate-app-icon.py"
+  python3 "$ROOT/priv/scripts/macos/generate-app-icon.py"
 fi
 
 if [[ -d "$ROOT/priv/macos/AppIcon.icon" && ! -f "$ROOT/priv/macos/Assets.car" ]]; then
   echo "==> Compiling Liquid Glass icon…"
-  "$ROOT/priv/scripts/build-liquid-glass-icon.sh"
+  "$ROOT/priv/scripts/macos/build-liquid-glass-icon.sh"
 fi
 
 echo "==> Building release (prod, desktop)…"

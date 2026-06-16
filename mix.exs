@@ -115,8 +115,8 @@ defmodule ElixirTorrentWebUI.MixProject do
         "format",
         "test --warnings-as-errors"
       ],
-      "mac.icon": ["cmd python3 priv/scripts/generate-app-icon.py"],
-      "mac.dmg": ["cmd priv/scripts/build-macos-dmg.sh"]
+      "mac.icon": ["cmd python3 priv/scripts/macos/generate-app-icon.py"],
+      "mac.dmg": ["cmd priv/scripts/macos/build-macos-dmg.sh"]
     ]
   end
 end
