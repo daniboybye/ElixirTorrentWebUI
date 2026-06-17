@@ -1,0 +1,214 @@
+#
+msgid ""
+msgstr ""
+"Language: ta\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "செயல்கள்"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "டோரண்டைச் சேர்க்கவும்"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "விண்ணப்பிக்கவும்"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "மீண்டும் இணைக்க முயற்சிக்கிறது"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "ரத்து செய்"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "மொழி"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "அமைப்புகள்"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "ஏதோ தவறாகிவிட்டது!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "இணையத்தைக் கண்டுபிடிக்க முடியவில்லை"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "நெருக்கமான"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "தேர்ந்தெடுக்கப்பட்ட டொரண்டை நிச்சயமாக அகற்ற விரும்புகிறீர்களா?"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "இந்தக் கோப்பை இயக்க முடியாது"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "மூடு"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "உரையாடலை மூடு"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "நெருக்கமான வீரர்"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "இணைக்கிறது"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "Finder இல் கோப்புறையைத் திறக்க முடியவில்லை"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "உருவாக்கியவர்:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "தேதி சேர்க்கப்பட்டது"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "பதிவிறக்கவும்"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "பதிவிறக்கம் செய்யப்பட்டது"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "பதிவிறக்குகிறது"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "கோப்புகளை இங்கே விடுங்கள்!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "பதிப்பு %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "டொரண்டைச் சேர்ப்பதில் தோல்வி: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "Torrent கோப்புகளை மறை"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "சும்மா"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "பெயர்"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr ".torrent கோப்புகள் மட்டுமே அனுமதிக்கப்படும்"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "`.torrent` கோப்புகள் மட்டுமே ஏற்கப்பட்டன"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "%{name} விளையாடு"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "டோரண்டை அகற்று"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "டோரண்ட் + டேட்டாவை அகற்று"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "டோரண்டை அகற்றவா?"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "டொரண்ட் மற்றும் தரவு அகற்றப்பட்டது: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "அகற்றப்பட்ட டொரண்ட்: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "விதைத்தல்"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "கோப்புறையைக் காட்டு"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "கோப்புறையைக் காட்டு macOS இல் மட்டுமே கிடைக்கும்"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "டோரண்ட் கோப்புகளைக் காட்டு"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "அளவு"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "தீம்"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "இந்தக் கோப்பு வகை ஆதரிக்கப்படவில்லை"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "தீம் மாறு"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "Torrent சேர்க்கப்பட்டது: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "மொத்த கோப்புகள்"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "மொத்த அளவு"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "சேர்க்க கிளிக் செய்யவும்"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "இங்கே `.torrent` கோப்பை இழுத்து விடுங்கள் அல்லது"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "டொரண்டை அகற்ற முடியவில்லை: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr ""
+"செயலில் உள்ள டொரண்ட்கள் இல்லை. பதிவிறக்கம் செய்ய `.torrent` கோப்பைச் "
+"சேர்க்கவும்."

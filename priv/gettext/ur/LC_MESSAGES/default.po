@@ -1,0 +1,214 @@
+#
+msgid ""
+msgstr ""
+"Language: ur\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "اعمال"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "ٹورینٹ شامل کریں۔"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "لگائیں"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "دوبارہ جوڑنے کی کوشش کر رہا ہے۔"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "منسوخ کریں۔"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "زبان"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "ترتیبات"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "کچھ غلط ہو گیا!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "ہم انٹرنیٹ نہیں ڈھونڈ سکتے"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "بند"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "کیا آپ واقعی منتخب ٹورینٹ کو ہٹانا چاہتے ہیں؟"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "یہ فائل نہیں چل سکتی"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "بند"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "ڈائیلاگ بند کریں۔"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "بند کھلاڑی"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "جڑ رہا ہے۔"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "Finder میں فولڈر نہیں کھولا جا سکا"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "خالق:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "شامل کرنے کی تاریخ"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "ڈاؤن لوڈ کریں۔"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "ڈاؤن لوڈ کیا گیا۔"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "ڈاؤن لوڈ ہو رہا ہے۔"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "فائلیں یہاں چھوڑیں!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "ورژن %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "ٹورینٹ شامل کرنے میں ناکام: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "ٹورینٹ فائلوں کو چھپائیں۔"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "بیکار"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "نام"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "صرف .torrent فائلوں کی اجازت ہے۔"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "صرف `.torrent` فائلیں قبول کی گئیں۔"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "چلائیں %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "ٹورینٹ کو ہٹا دیں۔"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "ٹورینٹ + ڈیٹا کو ہٹا دیں۔"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "Torrent کو ہٹا دیں؟"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "ٹورینٹ اور ڈیٹا کو ہٹا دیا گیا: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "ہٹا دیا گیا ٹورینٹ: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "بوائی"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "فولڈر دکھائیں۔"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "فولڈر دکھائیں صرف macOS پر دستیاب ہے"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "ٹورینٹ فائلیں دکھائیں۔"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "سائز"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "تھیم"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "یہ فائل کی قسم تعاون یافتہ نہیں ہے۔"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "تھیم کو ٹوگل کریں۔"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "ٹورینٹ شامل کیا گیا: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "کل فائلیں۔"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "کل سائز"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "شامل کرنے کے لیے کلک کریں۔"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "ایک `.torrent` فائل کو یہاں گھسیٹیں اور چھوڑیں، یا"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "ٹورینٹ کو ہٹانے میں ناکام: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr ""
+"کوئی فعال ٹورینٹ نہیں۔ ڈاؤن لوڈ شروع کرنے کے لیے ایک `.torrent` فائل شامل "
+"کریں۔"

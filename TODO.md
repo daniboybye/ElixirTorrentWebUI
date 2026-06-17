@@ -34,12 +34,6 @@ Dock/menu bar options (when available), and other app behavior. Persist choices 
 disk (e.g. alongside existing UI state) and apply on startup without requiring a
 restart where possible.
 
-### Multiple language support
-
-Add i18n for the web UI—extract user-visible strings, wire Gettext (or equivalent),
-and allow switching language from Settings. Start with English plus at least one
-additional locale; persist the chosen language across sessions.
-
 ### Lifetime download & seed statistics
 
 Track and persist all-time totals for how much data the user has **downloaded**

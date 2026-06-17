@@ -1,0 +1,212 @@
+#
+msgid ""
+msgstr ""
+"Language: th\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "การดำเนินการ"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "เพิ่มทอร์เรนต์"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "นำมาใช้"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "กำลังพยายามเชื่อมต่อใหม่"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "ยกเลิก"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "ภาษา"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "การตั้งค่า"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "มีบางอย่างผิดพลาด!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "เราไม่พบอินเทอร์เน็ต"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "ปิด"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบทอร์เรนต์ที่เลือก"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "ไม่สามารถเล่นไฟล์นี้ได้"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "ปิด"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "ปิดกล่องโต้ตอบ"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "ปิดผู้เล่น"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "กำลังเชื่อมต่อ"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "ไม่สามารถเปิดโฟลเดอร์ใน Finder"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "ผู้สร้าง:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "วันที่เพิ่ม"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "ดาวน์โหลด"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "ดาวน์โหลดแล้ว"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "กำลังดาวน์โหลด"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "วางไฟล์ที่นี่!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "เวอร์ชัน %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "ไม่สามารถเพิ่มฝนตกหนัก: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "ซ่อนไฟล์ Torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "ไม่ได้ใช้งาน"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "ชื่อ"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "อนุญาตเฉพาะไฟล์ .torrent เท่านั้น"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "ยอมรับเฉพาะไฟล์ `.torrent` เท่านั้น"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "เล่น %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "ลบ ทอร์เรนต์"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "ลบ Torrent + ข้อมูล"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "ลบ Torrent?"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "ลบทอร์เรนต์และข้อมูล: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "ลบทอร์เรนต์แล้ว: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "การเพาะเมล็ด"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "แสดงโฟลเดอร์"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "แสดงโฟลเดอร์มีเฉพาะใน macOS เท่านั้น"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "แสดงไฟล์ทอร์เรนต์"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "ขนาด"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "ธีม"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "ไม่รองรับไฟล์ประเภทนี้"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "สลับธีม"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "ฝนตกหนักเพิ่ม: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "ไฟล์ทั้งหมด"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "ขนาดรวม"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "คลิกเพื่อเพิ่ม"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "ลากและวางไฟล์ `.torrent` ที่นี่ หรือ"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "ไม่สามารถลบฝนตกหนัก: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr "ไม่มีทอร์เรนต์ที่ใช้งานอยู่ เพิ่มไฟล์ `.torrent` เพื่อเริ่มดาวน์โหลด"

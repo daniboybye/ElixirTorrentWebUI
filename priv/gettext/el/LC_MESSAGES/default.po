@@ -1,0 +1,214 @@
+#
+msgid ""
+msgstr ""
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "Δράσεις"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "Προσθήκη torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "Εφαρμόζω"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "Προσπάθεια επανασύνδεσης"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "Ματαίωση"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "Γλώσσα"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "Κάτι πήγε στραβά!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "Δεν μπορούμε να βρούμε το διαδίκτυο"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "κοντά"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "Είστε βέβαιοι ότι θέλετε να αφαιρέσετε το επιλεγμένο torrent;"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "Δεν είναι δυνατή η αναπαραγωγή αυτού του αρχείου"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "Κοντά"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "Κλείσιμο διαλόγου"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "Κλείσιμο παίκτη"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "Συνδετικός"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "Δεν ήταν δυνατό το άνοιγμα του φακέλου στο Finder"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "Δημιουργός:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "Ημερομηνία Προσθήκης"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "Λήψη"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "Λήψη"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "Λήψη"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "Αποθέστε αρχεία εδώ!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "Έκδοση %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "Αποτυχία προσθήκης torrent: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "Απόκρυψη αρχείων Torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "Αεργος"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "Ονομα"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "Επιτρέπονται μόνο .torrent αρχεία"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "Αποδεκτά μόνο `.torrent` αρχεία"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "Παίξτε %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "Αφαιρέστε το Torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "Κατάργηση Torrent + Data"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "Κατάργηση Torrent;"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "Καταργήθηκε το torrent και τα δεδομένα: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "Καταργήθηκε το torrent: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "Σπορά"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "Εμφάνιση φακέλου"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "Η εμφάνιση φακέλου είναι διαθέσιμη μόνο στο macOS"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "Εμφάνιση αρχείων Torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "Μέγεθος"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "Θέμα"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "Αυτός ο τύπος αρχείου δεν υποστηρίζεται"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "Εναλλαγή θέματος"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "Το torrent προστέθηκε: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "Σύνολο αρχείων"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "Συνολικό μέγεθος"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "Κάντε κλικ για προσθήκη"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "Σύρετε και αποθέστε ένα αρχείο `.torrent` εδώ ή"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "Αποτυχία κατάργησης torrent: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr ""
+"Χωρίς ενεργά torrents. Προσθέστε ένα αρχείο `.torrent` για να ξεκινήσετε τη "
+"λήψη."

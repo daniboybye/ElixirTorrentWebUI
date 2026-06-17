@@ -1,0 +1,213 @@
+#
+msgid ""
+msgstr ""
+"Language: af\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "Aksies"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "Voeg torrent by"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "Doen aansoek"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "Poging om weer te koppel"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "Kanselleer"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "Taal"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "Instellings"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "Iets het verkeerd geloop!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "Ons kan nie die internet vind nie"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "naby"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "Is jy seker jy wil die geselekteerde torrent verwyder?"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "Kan nie hierdie lêer speel nie"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "Maak toe"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "Maak dialoog toe"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "Sluit speler"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "Verbind"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "Kon nie vouer in Finder oopmaak nie"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "Skepper:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "Datum bygevoeg"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "Laai af"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "Afgelaai"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "Laai tans af"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "Los lêers hier!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "Weergawe %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "Kon nie torrent byvoeg nie: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "Versteek Torrent-lêers"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "Ledig"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "Naam"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "Slegs .torrent-lêers word toegelaat"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "Slegs `.torrent`-lêers word aanvaar"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "Speel %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "Verwyder Torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "Verwyder Torrent + Data"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "Verwyder Torrent?"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "Verwyder torrent en data: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "Verwyder torrent: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "Saai"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "Wys gids"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "Wys vouer is slegs beskikbaar op macOS"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "Wys Torrent-lêers"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "Grootte"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "Tema"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "Hierdie lêertipe word nie ondersteun nie"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "Wissel tema"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "Torrent bygevoeg: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "Totale lêers"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "Totale grootte"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "Klik om by te voeg"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "Sleep en los 'n `.torrent`-lêer hier, of"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "Kon nie torrent verwyder nie: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr ""
+"Geen aktiewe torrents nie. Voeg 'n `.torrent`-lêer by om te begin aflaai."

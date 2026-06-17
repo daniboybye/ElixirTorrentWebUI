@@ -1,19 +1,22 @@
 defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   use ElixirTorrentWebUIWeb, :live_view
 
-  alias ElixirTorrentWebUI.{Engine, TorrentIngest}
+  alias ElixirTorrentWebUI.{Engine, Locale, TorrentIngest}
 
   @refresh_ms 1_000
 
   @impl true
   def mount(_params, _session, socket) do
     %{theme: theme, expanded: expanded} = ElixirTorrentWebUI.UiState.get()
+    locale = socket.assigns.locale
 
     socket =
       socket
       |> assign(:theme, theme)
       |> assign(:expanded, expanded)
       |> assign(:remove_dialog, nil)
+      |> assign(:settings_open, false)
+      |> assign(:settings_locale, locale)
       |> assign(:player, nil)
       |> assign(:torrents, Engine.list_torrents(expanded))
       |> allow_upload(:torrent,
@@ -27,6 +30,13 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     socket =
       if connected?(socket) do
         push_event(socket, "set-theme", %{theme: theme})
+      else
+        socket
+      end
+
+    socket =
+      if connected?(socket) do
+        push_event(socket, "set-locale", %{locale: locale})
       else
         socket
       end
@@ -45,12 +55,17 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
 
     {:noreply,
      socket
-     |> put_flash(:info, "Torrent added: #{name}")
+     |> put_flash(:info, gettext("Torrent added: %{name}", name: name))
      |> assign(:torrents, Engine.list_torrents(socket.assigns.expanded))}
   end
 
   def handle_info({:torrent_ingest, _path, {:error, reason}}, socket) do
-    {:noreply, put_flash(socket, :error, "Failed to add torrent: #{inspect(reason)}")}
+    {:noreply,
+     put_flash(
+       socket,
+       :error,
+       gettext("Failed to add torrent: %{reason}", reason: inspect(reason))
+     )}
   end
 
   @impl true
@@ -93,7 +108,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
        })}
     else
       _ ->
-        {:noreply, put_flash(socket, :error, "Cannot play this file")}
+        {:noreply, put_flash(socket, :error, gettext("Cannot play this file"))}
     end
   end
 
@@ -121,7 +136,12 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
              |> assign(:torrents, Engine.list_torrents(expanded))}
 
           {:error, reason} ->
-            {:noreply, put_flash(socket, :error, "Failed to remove torrent: #{inspect(reason)}")}
+            {:noreply,
+             put_flash(
+               socket,
+               :error,
+               gettext("Failed to remove torrent: %{reason}", reason: inspect(reason))
+             )}
         end
 
       nil ->
@@ -153,10 +173,10 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         {:noreply, socket}
 
       {:error, :unsupported_platform} ->
-        {:noreply, put_flash(socket, :error, "Show Folder is only available on macOS")}
+        {:noreply, put_flash(socket, :error, gettext("Show Folder is only available on macOS"))}
 
       {:error, _} ->
-        {:noreply, put_flash(socket, :error, "Could not open folder in Finder")}
+        {:noreply, put_flash(socket, :error, gettext("Could not open folder in Finder"))}
     end
   end
 
@@ -169,6 +189,35 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
      socket
      |> assign(:theme, theme)
      |> push_event("set-theme", %{theme: theme})}
+  end
+
+  @impl true
+  def handle_event("open_settings", _params, socket) do
+    {:noreply,
+     socket
+     |> assign(:settings_open, true)
+     |> assign(:settings_locale, socket.assigns.locale)}
+  end
+
+  @impl true
+  def handle_event("close_settings", _params, socket) do
+    {:noreply,
+     socket
+     |> assign(:settings_open, false)
+     |> assign(:settings_locale, socket.assigns.locale)}
+  end
+
+  @impl true
+  def handle_event("settings_locale_changed", %{"locale" => locale}, socket) do
+    {:noreply, assign(socket, :settings_locale, Locale.normalize(locale))}
+  end
+
+  @impl true
+  def handle_event("apply_settings", %{"locale" => locale}, socket) do
+    locale = Locale.normalize(locale)
+    :ok = ElixirTorrentWebUI.UiState.put_locale(locale)
+
+    {:noreply, push_navigate(socket, to: ~p"/locale/#{locale}")}
   end
 
   # The form's `phx-change` is required to wire `<.live_file_input>` into the
@@ -191,7 +240,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     socket =
       if invalid == [],
         do: socket,
-        else: put_flash(socket, :error, "Only .torrent files are allowed")
+        else: put_flash(socket, :error, gettext("Only .torrent files are allowed"))
 
     {:noreply, socket}
   end
@@ -216,17 +265,22 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         {:ok, _pid} ->
           {:noreply,
            socket
-           |> put_flash(:info, "Torrent added: #{entry.client_name}")
+           |> put_flash(:info, gettext("Torrent added: %{name}", name: entry.client_name))
            |> assign(:torrents, Engine.list_torrents(socket.assigns.expanded))}
 
         {:error, reason} ->
-          {:noreply, put_flash(socket, :error, "Failed to add torrent: #{inspect(reason)}")}
+          {:noreply,
+           put_flash(
+             socket,
+             :error,
+             gettext("Failed to add torrent: %{reason}", reason: inspect(reason))
+           )}
       end
     else
       {:noreply,
        socket
        |> cancel_upload(:torrent, entry.ref)
-       |> put_flash(:error, "Only .torrent files are allowed")}
+       |> put_flash(:error, gettext("Only .torrent files are allowed"))}
     end
   end
 
@@ -239,9 +293,11 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
 
   @impl true
   def render(assigns) do
+    _ = Locale.put(assigns.locale)
+
     ~H"""
     <Layouts.app flash={@flash}>
-      <div id="torrents-live" phx-hook="UiState" class="space-y-4">
+      <div id="torrents-live" phx-hook="UiState" data-locale={@locale} class="space-y-4">
         <div class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-base-300 bg-base-200 px-4 py-3">
           <div class="flex items-center gap-3">
             <.app_logo id="app-logo" class="size-9 shrink-0" />
@@ -249,8 +305,19 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
               <p class="text-base font-semibold text-base-content">ElixirTorrent Web</p>
             </div>
           </div>
-          <div class="flex items-center gap-2">
-            <.theme_toggle theme={@theme} />
+          <div class="flex flex-wrap items-center gap-2">
+            <.theme_toggle theme={@theme} locale={@locale} />
+
+            <button
+              type="button"
+              id="open-settings"
+              phx-click="open_settings"
+              class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-semibold text-primary-content hover:brightness-110"
+              aria-label={gettext("Settings")}
+            >
+              <.icon name="hero-cog-6-tooth" class="size-4" />
+              {gettext("Settings")}
+            </button>
 
             <form id="add-torrent-form" phx-change="validate" phx-submit="validate">
               <.live_file_input upload={@uploads.torrent} class="sr-only" />
@@ -258,7 +325,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
                 for={@uploads.torrent.ref}
                 class="inline-flex cursor-pointer items-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-semibold text-primary-content hover:brightness-110"
               >
-                Add torrent
+                {gettext("Add torrent")}
               </label>
             </form>
           </div>
@@ -269,14 +336,16 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
             :for={torrent <- @torrents}
             torrent={torrent}
             expanded={MapSet.member?(@expanded, torrent.id)}
+            locale={@locale}
           />
 
           <div class="rounded-2xl border border-dashed border-base-300 bg-base-200 px-6 py-10 text-center text-base-content/60">
-            Drag and drop a `.torrent` file here, or <label
+            {gettext("Drag and drop a `.torrent` file here, or")}
+            <label
               for={@uploads.torrent.ref}
               class="cursor-pointer text-primary underline"
             >
-              Click to Add
+              {gettext("Click to Add")}
             </label>.
           </div>
         </div>
@@ -285,11 +354,16 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
           :if={@torrents == []}
           class="rounded-xl border border-base-300 bg-base-200 px-4 py-8 text-center text-base-content/70"
         >
-          No active torrents. Add a `.torrent` file to start downloading.
+          {gettext("No active torrents. Add a `.torrent` file to start downloading.")}
         </div>
       </div>
 
       <.remove_torrent_dialog dialog={@remove_dialog} />
+      <.settings_dialog
+        open={@settings_open}
+        locale={@settings_locale}
+        languages={ElixirTorrentWebUI.Languages.list()}
+      />
       <.media_player_modal player={@player} />
     </Layouts.app>
 
@@ -297,6 +371,9 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
       id="drag-overlay"
       phx-hook=".DragOverlay"
       phx-update="ignore"
+      data-drop-title={gettext("Drop files here!")}
+      data-reject-title={gettext("This file type is not supported")}
+      data-drop-hint={gettext("Only `.torrent` files accepted")}
       class="pointer-events-none fixed inset-0 z-40 hidden items-center justify-center bg-base-100/80 backdrop-blur-sm transition-opacity"
       aria-hidden="true"
     >
@@ -311,10 +388,10 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
           <.icon name="hero-no-symbol" class="mx-auto size-16 text-error" />
         </span>
         <p data-overlay-title class="mt-4 text-4xl font-bold text-base-content">
-          Drop files here!
+          {gettext("Drop files here!")}
         </p>
         <p data-overlay-hint class="mt-2 text-sm text-base-content/70">
-          Only <code>.torrent</code> files accepted
+          {gettext("Only `.torrent` files accepted")}
         </p>
       </div>
     </div>
@@ -399,18 +476,20 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
           const hint = this.overlay.querySelector("[data-overlay-hint]")
           const okIcon = this.overlay.querySelector("[data-overlay-icon-ok]")
           const noIcon = this.overlay.querySelector("[data-overlay-icon-no]")
+          const dropTitle = this.overlay.dataset.dropTitle
+          const rejectTitle = this.overlay.dataset.rejectTitle
           if (!card) return
           if (accepted) {
             card.classList.remove("border-error")
             card.classList.add("border-primary")
-            if (title) title.textContent = "Drop files here!"
+            if (title) title.textContent = dropTitle
             if (hint) hint.classList.remove("text-error")
             if (okIcon) { okIcon.classList.remove("hidden"); okIcon.classList.add("block") }
             if (noIcon) { noIcon.classList.add("hidden"); noIcon.classList.remove("block") }
           } else {
             card.classList.add("border-error")
             card.classList.remove("border-primary")
-            if (title) title.textContent = "This file type is not supported"
+            if (title) title.textContent = rejectTitle
             if (hint) hint.classList.add("text-error")
             if (okIcon) { okIcon.classList.add("hidden"); okIcon.classList.remove("block") }
             if (noIcon) { noIcon.classList.remove("hidden"); noIcon.classList.add("block") }
@@ -453,11 +532,12 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
 
   attr :torrent, Engine.TorrentRow, required: true
   attr :expanded, :boolean, required: true
+  attr :locale, :string, required: true
 
   defp torrent_card(assigns) do
     ~H"""
     <div
-      id={"torrent-#{@torrent.id}"}
+      id={"torrent-#{@torrent.id}-#{@locale}"}
       class="relative overflow-visible rounded-2xl border border-base-300 bg-base-200"
     >
       <div class="flex items-start gap-3 px-4 py-4">
@@ -473,37 +553,39 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
             {@torrent.name}
           </p>
           <p class={["text-sm font-medium", status_text_class(@torrent.status)]}>
-            {@torrent.status}
+            {translate_status(@torrent.status)}
           </p>
         </div>
         <div class="mt-1 flex shrink-0 items-center gap-1">
-          <div class="tooltip tooltip-top" data-tip="Show Folder">
+          <div class="tooltip tooltip-top" data-tip={gettext("Show Folder")}>
             <button
               type="button"
               id={"torrent-folder-#{@torrent.id}"}
               phx-click="show_folder"
               phx-value-id={@torrent.id}
               class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-base-content/70 transition hover:bg-base-300 hover:text-base-content"
-              aria-label="Show Folder"
+              aria-label={gettext("Show Folder")}
             >
               <.icon name="hero-folder-open" class="size-5" />
             </button>
           </div>
-          <div class="tooltip tooltip-top" data-tip="Remove Torrent">
+          <div class="tooltip tooltip-top" data-tip={gettext("Remove Torrent")}>
             <button
               type="button"
               id={"torrent-remove-#{@torrent.id}"}
               phx-click="open_remove_dialog"
               phx-value-id={@torrent.id}
               class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-base-content/70 transition hover:bg-base-300 hover:text-error"
-              aria-label="Remove Torrent"
+              aria-label={gettext("Remove Torrent")}
             >
               <.icon name="hero-trash" class="size-5" />
             </button>
           </div>
           <div
             class="tooltip tooltip-top"
-            data-tip={if(@expanded, do: "Hide Torrents Files", else: "Show Torrents Files")}
+            data-tip={
+              if(@expanded, do: gettext("Hide Torrent Files"), else: gettext("Show Torrent Files"))
+            }
           >
             <button
               type="button"
@@ -513,7 +595,9 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
               class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-base-content/70 transition hover:bg-base-300 hover:text-base-content"
               aria-expanded={to_string(@expanded)}
               aria-controls={"torrent-files-#{@torrent.id}"}
-              aria-label={if(@expanded, do: "Hide Torrents Files", else: "Show Torrents Files")}
+              aria-label={
+                if(@expanded, do: gettext("Hide Torrent Files"), else: gettext("Show Torrent Files"))
+              }
             >
               <.icon
                 name={if(@expanded, do: "hero-chevron-up", else: "hero-chevron-down")}
@@ -568,19 +652,19 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
             <div class="flex flex-row gap-8 text-sm text-base-content/80 md:flex-col md:gap-3 md:shrink-0">
               <div class="shrink-0">
                 <p class="text-xs font-semibold uppercase tracking-wide text-base-content/50">
-                  Date Added
+                  {gettext("Date Added")}
                 </p>
                 <p class="mt-1 tabular-nums">{format_date(@torrent.added_at)}</p>
               </div>
               <div class="shrink-0">
                 <p class="text-xs font-semibold uppercase tracking-wide text-base-content/50">
-                  Total Files
+                  {gettext("Total Files")}
                 </p>
                 <p class="mt-1 tabular-nums">{@torrent.file_count}</p>
               </div>
               <div class="shrink-0">
                 <p class="text-xs font-semibold uppercase tracking-wide text-base-content/50">
-                  Total Size
+                  {gettext("Total Size")}
                 </p>
                 <p class="mt-1 tabular-nums">{format_bytes(@torrent.bytes_size)}</p>
               </div>
@@ -589,9 +673,9 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
             <div class="min-w-0 w-full">
               <div class="w-full overflow-hidden rounded-xl border border-base-300">
                 <div class="grid grid-cols-[minmax(0,1fr)_5rem_6rem] gap-3 border-b border-base-300 bg-base-300/50 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-base-content/60">
-                  <span>Name</span>
-                  <span class="text-right">Size</span>
-                  <span class="text-right">Download</span>
+                  <span>{gettext("Name")}</span>
+                  <span class="text-right">{gettext("Size")}</span>
+                  <span class="text-right">{gettext("Download")}</span>
                 </div>
                 <div
                   :for={file <- @torrent.files}
@@ -603,7 +687,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
                   phx-click={Engine.playable_file?(file) && "open_player"}
                   phx-value-torrent_id={@torrent.id}
                   phx-value-file_index={file.index}
-                  aria-label={Engine.playable_file?(file) && "Play #{file.name}"}
+                  aria-label={Engine.playable_file?(file) && gettext("Play %{name}", name: file.name)}
                 >
                   <div class="flex min-w-0 items-center gap-3">
                     <%= if Engine.playable_file?(file) do %>
@@ -631,7 +715,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
                     <%= if file.complete? do %>
                       <span class="inline-flex items-center justify-end gap-1 text-success">
                         <.icon name="hero-check-circle" class="size-4" />
-                        <span class="sr-only">Downloaded</span>
+                        <span class="sr-only">{gettext("Downloaded")}</span>
                       </span>
                     <% else %>
                       <span class="tabular-nums text-info">{format_percent(file.progress)}</span>
@@ -664,7 +748,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         id="media-player-backdrop"
         phx-click="close_player"
         class="absolute inset-0 cursor-default bg-black/80"
-        aria-label="Close player"
+        aria-label={gettext("Close player")}
       />
       <div class="relative z-10 w-full max-w-5xl rounded-2xl border border-base-300 bg-base-100 p-4 shadow-2xl sm:p-6">
         <div class="mb-4 flex items-start justify-between gap-4">
@@ -680,7 +764,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
             id="media-player-close"
             phx-click="close_player"
             class="inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md text-base-content/60 transition hover:bg-base-300 hover:text-base-content"
-            aria-label="Close"
+            aria-label={gettext("Close")}
           >
             <.icon name="hero-x-mark" class="size-5" />
           </button>
@@ -702,6 +786,91 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
 
   attr :dialog, :map, default: nil
 
+  attr :open, :boolean, default: false
+  attr :locale, :string, required: true
+  attr :languages, :list, required: true
+
+  defp settings_dialog(assigns) do
+    ~H"""
+    <div
+      :if={@open}
+      id="settings-dialog"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="settings-dialog-title"
+    >
+      <button
+        type="button"
+        id="settings-dialog-backdrop"
+        phx-click="close_settings"
+        class="absolute inset-0 cursor-default bg-black/50"
+        aria-label={gettext("Cancel")}
+      />
+      <form
+        id="settings-form"
+        phx-submit="apply_settings"
+        phx-change="settings_locale_changed"
+        class="relative z-10 w-full max-w-lg rounded-2xl border border-base-300 bg-base-100 p-6 shadow-2xl"
+      >
+        <div class="flex items-start justify-between gap-4">
+          <h2 id="settings-dialog-title" class="text-xl font-semibold text-base-content">
+            {gettext("Settings")}
+          </h2>
+          <button
+            type="button"
+            id="settings-dialog-close"
+            phx-click="close_settings"
+            class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-base-content/60 transition hover:bg-base-300 hover:text-base-content"
+            aria-label={gettext("Cancel")}
+          >
+            <.icon name="hero-x-mark" class="size-5" />
+          </button>
+        </div>
+
+        <div class="mt-6">
+          <label for="settings-locale" class="mb-2 block text-sm font-medium text-base-content">
+            {gettext("Language")}
+          </label>
+          <select
+            id="settings-locale"
+            name="locale"
+            class="select select-bordered w-full bg-base-100 text-base-content"
+          >
+            <option
+              :for={lang <- @languages}
+              value={lang.code}
+              selected={lang.code == @locale}
+            >
+              {ElixirTorrentWebUI.Languages.picker_label(lang)}
+            </option>
+          </select>
+        </div>
+
+        <div class="mt-6 flex flex-wrap justify-end gap-3">
+          <button
+            type="button"
+            id="settings-cancel"
+            phx-click="close_settings"
+            class="inline-flex cursor-pointer items-center rounded-lg border border-base-300 bg-base-100 px-5 py-2.5 text-sm font-semibold text-base-content transition hover:bg-base-300/40"
+          >
+            {gettext("Cancel")}
+          </button>
+          <button
+            type="submit"
+            id="settings-apply"
+            class="inline-flex cursor-pointer items-center rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-content transition hover:brightness-110"
+          >
+            {gettext("Apply")}
+          </button>
+        </div>
+      </form>
+    </div>
+    """
+  end
+
+  attr :dialog, :map, default: nil
+
   defp remove_torrent_dialog(assigns) do
     ~H"""
     <div
@@ -717,26 +886,26 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         id="remove-torrent-dialog-backdrop"
         phx-click="close_remove_dialog"
         class="absolute inset-0 cursor-default bg-black/50"
-        aria-label="Close dialog"
+        aria-label={gettext("Close dialog")}
       />
       <div class="relative z-10 w-full max-w-lg rounded-2xl border border-base-300 bg-base-100 p-6 shadow-2xl">
         <div class="flex items-start justify-between gap-4">
           <h2 id="remove-torrent-dialog-title" class="text-xl font-semibold text-[#d15555]">
-            Remove Torrent?
+            {gettext("Remove Torrent?")}
           </h2>
           <button
             type="button"
             id="remove-torrent-dialog-close"
             phx-click="close_remove_dialog"
             class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-base-content/60 transition hover:bg-base-300 hover:text-base-content"
-            aria-label="Close"
+            aria-label={gettext("Close")}
           >
             <.icon name="hero-x-mark" class="size-5" />
           </button>
         </div>
 
         <p class="mt-4 text-sm text-base-content/80">
-          Are you sure you want to remove the selected torrent?
+          {gettext("Are you sure you want to remove the selected torrent?")}
         </p>
         <p class="mt-3 break-words text-sm font-medium text-base-content">{@dialog.name}</p>
 
@@ -748,7 +917,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
             phx-value-delete_data="false"
             class="inline-flex cursor-pointer items-center rounded-lg bg-[#d15555] px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
           >
-            Remove Torrent
+            {gettext("Remove Torrent")}
           </button>
           <button
             type="button"
@@ -757,7 +926,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
             phx-value-delete_data="true"
             class="inline-flex cursor-pointer items-center rounded-lg bg-[#d15555] px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
           >
-            Remove Torrent + Data
+            {gettext("Remove Torrent + Data")}
           </button>
         </div>
       </div>
@@ -766,8 +935,17 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   end
 
   @spec removed_flash(String.t(), boolean()) :: String.t()
-  defp removed_flash(name, true), do: "Removed torrent and data: #{name}"
-  defp removed_flash(name, false), do: "Removed torrent: #{name}"
+  defp removed_flash(name, true),
+    do: gettext("Removed torrent and data: %{name}", name: name)
+
+  defp removed_flash(name, false), do: gettext("Removed torrent: %{name}", name: name)
+
+  @spec translate_status(String.t()) :: String.t()
+  defp translate_status("Seeding"), do: gettext("Seeding")
+  defp translate_status("Connecting"), do: gettext("Connecting")
+  defp translate_status("Idle"), do: gettext("Idle")
+  defp translate_status("Downloading"), do: gettext("Downloading")
+  defp translate_status(status), do: status
 
   @spec format_speed(number()) :: String.t()
   defp format_speed(kbps) when is_number(kbps) and kbps > 0,
@@ -842,6 +1020,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   defp status_dot_class(_), do: "bg-info"
 
   attr :theme, :string, required: true
+  attr :locale, :string, required: true
 
   @spec theme_toggle(map()) :: Phoenix.LiveView.Rendered.t()
   defp theme_toggle(assigns) do
@@ -850,12 +1029,12 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
       type="button"
       phx-click="toggle_theme"
       class="inline-flex cursor-pointer items-center gap-2 rounded-md border border-base-300 bg-base-300 px-4 py-2 text-sm font-semibold text-base-content hover:bg-base-100"
-      title="Toggle theme"
-      aria-label="Toggle theme"
+      title={gettext("Toggle theme")}
+      aria-label={gettext("Toggle theme")}
     >
       <.icon name="hero-sun-mini" class={["size-4", @theme == "light" && "hidden"]} />
       <.icon name="hero-moon-mini" class={["size-4", @theme == "dark" && "hidden"]} />
-      <span>Theme</span>
+      <span>{gettext("Theme")}</span>
     </button>
     """
   end

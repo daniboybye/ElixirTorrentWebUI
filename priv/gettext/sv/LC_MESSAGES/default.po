@@ -1,0 +1,213 @@
+#
+msgid ""
+msgstr ""
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "Åtgärder"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "Lägg till torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "Tillämpas"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "Försöker återansluta"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "Avboka"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "Språk"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "Inställningar"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "Något gick fel!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "Vi kan inte hitta internet"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "nära"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "Är du säker på att du vill ta bort den valda torrenten?"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "Kan inte spela upp den här filen"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "Nära"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "Stäng dialogrutan"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "Nära spelare"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "Ansluter"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "Kunde inte öppna mappen i Finder"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "Skapare:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "Datum tillagt"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "Ladda ner"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "Nedladdat"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "Laddar ner"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "Släpp filer här!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "Version %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "Det gick inte att lägga till torrent: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "Dölj Torrent-filer"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "På tomgång"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "Namn"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "Endast .torrent filer är tillåtna"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "Endast `.torrent`-filer accepteras"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "Spela %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "Ta bort torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "Ta bort Torrent + Data"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "Ta bort Torrent?"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "Borttagen torrent och data: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "Borttagen torrent: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "Sådd"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "Visa mapp"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "Visa mapp är endast tillgänglig på macOS"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "Visa torrentfiler"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "Storlek"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "Tema"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "Denna filtyp stöds inte"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "Växla tema"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "Torrent tillagd: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "Totalt antal filer"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "Total storlek"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "Klicka för att lägga till"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "Dra och släpp en `.torrent`-fil här, eller"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "Det gick inte att ta bort torrent: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr ""
+"Inga aktiva torrents. Lägg till en `.torrent`-fil för att börja ladda ner."

@@ -1,0 +1,213 @@
+#
+msgid ""
+msgstr ""
+"Language: ms\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "Tindakan"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "Tambah torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "Mohon"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "Cuba untuk menyambung semula"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "Batal"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "Bahasa"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "tetapan"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "Sesuatu telah berlaku!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "Kami tidak dapat mencari internet"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "dekat"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "Adakah anda pasti mahu mengalih keluar torrent yang dipilih?"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "Tidak boleh memainkan fail ini"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "tutup"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "Tutup dialog"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "Tutup pemain"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "Menyambung"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "Tidak dapat membuka folder dalam Finder"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "Pencipta:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "Tarikh Ditambah"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "Muat turun"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "Dimuat turun"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "Memuat turun"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "Lepaskan fail di sini!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "Versi %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "Gagal menambah torrent: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "Sembunyikan Fail Torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "terbiar"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "Nama"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "Hanya .torrent fail dibenarkan"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "Hanya `.torrent` fail diterima"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "Mainkan %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "Alih keluar Torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "Alih keluar Torrent + Data"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "Alih keluar Torrent?"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "Torrent dan data dialih keluar: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "Dialih keluar torrent: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "pembenihan"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "Tunjukkan Folder"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "Tunjukkan Folder hanya tersedia pada macOS"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "Tunjukkan Fail Torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "Saiz"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "Tema"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "Jenis fail ini tidak disokong"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "Togol tema"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "Torrent ditambahkan: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "Jumlah Fail"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "Jumlah Saiz"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "Klik untuk Tambah"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "Seret dan lepaskan fail `.torrent` di sini, atau"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "Gagal mengalih keluar torrent: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr ""
+"Tiada torrents aktif. Tambahkan fail `.torrent` untuk mula memuat turun."

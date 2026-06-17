@@ -1,0 +1,214 @@
+#
+msgid ""
+msgstr ""
+"Language: sr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "Акције"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "Додај торрент"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "Пријавите се"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "Покушај поновног повезивања"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "Откажи"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "Језик"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "Подешавања"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "Нешто је пошло по злу!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "Не можемо да пронађемо интернет"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "затворити"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "Да ли сте сигурни да желите да уклоните изабрани торент?"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "Није могуће репродуковати ову датотеку"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "Затвори"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "Затвори дијалог"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "Затвори плејер"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "Повезивање"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "Није могуће отворити фасциклу у Finder"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "Креатор:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "Датум додавања"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "Преузми"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "Преузето"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "Преузимање"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "Испустите датотеке овде!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "Верзија %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "Додавање торрента није успело: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "Сакриј торент датотеке"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "Идле"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "Име"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "Дозвољене су само .torrent датотеке"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "Прихваћене су само `.torrent` датотеке"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "Играј %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "Уклони торент"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "Уклони торент + податке"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "Уклонити Торрент?"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "Уклоњен торрент и подаци: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "Уклоњен торрент: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "Сејање"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "Прикажи фасциклу"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "Приказ фасцикле је доступан само на macOS"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "Прикажи торент датотеке"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "Величина"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "Тема"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "Овај тип датотеке није подржан"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "Пребаци тему"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "Торрент је додат: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "Тотал Филес"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "Укупна величина"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "Кликните да бисте додали"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "Превуците и отпустите `.torrent` датотеку овде или"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "Уклањање торрента није успело: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr "Нема активних торрената. Додајте `.torrent` датотеку да бисте започели преузимање."
+"Нема активних торента. Додајте датотеку __ТОРРЕНТБТ__ да бисте започели "
+"преузимање."

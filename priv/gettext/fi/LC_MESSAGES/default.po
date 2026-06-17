@@ -1,0 +1,213 @@
+#
+msgid ""
+msgstr ""
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "Toiminnot"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "Lisää torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "Käytä"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "Yritetään muodostaa yhteys uudelleen"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "Peruuttaa"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "Kieli"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "Asetukset"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "Jotain meni pieleen!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "Emme löydä Internetiä"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "lähellä"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "Haluatko varmasti poistaa valitun torrentin?"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "Tätä tiedostoa ei voi toistaa"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "Lähellä"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "Sulje valintaikkuna"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "Sulje soitin"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "Yhdistetään"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "Kansiota ei voitu avata kohteessa Finder"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "Luoja:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "Lisäyspäivä"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "Lataa"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "Ladattu"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "Ladataan"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "Pudota tiedostot tähän!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "Versio %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "Torrentin lisääminen epäonnistui: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "Piilota torrent-tiedostot"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "Tyhjäkäynti"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "Nimi"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "Vain .torrent tiedostot ovat sallittuja"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "Vain `.torrent` tiedostoa hyväksytään"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "Pelaa %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "Poista torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "Poista Torrent + Data"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "Poista torrent?"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "Poistettu torrent ja tiedot: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "Poistettu torrent: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "Kylvö"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "Näytä kansio"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "Näytä kansio on saatavilla vain macOS"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "Näytä torrent-tiedostot"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "Koko"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "Teema"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "Tätä tiedostotyyppiä ei tueta"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "Vaihda teema"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "Torrent lisätty: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "Tiedostot yhteensä"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "Kokonaiskoko"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "Napsauta lisätäksesi"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "Vedä ja pudota `.torrent`-tiedosto tähän tai"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "Torrentin poistaminen epäonnistui: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr ""
+"Ei aktiivisia torrenteja. Aloita lataaminen lisäämällä tiedosto `.torrent`."

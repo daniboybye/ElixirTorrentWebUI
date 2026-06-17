@@ -47,10 +47,10 @@ defmodule ElixirTorrentWebUIWeb.Layouts do
         class="fixed bottom-4 left-4 space-y-1 rounded-md bg-base-300/90 px-2.5 py-1.5 shadow-sm ring-1 ring-base-content/5"
       >
         <p id="app-version" class="text-xs font-medium text-base-content/70">
-          ElixirTorrent Web Version {@app_version}
+          ElixirTorrent Web {gettext("Version %{version}", version: @app_version)}
         </p>
         <p id="app-creator" class="text-xs font-medium text-base-content/70">
-          Creator: Daniel Urumov
+          {gettext("Creator:")} Daniel Urumov
         </p>
       </div>
     </main>

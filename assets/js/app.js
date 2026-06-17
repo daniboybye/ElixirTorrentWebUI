@@ -47,6 +47,12 @@ const UiState = {
       localStorage.setItem("phx:theme", normalized)
       document.documentElement.setAttribute("data-theme", normalized)
     })
+
+    this.handleEvent("set-locale", ({locale}) => {
+      const normalized = typeof locale === "string" && locale.length > 0 ? locale : "en"
+      localStorage.setItem("phx:locale", normalized)
+      document.documentElement.setAttribute("lang", normalized)
+    })
   },
 }
 

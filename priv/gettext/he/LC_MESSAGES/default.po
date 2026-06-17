@@ -1,0 +1,212 @@
+#
+msgid ""
+msgstr ""
+"Language: he\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "פעולות"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "הוסף טורנט"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "לִפְנוֹת"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "מנסה להתחבר מחדש"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "לְבַטֵל"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "שָׂפָה"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "הגדרות"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "משהו השתבש!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "אנחנו לא מוצאים את האינטרנט"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "לִסְגוֹר"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "האם אתה בטוח שברצונך להסיר את הטורנט שנבחר?"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "לא ניתן להפעיל את הקובץ הזה"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "לִסְגוֹר"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "סגור דו-שיח"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "שחקן קרוב"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "מְקַשֵׁר"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "לא ניתן לפתוח את התיקיה ב-Finder"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "יוֹצֵר:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "תאריך נוסף"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "הורד"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "הורד"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "מוריד"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "זרוק קבצים כאן!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "גרסה %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "הוספת הטורנט נכשלה: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "הסתר קבצי טורנט"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "לְהִתְבַּטֵל"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "שֵׁם"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "רק קבצי .torrent מותרים"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "רק קבצי `.torrent` מתקבלים"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "שחק את %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "הסר טורנט"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "הסר טורנט + נתונים"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "להסיר טורנט?"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "הוסרו סיקור ונתונים: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "סיקור הוסר: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "זריעה"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "הצג תיקייה"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "הצג תיקייה זמינה רק ב-macOS"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "הצג קבצי טורנט"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "גוֹדֶל"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "נוֹשֵׂא"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "סוג קובץ זה אינו נתמך"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "החלף נושא"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "טורנט נוסף: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "סך הכל קבצים"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "גודל כולל"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "לחץ כדי להוסיף"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "גרור ושחרר כאן קובץ `.torrent`, או"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "הסרת הטורנט נכשלה: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr "אין טורנטים פעילים. הוסף קובץ `.torrent` כדי להתחיל בהורדה."

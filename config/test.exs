@@ -18,7 +18,8 @@ config :phoenix_live_view,
   enable_expensive_runtime_checks: true
 
 config :elixir_torrent_web_ui,
-  data_dir: Path.expand("tmp/elixir_torrent_web_ui_test")
+  data_dir: Path.expand("tmp/elixir_torrent_web_ui_test"),
+  use_data_cwd: false
 
 # Sort query params output of verified routes for robust url comparisons
 config :phoenix,

@@ -1,0 +1,213 @@
+#
+msgid ""
+msgstr ""
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "Eylemler"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "Torrent ekle"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "Uygula"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "Yeniden bağlanmaya çalışılıyor"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "İptal etmek"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "Dil"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "Ayarlar"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "Bir şeyler ters gitti!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "İnterneti bulamıyoruz"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "kapalı"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "Seçilen torrenti kaldırmak istediğinizden emin misiniz?"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "Bu dosya oynatılamıyor"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "Kapalı"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "İletişim kutusunu kapat"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "Oyuncuyu kapat"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "Bağlanıyor"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "Finder konumunda klasör açılamadı"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "Yaratıcı:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "Eklenme Tarihi"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "İndirmek"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "İndirildi"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "İndiriliyor"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "Dosyaları buraya bırakın!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "Sürüm %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "Torrent eklenemedi: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "Torrent Dosyalarını Gizle"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "Boşta"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "İsim"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "Yalnızca .torrent dosyalarına izin verilir"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "Yalnızca `.torrent` dosyaları kabul edilir"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "%{name} oyna"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "Torrent'i kaldır"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "Torrent + Verileri Kaldır"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "Torrent'i kaldırılsın mı?"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "Torrent ve veriler kaldırıldı: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "Torrent kaldırıldı: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "Tohumlama"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "Klasörü Göster"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "Klasörü Göster yalnızca macOS üzerinde kullanılabilir"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "Torrent Dosyalarını Göster"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "Boyut"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "Tema"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "Bu dosya türü desteklenmiyor"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "Temayı değiştir"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "Torrent eklendi: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "Toplam Dosyalar"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "Toplam Boyut"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "Eklemek için tıklayın"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "Bir `.torrent` dosyasını buraya sürükleyip bırakın veya"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "Torrent kaldırılamadı: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr ""
+"Aktif torrent yok. İndirmeye başlamak için bir `.torrent` dosyası ekleyin."

@@ -1,0 +1,212 @@
+#
+msgid ""
+msgstr ""
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "ድርጊቶች"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "ጅረት ጨምር"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "ያመልክቱ"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "እንደገና ለመገናኘት በመሞከር ላይ"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "ሰርዝ"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "ቋንቋ"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "ቅንብሮች"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "የሆነ ችግር ተፈጥሯል!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "ኢንተርኔት ማግኘት አልቻልንም።"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "ገጠመ"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "እርግጠኛ ነዎት የተመረጠውን ጅረት ማስወገድ ይፈልጋሉ?"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "ይህን ፋይል ማጫወት አልተቻለም"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "ገጠመ"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "መገናኛን ዝጋ"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "ተጫዋች ዝጋ"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "በማገናኘት ላይ"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "በFinder ውስጥ አቃፊ መክፈት አልተቻለም"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "ፈጣሪ፡"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "የታከለበት ቀን"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "አውርድ"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "ወርዷል"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "በማውረድ ላይ"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "ፋይሎችን እዚህ ጣል ያድርጉ!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "ስሪት %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "ጅረት ማከል አልተሳካም፦ %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "Torrent ፋይሎችን ደብቅ"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "ስራ ፈት"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "ስም"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "የተፈቀደው .torrent ፋይሎች ብቻ ናቸው።"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "የተቀበሉት `.torrent` ፋይሎች ብቻ ናቸው።"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "%{name}ን አጫውት"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "Torrentን ያስወግዱ"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "Torrent + ውሂብን ያስወግዱ"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "Torrent ይወገድ?"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "የተወገደ ጅረት እና ውሂብ፡%{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "የተወገደ ጅረት፡ %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "መዝራት"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "አቃፊ አሳይ"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "የማሳያ አቃፊ የሚገኘው በmacOS ላይ ብቻ ነው"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "Torrent ፋይሎችን አሳይ"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "መጠን"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "ጭብጥ"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "ይህ የፋይል አይነት አይደገፍም።"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "ገጽታ ቀያይር"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "Torrent ታክሏል፡ %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "ጠቅላላ ፋይሎች"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "ጠቅላላ መጠን"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "ለመጨመር ጠቅ ያድርጉ"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "የ`.torrent` ፋይልን ወደዚህ ጎትተው ጣሉ ወይም"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "ጅረትን ማስወገድ አልተሳካም፦ %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr "ምንም ንቁ ጅረቶች የሉም። ማውረድ ለመጀመር `.torrent` ፋይል ያክሉ።"

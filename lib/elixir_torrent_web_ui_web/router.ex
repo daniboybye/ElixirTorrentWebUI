@@ -8,6 +8,7 @@ defmodule ElixirTorrentWebUIWeb.Router do
     plug :put_root_layout, html: {ElixirTorrentWebUIWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug ElixirTorrentWebUIWeb.Plugs.SetLocale
   end
 
   pipeline :api do
@@ -17,7 +18,11 @@ defmodule ElixirTorrentWebUIWeb.Router do
   scope "/", ElixirTorrentWebUIWeb do
     pipe_through :browser
 
-    live "/", TorrentsLive
+    live_session :default, on_mount: {ElixirTorrentWebUIWeb.LocaleHook, :default} do
+      live "/", TorrentsLive
+    end
+
+    get "/locale/:locale", LocaleController, :update
     get "/media/:torrent_id/:file_index", MediaController, :show
   end
 

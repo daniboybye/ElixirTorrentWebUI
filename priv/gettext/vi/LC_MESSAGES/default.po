@@ -1,0 +1,212 @@
+#
+msgid ""
+msgstr ""
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "hành động"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "Thêm torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "Áp dụng"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "Đang cố gắng kết nối lại"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "Hủy bỏ"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "Ngôn ngữ"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "Cài đặt"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "Đã xảy ra lỗi!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "Chúng tôi không thể tìm thấy internet"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "đóng"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "Bạn có chắc chắn muốn xóa torrent đã chọn không?"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "Không thể phát tập tin này"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "Đóng"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "Đóng hộp thoại"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "Đóng trình phát"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "Đang kết nối"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "Không thể mở thư mục trong Finder"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "Người sáng tạo:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "Ngày thêm"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "Tải xuống"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "Đã tải xuống"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "Đang tải xuống"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "Thả tập tin ở đây!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "Phiên bản %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "Không thể thêm torrent: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "Ẩn tập tin torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "Nhàn rỗi"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "Tên"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "Chỉ cho phép tệp .torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "Chỉ chấp nhận tệp `.torrent`"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "Chơi %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "Xóa torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "Xóa Torrent + Dữ liệu"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "Xóa torrent?"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "Đã xóa torrent và dữ liệu: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "Torrent đã bị xóa: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "Gieo hạt"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "Hiển thị thư mục"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "Hiển thị Thư mục chỉ khả dụng trên macOS"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "Hiển thị tệp torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "Kích cỡ"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "chủ đề"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "Loại tệp này không được hỗ trợ"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "Chuyển đổi chủ đề"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "Đã thêm torrent: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "Tổng số tệp"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "Tổng kích thước"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "Bấm để thêm"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "Kéo và thả tệp `.torrent` vào đây hoặc"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "Không xóa được torrent: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr "Không có torrent hoạt động. Thêm tệp `.torrent` để bắt đầu tải xuống."

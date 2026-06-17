@@ -1,0 +1,214 @@
+#
+msgid ""
+msgstr ""
+"Language: ga\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "Gníomhartha"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "Cuir torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "Cuir iarratas isteach"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "Iarracht a athcheangal"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "Cealaigh"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "Teanga"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "Socruithe"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "Chuaigh rud éigin mícheart!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "Ní féidir linn teacht ar an idirlíon"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "dhúnadh"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "An bhfuil tú cinnte gur mhaith leat an torrent roghnaithe a bhaint?"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "Ní féidir an comhad seo a imirt"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "Dún"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "Dún dialóg"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "Dún imreoir"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "Ag nascadh"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "Níorbh fhéidir an fillteán a oscailt in Finder"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "Cruthaitheoir:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "Dáta Curtha Leis"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "Íosluchtaigh"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "Íosluchtaithe"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "Ag íosluchtú"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "Buail comhaid anseo!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "Leagan %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "Theip ar an torrent a chur leis: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "Folaigh comhaid torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "Díomhaoin"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "Ainm"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "Ní cheadaítear ach comhaid .torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "Ní ghlactar ach le `.torrent` comhad"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "Seinn %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "Bain torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "Bain Torrent + Sonraí"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "Bain an Torrent?"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "Torrent agus sonraí bainte: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "Torrent bainte: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "Síolú"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "Taispeáin Fillteán"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "Níl an Fillteán Taispeáin ar fáil ach ar macOS"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "Taispeáin comhaid torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "Méid"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "Téama"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "Ní thacaítear leis an gcineál comhaid seo"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "Scoránaigh téama"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "Torrent curtha leis: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "Comhaid Iomlán"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "Méid Iomlán"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "Cliceáil chun Cuir leis"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "Tarraing agus scaoil comhad `.torrent` anseo, nó"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "Theip ar an torrent a bhaint: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr ""
+"Níl aon torrents gníomhach. Cuir comhad `.torrent` leis chun an íoslódáil a "
+"thosú."

@@ -1,0 +1,213 @@
+#
+msgid ""
+msgstr ""
+"Language: lv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "Darbības"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "Pievienojiet torrentu"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "Pieteikties"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "Mēģina atkārtoti izveidot savienojumu"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "Atcelt"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "Valoda"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "Iestatījumi"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "Kaut kas nogāja greizi!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "Mēs nevaram atrast internetu"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "aizveriet"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "Vai tiešām vēlaties noņemt atlasīto torrentu?"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "Nevar atskaņot šo failu"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "Aizvērt"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "Aizvērt dialoglodziņu"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "Aizvērt atskaņotāju"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "Savienojuma izveide"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "Nevarēja atvērt mapi mapē Finder"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "Radītājs:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "Pievienošanas datums"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "Lejupielādēt"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "Lejupielādēts"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "Notiek lejupielāde"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "Nometiet failus šeit!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "Versija %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "Neizdevās pievienot torrentu: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "Slēpt torrent failus"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "Dīkstāvē"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "Vārds"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "Ir atļauti tikai .torrent faili"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "Tiek pieņemti tikai `.torrent` faili"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "Spēlēt %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "Noņemiet torrentu"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "Noņemiet Torrent + datus"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "Vai noņemt torrentu?"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "Noņemts torrents un dati: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "Noņemts torrents: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "Sēšana"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "Rādīt mapi"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "Rādīt mapi ir pieejama tikai macOS"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "Rādīt torrent failus"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "Izmērs"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "Tēma"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "Šis faila veids netiek atbalstīts"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "Pārslēgt motīvu"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "Torrent pievienots: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "Failu kopskaits"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "Kopējais izmērs"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "Noklikšķiniet, lai pievienotu"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "Velciet un nometiet `.torrent` failu šeit vai"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "Neizdevās noņemt torrentu: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr ""
+"Nav aktīvu torrentu. Lai sāktu lejupielādi, pievienojiet failu `.torrent`."

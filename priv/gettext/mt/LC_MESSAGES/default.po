@@ -1,0 +1,212 @@
+#
+msgid ""
+msgstr ""
+"Language: mt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "Azzjonijiet"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "Żid it-torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "Applika"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "Jippruvaw jerġgħu jgħaqqdu"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "Ikkanċella"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "Lingwa"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "Settings"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "Xi ħaġa marret ħażin!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "Ma nistgħux insibu l-internet"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "qrib"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "Int żgur li trid tneħħi t-torrent magħżul?"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "Ma tistax tilgħab dan il-fajl"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "Agħlaq"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "Agħlaq id-djalogu"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "Agħlaq plejer"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "Konnessjoni"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "Ma setgħetx tiftaħ folder fi Finder"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "Ħallieq:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "Data Miżjuda"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "Niżżel"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "Niżżel"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "Tniżżil"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "Waqqa 'fajls hawn!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "Verżjoni %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "Naqas milli żżid it-torrent: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "Aħbi Fajls tat-Torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "Idle"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "Isem"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "Huma permessi biss .torrent fajls"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "`.torrent` biss fajls aċċettati"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "Ilgħab %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "Neħħi Torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "Neħħi Torrent + Data"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "Neħħi Torrent?"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "Tneħħija t-torrent u d-dejta: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "Torrent imneħħi: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "Żrigħ"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "Uri Folder"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "Show Folder huwa disponibbli biss fuq macOS"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "Uri Fajls tat-Torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "Daqs"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "Tema"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "Dan it-tip ta' fajl mhuwiex appoġġjat"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "Aqleb it-tema"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "Torrent miżjud: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "Fajls totali"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "Daqs Totali"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "Ikklikkja biex Żid"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "Iddreggja u qiegħed fajl `.torrent` hawn, jew"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "Naqas milli tneħħi t-torrent: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr "Ebda torrents attivi. Żid fajl `.torrent` biex tibda tniżżel."

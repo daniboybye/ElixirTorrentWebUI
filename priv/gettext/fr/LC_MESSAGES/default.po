@@ -1,0 +1,214 @@
+#
+msgid ""
+msgstr ""
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "Actes"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "Ajouter un torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "Appliquer"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "Tentative de reconnexion"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "Annuler"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "Langue"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "Paramètres"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "Quelque chose s'est mal passé !"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "Nous ne trouvons pas Internet"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "fermer"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "Êtes-vous sûr de vouloir supprimer le torrent sélectionné ?"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "Impossible de lire ce fichier"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "Fermer"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "Fermer la boîte de dialogue"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "Fermer le joueur"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "De liaison"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "Impossible d'ouvrir le dossier dans Finder"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "Créateur:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "Date d'ajout"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "Télécharger"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "Téléchargé"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "Téléchargement"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "Déposez les fichiers ici !"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "Version %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "Échec de l'ajout du torrent : %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "Masquer les fichiers torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "Inactif"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "Nom"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "Seuls les fichiers .torrent sont autorisés"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "Seuls les fichiers `.torrent` sont acceptés"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "Jouer à %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "Supprimer le torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "Supprimer Torrent + Données"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "Supprimer Torrent ?"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "Torrent et données supprimés : %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "Torrent supprimé : %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "Semis"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "Afficher le dossier"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "Afficher le dossier n'est disponible que sur macOS"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "Afficher les fichiers torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "Taille"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "Thème"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "Ce type de fichier n'est pas pris en charge"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "Changer de thème"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "Torrent ajouté : %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "Total des fichiers"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "Taille totale"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "Cliquez pour ajouter"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "Faites glisser et déposez un fichier `.torrent` ici, ou"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "Échec de la suppression du torrent : %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr ""
+"Aucun torrent actif. Ajoutez un fichier `.torrent` pour commencer le "
+"téléchargement."

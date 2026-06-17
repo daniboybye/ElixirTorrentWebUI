@@ -1,0 +1,214 @@
+#
+msgid ""
+msgstr ""
+"Language: tl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "Mga aksyon"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "Magdagdag ng torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "Mag-apply"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "Sinusubukang kumonekta muli"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "Kanselahin"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "Wika"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "Mga setting"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "Nagkaproblema!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "Hindi namin mahanap ang internet"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "malapit na"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "Sigurado ka bang gusto mong alisin ang napiling torrent?"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "Hindi ma-play ang file na ito"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "Isara"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "Isara ang dialog"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "Isara ang manlalaro"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "Kumokonekta"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "Hindi mabuksan ang folder sa Finder"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "Tagalikha:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "Petsa ng Idinagdag"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "I-download"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "Na-download"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "Nagda-download"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "I-drop ang mga file dito!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "Bersyon %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "Nabigong magdagdag ng torrent: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "Itago ang Torrent Files"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "Idle"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "Pangalan"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr ".torrent file lang ang pinapayagan"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "`.torrent` file lang ang tinanggap"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "Maglaro ng %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "Alisin ang Torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "Alisin ang Torrent + Data"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "Alisin ang Torrent?"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "Inalis ang torrent at data: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "Inalis ang torrent: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "Nagpupuno"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "Ipakita ang Folder"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "Available lang ang Show Folder sa macOS"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "Ipakita ang Torrent Files"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "Sukat"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "Tema"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "Ang uri ng file na ito ay hindi suportado"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "I-toggle ang tema"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "Idinagdag ang Torrent: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "Kabuuang mga File"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "Kabuuang Sukat"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "I-click upang Idagdag"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "I-drag at i-drop ang isang `.torrent` file dito, o"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "Nabigong alisin ang torrent: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr ""
+"Walang aktibong torrents. Magdagdag ng `.torrent` file upang simulan ang "
+"pag-download."

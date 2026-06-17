@@ -1,0 +1,214 @@
+#
+msgid ""
+msgstr ""
+"Language: my\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "လုပ်ဆောင်ချက်များ"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "torrent ထည့်ပါ။"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "လျှောက်ထားပါ။"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "ပြန်လည်ချိတ်ဆက်ရန် ကြိုးစားနေသည်။"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "မလုပ်တော့"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "ဘာသာစကား"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "ဆက်တင်များ"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "တစ်ခုခုမှားသွားသည်။"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "အင်တာနက် မတွေ့ဘူး။"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "အနီးကပ်"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "ရွေးချယ်ထားသော torrent ကို ဖယ်ရှားလိုသည်မှာ သေချာပါသလား။"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "ဤဖိုင်ကို ဖွင့်၍မရပါ။"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "ပိတ်လိုက်"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "ဒိုင်ယာလော့ခ်ကို ပိတ်ပါ။"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "ပိတ်ကစားသမား"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "ချိတ်ဆက်နေသည်။"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "Finder တွင် ဖိုင်တွဲကို ဖွင့်၍မရပါ"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "ဖန်တီးသူ-"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "ရက်စွဲထည့်ထားသည်။"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "ဒေါင်းလုဒ်လုပ်ပါ။"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "ဒေါင်းလုဒ်လုပ်ထားသည်။"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "ဒေါင်းလုဒ်လုပ်နေသည်။"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "ဖိုင်များကို ဤနေရာတွင် ချလိုက်ပါ။"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "ဗားရှင်း %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "torrent ထည့်ရန် မအောင်မြင်ပါ %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "Torrent ဖိုင်များကို ဝှက်ထားပါ။"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "ဘာမှမလုပ်ဘူး။"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "နာမည်"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr ".torrent ဖိုင်များကိုသာ ခွင့်ပြုထားသည်။"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "`.torrent` ဖိုင်များကိုသာ လက်ခံပါသည်။"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "%{name} ကစားရန်"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "Torrent ကို ဖယ်ရှားပါ။"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "Torrent + Data ကို ဖယ်ရှားပါ။"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "Torrent ကို ဖယ်ရှားမလား။"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "ဖယ်ရှားထားသော torrent နှင့် ဒေတာ- %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "ဖယ်ရှားထားသော torrent- %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "မျိုးစေ့"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "Folder ကိုပြပါ။"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "Show Folder ကို macOS တွင်သာ ရနိုင်သည်"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "Torrent ဖိုင်များကိုပြသပါ။"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "အရွယ်အစား"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "အပြင်အဆင်"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "ဤဖိုင်အမျိုးအစားကို ပံ့ပိုးမထားပါ။"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "အပြင်အဆင်ကို ပြောင်းပါ။"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "Torrent ထည့်ထားသည်- %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "စုစုပေါင်းဖိုင်များ"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "စုစုပေါင်းအရွယ်အစား"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "Add ကိုနှိပ်ပါ။"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "`.torrent` ဖိုင်ကို ဤနေရာတွင် ဆွဲဆွဲချပါ၊ သို့မဟုတ်"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "torrent ကို ဖယ်ရှားရန် မအောင်မြင်ပါ %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr ""
+"လက်ရှိ torrent များမရှိပါ။ စတင်ဒေါင်းလုဒ်လုပ်ရန် `.torrent` "
+"ဖိုင်တစ်ခုထည့်ပါ။"

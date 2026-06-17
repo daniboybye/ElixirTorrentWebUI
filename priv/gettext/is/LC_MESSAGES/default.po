@@ -1,0 +1,213 @@
+#
+msgid ""
+msgstr ""
+"Language: is\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "Aðgerðir"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "Bættu við torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "Sækja um"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "Reynir að tengjast aftur"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "Hætta við"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "Tungumál"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "Stillingar"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "Eitthvað fór úrskeiðis!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "Við finnum ekki internetið"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "loka"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "Ertu viss um að þú viljir fjarlægja valda strauminn?"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "Ekki er hægt að spila þessa skrá"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "Loka"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "Lokaðu glugganum"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "Náinn leikmaður"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "Tengist"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "Gat ekki opnað möppu í Finder"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "Höfundur:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "Dagsetning bætt við"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "Sækja"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "Hlaðið niður"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "Niðurhal"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "Slepptu skrám hér!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "Útgáfa %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "Mistókst að bæta við straumi: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "Fela Torrent skrár"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "Aðgerðarlaus"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "Nafn"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "Aðeins .torrent skrár eru leyfðar"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "Aðeins `.torrent` skrár samþykktar"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "Spilaðu %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "Fjarlægðu Torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "Fjarlægðu Torrent + Gögn"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "Fjarlægja Torrent?"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "Fjarlægði straum og gögn: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "Fjarlægður straumur: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "Sáning"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "Sýna möppu"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "Sýna möppu er aðeins í boði á macOS"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "Sýna Torrent skrár"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "Stærð"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "Þema"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "Þessi skráartegund er ekki studd"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "Skiptu um þema"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "Straumur bætt við: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "Samtals skrár"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "Heildarstærð"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "Smelltu til að bæta við"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "Dragðu og slepptu `.torrent` skrá hér, eða"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "Mistókst að fjarlægja strauminn: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr ""
+"Engir virkir straumar. Bættu við `.torrent` skrá til að hefja niðurhal."

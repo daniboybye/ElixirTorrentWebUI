@@ -1,0 +1,213 @@
+#
+msgid ""
+msgstr ""
+"Language: gu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "ક્રિયાઓ"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "ટૉરેંટ ઉમેરો"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "અરજી કરો"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "ફરીથી કનેક્ટ કરવાનો પ્રયાસ કરી રહ્યાં છીએ"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "રદ કરો"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "ભાષા"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "સેટિંગ્સ"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "કંઈક ખોટું થયું!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "અમે ઇન્ટરનેટ શોધી શકતા નથી"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "બંધ"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "શું તમે ખરેખર પસંદ કરેલા ટૉરેંટને દૂર કરવા માંગો છો?"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "આ ફાઇલ ચલાવી શકાતી નથી"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "બંધ કરો"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "સંવાદ બંધ કરો"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "ક્લોઝ પ્લેયર"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "કનેક્ટિંગ"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "Finder માં ફોલ્ડર ખોલી શકાયું નથી"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "સર્જક:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "તારીખ ઉમેરાઈ"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "ડાઉનલોડ કરો"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "ડાઉનલોડ કરેલ"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "ડાઉનલોડ કરી રહ્યું છે"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "ફાઇલો અહીં મૂકો!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "સંસ્કરણ %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "ટૉરેંટ ઉમેરવામાં નિષ્ફળ: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "ટોરેન્ટ ફાઇલો છુપાવો"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "નિષ્ક્રિય"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "નામ"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "ફક્ત .torrent ફાઇલોને જ મંજૂરી છે"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "ફક્ત `.torrent` ફાઇલો સ્વીકારવામાં આવી છે"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "%{name} રમો"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "ટોરેન્ટ દૂર કરો"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "ટોરેન્ટ + ડેટા દૂર કરો"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "ટોરેન્ટ દૂર કરીએ?"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "ટૉરેંટ અને ડેટા દૂર કર્યો: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "ટૉરેંટ દૂર કર્યો: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "સીડીંગ"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "ફોલ્ડર બતાવો"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "ફોલ્ડર બતાવો ફક્ત macOS પર ઉપલબ્ધ છે"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "ટોરેન્ટ ફાઇલો બતાવો"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "કદ"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "થીમ"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "આ ફાઇલ પ્રકાર સમર્થિત નથી"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "થીમ ટૉગલ કરો"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "ટોરેન્ટ ઉમેર્યું: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "કુલ ફાઇલો"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "કુલ કદ"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "ઉમેરવા માટે ક્લિક કરો"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "`.torrent` ફાઇલને અહીં ખેંચો અને છોડો, અથવા"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "ટૉરેંટ દૂર કરવામાં નિષ્ફળ: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr ""
+"કોઈ સક્રિય ટોરેન્ટ નથી. ડાઉનલોડ કરવાનું શરૂ કરવા માટે `.torrent` ફાઇલ ઉમેરો."

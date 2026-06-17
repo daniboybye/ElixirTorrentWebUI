@@ -1,0 +1,212 @@
+#
+msgid ""
+msgstr ""
+"Language: zh\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "行动"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "添加种子"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "申请"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "尝试重新连接"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "取消"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "语言"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "设置"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "出了问题！"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "我们找不到互联网"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "关闭"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "您确定要删除选定的 torrent 吗？"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "无法播放该文件"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "关闭"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "关闭对话框"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "关闭播放器"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "连接中"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "无法打开 Finder 中的文件夹"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "创建者："
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "添加日期"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "下载"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "已下载"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "正在下载"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "将文件放到这里！"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "版本 %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "添加 torrent 失败：%{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "隐藏 Torrent 文件"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "闲置的"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "姓名"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "仅允许 .torrent 文件"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "仅接受 `.torrent` 文件"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "播放%{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "删除洪流"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "删除Torrent + 数据"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "删除洪流？"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "删除了 torrent 和数据：%{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "已删除的种子：%{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "播种"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "显示文件夹"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "显示文件夹仅在 macOS 上可用"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "显示种子文件"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "尺寸"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "主题"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "不支持此文件类型"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "切换主题"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "洪流已添加：%{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "文件总数"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "总尺寸"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "点击添加"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "将 `.torrent` 文件拖放到此处，或者"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "无法删除 torrent：%{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr "没有活跃的种子。添加 `.torrent` 文件以开始下载。"

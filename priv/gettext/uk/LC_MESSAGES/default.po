@@ -1,0 +1,213 @@
+#
+msgid ""
+msgstr ""
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "Дії"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "Додати торрент"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "Застосувати"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "Спроба повторного підключення"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "Скасувати"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "Мова"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "Налаштування"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "Щось пішло не так!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "Ми не можемо знайти Інтернет"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "закрити"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "Ви впевнені, що хочете видалити вибраний торрент?"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "Неможливо відтворити цей файл"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "Закрити"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "Закрити діалогове вікно"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "Закрити плеєр"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "Підключення"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "Не вдалося відкрити папку в Finder"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "Творець:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "Дата додавання"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "Завантажити"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "Завантажено"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "Завантаження"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "Перетягніть файли сюди!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "Версія %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "Не вдалося додати торрент: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "Приховати торрент-файли"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "Бездіяльність"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "Ім'я"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "Дозволено лише файли .torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "Приймаються лише файли `.torrent`"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "Грати в %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "Видалити торрент"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "Видалити Torrent + Data"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "Видалити Torrent?"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "Видалено торрент і дані: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "Видалений торрент: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "Посів"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "Показати папку"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "Показати папку доступно лише на macOS"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "Показати торрент-файли"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "Розмір"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "Тема"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "Цей тип файлу не підтримується"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "Перемкнути тему"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "Торент додано: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "Всього файлів"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "Загальний розмір"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "Натисніть, щоб додати"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "Перетягніть сюди файл `.torrent` або"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "Не вдалося видалити торрент: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr ""
+"Немає активних торрентів. Додайте файл `.torrent`, щоб почати завантаження."

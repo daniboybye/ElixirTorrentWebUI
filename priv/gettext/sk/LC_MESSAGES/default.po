@@ -1,0 +1,214 @@
+#
+msgid ""
+msgstr ""
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
+
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr "Akcie"
+
+#, elixir-autogen, elixir-format
+msgid "Add torrent"
+msgstr "Pridať torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Apply"
+msgstr "Použiť"
+
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr "Prebieha pokus o opätovné pripojenie"
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "Zrušiť"
+
+#, elixir-autogen, elixir-format
+msgid "Language"
+msgstr "Jazyk"
+
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "Nastavenia"
+
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr "Niečo sa pokazilo!"
+
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr "Nevieme nájsť internet"
+
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr "zavrieť"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to remove the selected torrent?"
+msgstr "Naozaj chcete odstrániť vybratý torrent?"
+
+#, elixir-autogen, elixir-format
+msgid "Cannot play this file"
+msgstr "Tento súbor nie je možné prehrať"
+
+#, elixir-autogen, elixir-format
+msgid "Close"
+msgstr "Zavrieť"
+
+#, elixir-autogen, elixir-format
+msgid "Close dialog"
+msgstr "Zavrieť dialógové okno"
+
+#, elixir-autogen, elixir-format
+msgid "Close player"
+msgstr "Zavrieť prehrávač"
+
+#, elixir-autogen, elixir-format
+msgid "Connecting"
+msgstr "Pripája sa"
+
+#, elixir-autogen, elixir-format
+msgid "Could not open folder in Finder"
+msgstr "Nepodarilo sa otvoriť priečinok v Finder"
+
+#, elixir-autogen, elixir-format
+msgid "Creator:"
+msgstr "Autor:"
+
+#, elixir-autogen, elixir-format
+msgid "Date Added"
+msgstr "Dátum pridania"
+
+#, elixir-autogen, elixir-format
+msgid "Download"
+msgstr "Stiahnuť"
+
+#, elixir-autogen, elixir-format
+msgid "Downloaded"
+msgstr "Stiahnuté"
+
+#, elixir-autogen, elixir-format
+msgid "Downloading"
+msgstr "Sťahovanie"
+
+#, elixir-autogen, elixir-format
+msgid "Drop files here!"
+msgstr "Sem presuňte súbory!"
+
+#, elixir-autogen, elixir-format
+msgid "Version %{version}"
+msgstr "Verzia %{version}"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to add torrent: %{reason}"
+msgstr "Nepodarilo sa pridať torrent: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "Hide Torrent Files"
+msgstr "Skryť súbory Torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Idle"
+msgstr "Nečinný"
+
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr "Meno"
+
+#, elixir-autogen, elixir-format
+msgid "Only .torrent files are allowed"
+msgstr "Povolených je iba .torrent súborov"
+
+#, elixir-autogen, elixir-format
+msgid "Only `.torrent` files accepted"
+msgstr "Akceptovaných iba `.torrent` súborov"
+
+#, elixir-autogen, elixir-format
+msgid "Play %{name}"
+msgstr "Prehrať %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent"
+msgstr "Odstrániť Torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent + Data"
+msgstr "Odstrániť Torrent + Data"
+
+#, elixir-autogen, elixir-format
+msgid "Remove Torrent?"
+msgstr "Chcete odstrániť torrent?"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent and data: %{name}"
+msgstr "Odstránený torrent a údaje: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Removed torrent: %{name}"
+msgstr "Odstránený torrent: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Seeding"
+msgstr "Výsev"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder"
+msgstr "Zobraziť priečinok"
+
+#, elixir-autogen, elixir-format
+msgid "Show Folder is only available on macOS"
+msgstr "Zobraziť priečinok je k dispozícii iba na macOS"
+
+#, elixir-autogen, elixir-format
+msgid "Show Torrent Files"
+msgstr "Zobraziť súbory Torrent"
+
+#, elixir-autogen, elixir-format
+msgid "Size"
+msgstr "Veľkosť"
+
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "Téma"
+
+#, elixir-autogen, elixir-format
+msgid "This file type is not supported"
+msgstr "Tento typ súboru nie je podporovaný"
+
+#, elixir-autogen, elixir-format
+msgid "Toggle theme"
+msgstr "Prepnúť tému"
+
+#, elixir-autogen, elixir-format
+msgid "Torrent added: %{name}"
+msgstr "Bol pridaný torrent: %{name}"
+
+#, elixir-autogen, elixir-format
+msgid "Total Files"
+msgstr "Celkový počet súborov"
+
+#, elixir-autogen, elixir-format
+msgid "Total Size"
+msgstr "Celková veľkosť"
+
+#, elixir-autogen, elixir-format
+msgid "Click to Add"
+msgstr "Kliknite na Pridať"
+
+#, elixir-autogen, elixir-format
+msgid "Drag and drop a `.torrent` file here, or"
+msgstr "Presuňte sem súbor `.torrent`, alebo"
+
+#, elixir-autogen, elixir-format
+msgid "Failed to remove torrent: %{reason}"
+msgstr "Nepodarilo sa odstrániť torrent: %{reason}"
+
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file to start downloading."
+msgstr ""
+"Žiadne aktívne torrenty. Ak chcete začať sťahovať, pridajte súbor "
+"`.torrent`."
