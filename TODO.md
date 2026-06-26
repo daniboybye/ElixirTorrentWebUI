@@ -2,6 +2,20 @@
 
 ---
 
+## 0.2.0 — Release notes (TODO: include in release notes)
+
+When publishing 0.2.0, document this shipped macOS feature:
+
+### Active torrents in the Dock menu
+
+Active torrents are now shown in the macOS Dock icon menu (right-click the app
+icon) with name and progress summary; selecting an item opens the browser UI (or
+focuses an existing tab). Implemented via AppKit `applicationDockMenu` in
+`Launcher.swift` and a lightweight HTTP JSON endpoint to read status from the
+running release.
+
+---
+
 ### User-configurable download directory
 
 Today downloads land in a fixed location. Add a setting (and persistence) so the
@@ -66,20 +80,6 @@ large torrents and matches user expectation on desktop clients.
 ---
 
 ## macOS desktop shell
-
-### Active torrents in the Dock menu
-
-Expose a native Dock menu (right-click app icon) listing active torrents with
-name + progress summary; selecting an item opens the browser UI (or focuses an
-existing tab). Requires AppKit changes in `Launcher.swift` (`applicationDockMenu`)
-and a lightweight way to read status from the running release (HTTP JSON endpoint
-or periodic poll).
-
-### Menu bar icon (macOS)
-
-Optional menu bar extra (status item) with quick actions: open UI, pause/resume
-all, quit, maybe top-N torrents. Distinct from Dock icon; uses `NSStatusItem`.
-Consider battery/menu bar clutter—may be opt-in in settings.
 
 ### Auto-update
 

@@ -29,6 +29,7 @@ defmodule ElixirTorrentWebUIWeb.Router do
   scope "/api", ElixirTorrentWebUIWeb do
     pipe_through :api
 
+    get "/torrents", TorrentController, :index
     post "/torrents", TorrentController, :create
   end
 

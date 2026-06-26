@@ -199,21 +199,120 @@ fileprivate actor ServerLifecycle {
     }
 }
 
-final class AppDelegate: NSObject, NSApplicationDelegate {
+final class AppDelegate: NSObject {
+    private static let loopbackHost = "127.0.0.1"
+    private static let appSupportDirectoryName = "ElixirTorrentWebUI"
+
+    private lazy var appDisplayName: String = {
+        (Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String)
+            ?? (Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String)
+            ?? "ElixirTorrent Web"
+    }()
+
     private let port = Int(ProcessInfo.processInfo.environment["PORT"] ?? "4000") ?? 4000
+    @MainActor private var dockTorrents: [DockTorrent] = []
+    @MainActor private var dockRefreshTask: Task<Void, Never>?
     private lazy var server = ServerLifecycle(
         dataDirectory: FileManager.default.urls(for: .applicationSupportDirectory,
                                                 in: .userDomainMask).first!
-            .appendingPathComponent("ElixirTorrentWebUI",
+            .appendingPathComponent(Self.appSupportDirectoryName,
                                     isDirectory: true),
         releaseBinary: Bundle.main.resourceURL!
             .appendingPathComponent("rel/bin/elixir_torrent_web_ui")
     )
 
     private var appURL: URL {
-        URL(string: "http://127.0.0.1:\(port)/")!
+        URL(string: "http://\(Self.loopbackHost):\(port)/")!
     }
 
+    private var torrentsEndpoint: URL {
+        appURL.appendingPathComponent("api/torrents")
+    }
+
+    private var dataDirectory: URL {
+        FileManager.default.urls(for: .applicationSupportDirectory,
+                                 in: .userDomainMask).first!
+            .appendingPathComponent(Self.appSupportDirectoryName,
+                                    isDirectory: true)
+    }
+
+    private func bootstrap() async {
+        await ensureServerReady()
+        await MainActor.run {
+            startDockTorrentRefresh()
+            openBrowser()
+        }
+    }
+
+    private func ensureServerReady() async {
+        if await server.isPortListening(port) {
+            return
+        }
+
+        guard await server.start(port: port) else {
+            await MainActor.run {
+                showAlert("Could not start \(appDisplayName).")
+                NSApp.terminate(nil)
+            }
+            return
+        }
+
+        _ = await server.waitUntilReady(url: appURL, attempts: 60, intervalNanos: 250_000_000)
+    }
+
+    private func submitTorrentFile(at url: URL) async -> Bool {
+        guard let staged = stageTorrent(at: url) else { return false }
+        return await submitTorrentPath(staged.path)
+    }
+
+    private func stageTorrent(at url: URL) -> URL? {
+        let inbox = dataDirectory.appendingPathComponent("inbox", isDirectory: true)
+
+        do {
+            try FileManager.default.createDirectory(at: inbox,
+                                                    withIntermediateDirectories: true)
+
+            let baseName = url.lastPathComponent.isEmpty ? BitTorrentDocument.defaultFilename : url.lastPathComponent
+            let dest = inbox.appendingPathComponent("\(UUID().uuidString)-\(baseName)")
+
+            if FileManager.default.fileExists(atPath: dest.path) {
+                try FileManager.default.removeItem(at: dest)
+            }
+
+            try FileManager.default.copyItem(at: url, to: dest)
+            return dest
+        } catch {
+            return nil
+        }
+    }
+
+    private func submitTorrentPath(_ path: String) async -> Bool {
+        var request = URLRequest(url: torrentsEndpoint)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.timeoutInterval = 30
+
+        let payload = ["path": path]
+
+        guard let body = try? JSONSerialization.data(withJSONObject: payload) else {
+            return false
+        }
+
+        request.httpBody = body
+
+        do {
+            let (_, response) = try await URLSession.shared.data(for: request)
+            guard let http = response as? HTTPURLResponse else { return false }
+            return http.statusCode == 202
+        } catch {
+            return false
+        }
+    }
+}
+
+// MARK: - NSApplicationDelegate
+
+extension AppDelegate: NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.regular)
         ProcessInfo.processInfo.disableSuddenTermination()
@@ -253,100 +352,136 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         return .terminateLater
     }
+}
 
-    private var dataDirectory: URL {
-        FileManager.default.urls(for: .applicationSupportDirectory,
-                                 in: .userDomainMask).first!
-            .appendingPathComponent("ElixirTorrentWebUI",
-                                    isDirectory: true)
+// MARK: - UI actions
+
+@MainActor
+private extension AppDelegate {
+    func openBrowser() {
+        NSWorkspace.shared.open(appURL)
     }
 
-    private func bootstrap() async {
-        await ensureServerReady()
-        await MainActor.run { openBrowser() }
+    func showAlert(_ message: String) {
+        let alert = NSAlert()
+        alert.messageText = appDisplayName
+        alert.informativeText = message
+        alert.alertStyle = .warning
+        alert.runModal()
     }
+}
 
-    private func ensureServerReady() async {
-        if await server.isPortListening(port) {
-            return
-        }
+// MARK: - Dock Menu (Active Torrents)
 
-        guard await server.start(port: port) else {
-            await MainActor.run {
-                showAlert("Could not start ElixirTorrent Web.")
-                NSApp.terminate(nil)
+private struct DockTorrent: Decodable, Sendable {
+    let name: String
+    let status: String
+    let downKbps: Double
+    let upKbps: Double
+}
+
+private struct TorrentsResponse: Decodable, Sendable {
+    let torrents: [DockTorrent]
+}
+
+@MainActor
+extension AppDelegate {
+    func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
+        guard !dockTorrents.isEmpty else { return nil }
+
+        let menu = NSMenu()
+        let downloading = dockTorrents.filter { $0.status != "Seeding" }
+        let seeding = dockTorrents.filter { $0.status == "Seeding" }
+
+        if !downloading.isEmpty {
+            menu.addItem(dockHeaderItem("Downloading:"))
+            for torrent in downloading {
+                menu.addItem(dockTorrentItem(torrent, seeding: false))
             }
-            return
         }
 
-        _ = await server.waitUntilReady(url: appURL, attempts: 60, intervalNanos: 250_000_000)
+        if !seeding.isEmpty {
+            menu.addItem(dockHeaderItem("Seeding:"))
+            for torrent in seeding {
+                menu.addItem(dockTorrentItem(torrent, seeding: true))
+            }
+        }
+
+        menu.addItem(.separator())
+        return menu
     }
 
-    private func submitTorrentFile(at url: URL) async -> Bool {
-        guard let staged = stageTorrent(at: url) else { return false }
-        return await submitTorrentPath(staged.path)
+    private func startDockTorrentRefresh() {
+        dockRefreshTask?.cancel()
+        dockRefreshTask = Task {
+            while !Task.isCancelled {
+                if let torrents = await Self.refreshDockTorrents(endpoint: torrentsEndpoint) {
+                    dockTorrents = torrents
+                }
+                try? await Task.sleep(nanoseconds: 2_000_000_000)
+            }
+        }
     }
 
-    private func stageTorrent(at url: URL) -> URL? {
-        let inbox = dataDirectory.appendingPathComponent("inbox", isDirectory: true)
+    nonisolated fileprivate static func refreshDockTorrents(endpoint: URL) async -> [DockTorrent]? {
+        var request = URLRequest(url: endpoint)
+        request.timeoutInterval = 2
 
         do {
-            try FileManager.default.createDirectory(at: inbox,
-                                                    withIntermediateDirectories: true)
-
-            let baseName = url.lastPathComponent.isEmpty ? BitTorrentDocument.defaultFilename : url.lastPathComponent
-            let dest = inbox.appendingPathComponent("\(UUID().uuidString)-\(baseName)")
-
-            if FileManager.default.fileExists(atPath: dest.path) {
-                try FileManager.default.removeItem(at: dest)
-            }
-
-            try FileManager.default.copyItem(at: url, to: dest)
-            return dest
+            let (data, response) = try await URLSession.shared.data(for: request)
+            guard let http = response as? HTTPURLResponse, http.statusCode == 200 else { return nil }
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let decoded = try decoder.decode(TorrentsResponse.self, from: data)
+            return decoded.torrents
         } catch {
             return nil
         }
     }
 
-    private func submitTorrentPath(_ path: String) async -> Bool {
-        guard let endpoint = URL(string: "http://127.0.0.1:\(port)/api/torrents") else {
-            return false
-        }
-
-        var request = URLRequest(url: endpoint)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.timeoutInterval = 30
-
-        let payload = ["path": path]
-
-        guard let body = try? JSONSerialization.data(withJSONObject: payload) else {
-            return false
-        }
-
-        request.httpBody = body
-
-        do {
-            let (_, response) = try await URLSession.shared.data(for: request)
-            guard let http = response as? HTTPURLResponse else { return false }
-            return http.statusCode == 202
-        } catch {
-            return false
-        }
+    private func dockHeaderItem(_ title: String) -> NSMenuItem {
+        let item = NSMenuItem(title: title, action: nil, keyEquivalent: "")
+        item.isEnabled = false
+        return item
     }
 
-    @MainActor
-    private func openBrowser() {
-        NSWorkspace.shared.open(appURL)
+    private func dockTorrentItem(_ torrent: DockTorrent, seeding: Bool) -> NSMenuItem {
+        let suffix: String
+        if seeding {
+            suffix = "|↑| \(formatDockSpeed(torrent.upKbps))"
+        } else if torrent.downKbps > 0 {
+            suffix = "|↓| \(formatDockSpeed(torrent.downKbps))"
+        } else {
+            suffix = "|↓| \(torrent.status.lowercased())"
+        }
+
+        let title = "\(truncateDockName(torrent.name))  \(suffix)"
+        let item = NSMenuItem(title: title, action: nil, keyEquivalent: "")
+        item.isEnabled = false
+        item.indentationLevel = 1
+        return item
     }
 
-    @MainActor
-    private func showAlert(_ message: String) {
-        let alert = NSAlert()
-        alert.messageText = "ElixirTorrent Web"
-        alert.informativeText = message
-        alert.alertStyle = .warning
-        alert.runModal()
+    private func truncateDockName(_ name: String, prefix: Int = 24, suffix: Int = 16) -> String {
+        let maxLength = prefix + suffix + 1
+        guard name.count > maxLength else { return name }
+
+        let start = name.prefix(prefix)
+        let end = name.suffix(suffix)
+        return "\(start)…\(end)"
+    }
+
+    private func formatDockSpeed(_ kbps: Double) -> String {
+        guard kbps > 0 else { return "0 B/s" }
+
+        let bytesPerSecond = kbps * 1024
+        if bytesPerSecond >= 1024 * 1024 {
+            return String(format: "%.1f MB/s", bytesPerSecond / (1024 * 1024))
+        }
+        if bytesPerSecond >= 1024 {
+            return String(format: "%.1f KB/s", bytesPerSecond / 1024)
+        }
+        return String(format: "%.0f B/s", bytesPerSecond)
     }
 }
 
