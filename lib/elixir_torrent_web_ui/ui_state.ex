@@ -12,6 +12,7 @@ defmodule ElixirTorrentWebUI.UiState do
   @type t :: %{
           theme: String.t(),
           locale: String.t(),
+          download_folder: Path.t(),
           expanded: MapSet.t(String.t())
         }
 
@@ -35,6 +36,20 @@ defmodule ElixirTorrentWebUI.UiState do
   @spec put_locale(String.t()) :: :ok
   def put_locale(locale) when is_binary(locale) do
     GenServer.call(__MODULE__, {:put_locale, locale})
+  end
+
+  @spec put_download_folder(Path.t()) :: :ok
+  def put_download_folder(folder) when is_binary(folder) do
+    GenServer.call(__MODULE__, {:put_download_folder, folder})
+  end
+
+  @spec default_download_folder() :: Path.t()
+  def default_download_folder do
+    home =
+      System.get_env("HOME") ||
+        raise "HOME is not set; cannot resolve default download folder"
+
+    Path.expand(Path.join(home, "Downloads"))
   end
 
   @impl true
@@ -63,6 +78,12 @@ defmodule ElixirTorrentWebUI.UiState do
     {:reply, :ok, persist(%{state | locale: locale})}
   end
 
+  @impl true
+  def handle_call({:put_download_folder, folder}, _from, state) do
+    folder = normalize_download_folder(folder)
+    {:reply, :ok, persist(%{state | download_folder: folder})}
+  end
+
   @spec path() :: Path.t()
   defp path do
     Path.join([ElixirTorrentWebUI.DataDir.root(), "session", "ui.json"])
@@ -75,6 +96,7 @@ defmodule ElixirTorrentWebUI.UiState do
     payload = %{
       "theme" => state.theme,
       "locale" => state.locale,
+      "download_folder" => state.download_folder,
       "expanded" => MapSet.to_list(state.expanded)
     }
 
@@ -94,18 +116,30 @@ defmodule ElixirTorrentWebUI.UiState do
   @spec decode(String.t()) :: t()
   defp decode(body) do
     with {:ok, decoded} <- Jason.decode(body),
-         {:ok, theme, locale, expanded} <- decode_fields(decoded) do
-      %{theme: theme, locale: locale, expanded: MapSet.new(expanded)}
+         {:ok, theme, locale, download_folder, expanded} <- decode_fields(decoded) do
+      %{
+        theme: theme,
+        locale: locale,
+        download_folder: download_folder,
+        expanded: MapSet.new(expanded)
+      }
     else
       _ -> default()
     end
   end
 
-  @spec decode_fields(map()) :: {:ok, String.t(), String.t(), list()} | :error
+  @spec decode_fields(map()) ::
+          {:ok, String.t(), String.t(), Path.t(), list()} | :error
   defp decode_fields(%{"theme" => theme, "expanded" => expanded} = decoded)
        when theme in @valid_themes and is_list(expanded) do
     locale = decoded |> Map.get("locale", @default_locale) |> normalize_locale()
-    {:ok, theme, locale, expanded}
+
+    download_folder =
+      decoded
+      |> Map.get("download_folder", default_download_folder())
+      |> normalize_download_folder()
+
+    {:ok, theme, locale, download_folder, expanded}
   end
 
   defp decode_fields(_), do: :error
@@ -115,8 +149,20 @@ defmodule ElixirTorrentWebUI.UiState do
     if Languages.valid?(locale), do: locale, else: @default_locale
   end
 
+  @spec normalize_download_folder(Path.t()) :: Path.t()
+  defp normalize_download_folder(folder) when is_binary(folder) do
+    folder = Path.expand(folder)
+    File.mkdir_p!(folder)
+    folder
+  end
+
   @spec default() :: t()
   defp default do
-    %{theme: @default_theme, locale: @default_locale, expanded: MapSet.new()}
+    %{
+      theme: @default_theme,
+      locale: @default_locale,
+      download_folder: default_download_folder(),
+      expanded: MapSet.new()
+    }
   end
 end

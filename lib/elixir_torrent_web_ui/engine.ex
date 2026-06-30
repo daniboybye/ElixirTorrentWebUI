@@ -5,7 +5,7 @@ defmodule ElixirTorrentWebUI.Engine do
   UI code should depend on this module (not on engine internals).
   """
 
-  alias ElixirTorrentWebUI.{Media, TorrentCatalog}
+  alias ElixirTorrentWebUI.{Media, TorrentCatalog, UiState}
 
   @min_play_progress_percent 1.0
 
@@ -105,7 +105,9 @@ defmodule ElixirTorrentWebUI.Engine do
 
   @spec add_torrent(Path.t()) :: DynamicSupervisor.on_start_child()
   def add_torrent(path) do
-    with {:ok, pid} <- ElixirTorrent.download(path),
+    download_dir = UiState.get().download_folder
+
+    with {:ok, pid} <- ElixirTorrent.download(path, download_dir: download_dir),
          hash when is_binary(hash) <- Torrent.get_hash(pid),
          [name] <- Torrent.get(hash, [:name]) do
       id = Torrent.hex_encoded_hash(hash)
@@ -113,7 +115,7 @@ defmodule ElixirTorrentWebUI.Engine do
 
       File.mkdir_p!(TorrentCatalog.torrents_dir())
       File.cp!(path, dest)
-      :ok = TorrentCatalog.register(hash, dest, name)
+      :ok = TorrentCatalog.register(hash, dest, name, download_dir)
 
       {:ok, pid}
     end
@@ -149,7 +151,7 @@ defmodule ElixirTorrentWebUI.Engine do
     with {:ok, hash} <- hash_from_hex_id(torrent_id),
          {:ok, file} <- find_file(hash, file_index),
          :ok <- validate_playable(file),
-         {:ok, path} <- safe_disk_path(file.path),
+         {:ok, path} <- safe_disk_path(file.path, torrent_id),
          :ok <- ensure_readable(path),
          {:ok, content_type} <- Media.content_type(file.name) do
       {:ok, %{name: file.name, path: path, content_type: content_type}}
@@ -169,6 +171,15 @@ defmodule ElixirTorrentWebUI.Engine do
     end
   rescue
     ArgumentError -> {:error, :torrent_not_found}
+  end
+
+  @spec choose_download_folder() :: {:ok, Path.t()} | {:error, term()}
+  def choose_download_folder do
+    with :ok <- ensure_darwin(),
+         {:ok, path} <- run_folder_picker(),
+         {:ok, folder} <- validate_download_folder(path) do
+      {:ok, folder}
+    end
   end
 
   @spec row_for(Torrent.hash(), MapSet.t()) :: TorrentRow.t()
@@ -269,15 +280,56 @@ defmodule ElixirTorrentWebUI.Engine do
     if playable_file?(file), do: :ok, else: {:error, :not_playable}
   end
 
-  @spec safe_disk_path(String.t()) :: {:ok, Path.t()} | {:error, :invalid_path}
-  defp safe_disk_path(relative) when is_binary(relative) do
-    base = Path.expand(ElixirTorrentWebUI.DataDir.root())
+  @spec safe_disk_path(String.t(), String.t()) :: {:ok, Path.t()} | {:error, :invalid_path}
+  defp safe_disk_path(relative, torrent_id) when is_binary(relative) and is_binary(torrent_id) do
+    base = Path.expand(TorrentCatalog.download_dir(torrent_id))
     path = Path.expand(Path.join(base, relative))
 
     if String.starts_with?(path, base <> "/") or path == base do
       {:ok, path}
     else
       {:error, :invalid_path}
+    end
+  end
+
+  @spec run_folder_picker() :: {:ok, String.t()} | {:error, :cancelled}
+  defp run_folder_picker do
+    script = ~s'POSIX path of (choose folder with prompt "Choose download folder")'
+
+    case System.cmd("osascript", ["-e", script], stderr_to_stdout: true) do
+      {path, 0} -> {:ok, String.trim(path)}
+      _ -> {:error, :cancelled}
+    end
+  end
+
+  @spec validate_download_folder(Path.t()) :: {:ok, Path.t()} | {:error, term()}
+  defp validate_download_folder(path) when is_binary(path) do
+    folder = Path.expand(String.trim(path))
+
+    cond do
+      not File.dir?(folder) ->
+        {:error, :invalid_folder}
+
+      not writable_dir?(folder) ->
+        {:error, :not_writable}
+
+      true ->
+        File.mkdir_p!(folder)
+        {:ok, folder}
+    end
+  end
+
+  @spec writable_dir?(Path.t()) :: boolean()
+  defp writable_dir?(folder) do
+    probe = Path.join(folder, ".elixir_torrent_write_probe")
+
+    case File.write(probe, "") do
+      :ok ->
+        File.rm(probe)
+        true
+
+      _ ->
+        false
     end
   end
 

@@ -8,6 +8,7 @@ defmodule ElixirTorrentWebUI.TorrentCatalog do
           hash: binary(),
           torrent_path: Path.t(),
           name: String.t(),
+          download_dir: Path.t(),
           added_at: DateTime.t()
         }
 
@@ -35,9 +36,9 @@ defmodule ElixirTorrentWebUI.TorrentCatalog do
     Path.join(torrents_dir(), "#{id}.torrent")
   end
 
-  @spec register(binary(), Path.t(), String.t()) :: :ok
-  def register(hash, torrent_path, name) do
-    GenServer.call(__MODULE__, {:register, hash, torrent_path, name})
+  @spec register(binary(), Path.t(), String.t(), Path.t()) :: :ok
+  def register(hash, torrent_path, name, download_dir) do
+    GenServer.call(__MODULE__, {:register, hash, torrent_path, name, download_dir})
   end
 
   @spec remove(String.t()) :: :ok
@@ -55,20 +56,30 @@ defmodule ElixirTorrentWebUI.TorrentCatalog do
     GenServer.call(__MODULE__, :entries)
   end
 
+  @spec download_dir(String.t()) :: Path.t()
+  def download_dir(id) do
+    case Map.get(entries_map(), id) do
+      %{download_dir: dir} when is_binary(dir) -> dir
+      _ -> data_dir()
+    end
+  end
+
   @impl true
   def init(_opts) do
     {:ok, load_from_disk()}
   end
 
   @impl true
-  def handle_call({:register, hash, torrent_path, name}, _from, state) do
+  def handle_call({:register, hash, torrent_path, name, download_dir}, _from, state) do
     id = Torrent.hex_encoded_hash(hash)
+    download_dir = normalize_download_dir(download_dir)
 
     entry = %{
       id: id,
       hash: hash,
       torrent_path: torrent_path,
       name: name,
+      download_dir: download_dir,
       added_at: DateTime.utc_now()
     }
 
@@ -118,8 +129,9 @@ defmodule ElixirTorrentWebUI.TorrentCatalog do
   def restore_torrents do
     File.mkdir_p!(torrents_dir())
 
-    for %{torrent_path: path} <- entries(), File.regular?(path) do
-      _ = ElixirTorrent.download(path)
+    for %{torrent_path: path, download_dir: download_dir} <- entries(),
+        File.regular?(path) do
+      _ = ElixirTorrent.download(path, download_dir: download_dir)
     end
 
     :ok
@@ -143,6 +155,7 @@ defmodule ElixirTorrentWebUI.TorrentCatalog do
            %{
              "torrent_path" => entry.torrent_path,
              "name" => entry.name,
+             "download_dir" => entry.download_dir,
              "added_at" => DateTime.to_iso8601(entry.added_at)
            }}
         end)
@@ -184,6 +197,7 @@ defmodule ElixirTorrentWebUI.TorrentCatalog do
              hash: hash,
              torrent_path: entry["torrent_path"],
              name: entry["name"],
+             download_dir: normalize_download_dir(entry["download_dir"]),
              added_at: parse_added_at(entry["added_at"])
            }}
         end)
@@ -203,4 +217,17 @@ defmodule ElixirTorrentWebUI.TorrentCatalog do
   end
 
   defp parse_added_at(_), do: DateTime.utc_now()
+
+  @spec entries_map() :: %{String.t() => entry()}
+  defp entries_map do
+    entries()
+    |> Map.new(&{&1.id, &1})
+  end
+
+  @spec normalize_download_dir(Path.t()) :: Path.t()
+  defp normalize_download_dir(dir) when is_binary(dir) do
+    dir = Path.expand(dir)
+    File.mkdir_p!(dir)
+    dir
+  end
 end

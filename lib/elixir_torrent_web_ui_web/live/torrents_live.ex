@@ -7,7 +7,8 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    %{theme: theme, expanded: expanded} = ElixirTorrentWebUI.UiState.get()
+    %{theme: theme, expanded: expanded, download_folder: download_folder} =
+      ElixirTorrentWebUI.UiState.get()
     locale = socket.assigns.locale
 
     socket =
@@ -17,6 +18,8 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
       |> assign(:remove_dialog, nil)
       |> assign(:settings_open, false)
       |> assign(:settings_locale, locale)
+      |> assign(:settings_download_folder, download_folder)
+      |> assign(:download_folder, download_folder)
       |> assign(:player, nil)
       |> assign(:torrents, Engine.list_torrents(expanded))
       |> allow_upload(:torrent,
@@ -196,7 +199,8 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     {:noreply,
      socket
      |> assign(:settings_open, true)
-     |> assign(:settings_locale, socket.assigns.locale)}
+     |> assign(:settings_locale, socket.assigns.locale)
+     |> assign(:settings_download_folder, socket.assigns.download_folder)}
   end
 
   @impl true
@@ -204,7 +208,27 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     {:noreply,
      socket
      |> assign(:settings_open, false)
-     |> assign(:settings_locale, socket.assigns.locale)}
+     |> assign(:settings_locale, socket.assigns.locale)
+     |> assign(:settings_download_folder, socket.assigns.download_folder)}
+  end
+
+  @impl true
+  def handle_event("choose_download_folder", _params, socket) do
+    case Engine.choose_download_folder() do
+      {:ok, folder} ->
+        {:noreply, assign(socket, :settings_download_folder, folder)}
+
+      {:error, :unsupported_platform} ->
+        {:noreply,
+         put_flash(socket, :error, gettext("Choose Folder is only available on macOS"))}
+
+      {:error, :cancelled} ->
+        {:noreply, socket}
+
+      {:error, _} ->
+        {:noreply,
+         put_flash(socket, :error, gettext("Could not choose download folder"))}
+    end
   end
 
   @impl true
@@ -215,9 +239,15 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   @impl true
   def handle_event("apply_settings", %{"locale" => locale}, socket) do
     locale = Locale.normalize(locale)
-    :ok = ElixirTorrentWebUI.UiState.put_locale(locale)
+    download_folder = socket.assigns.settings_download_folder
 
-    {:noreply, push_navigate(socket, to: ~p"/locale/#{locale}")}
+    :ok = ElixirTorrentWebUI.UiState.put_locale(locale)
+    :ok = ElixirTorrentWebUI.UiState.put_download_folder(download_folder)
+
+    {:noreply,
+     socket
+     |> assign(:download_folder, download_folder)
+     |> push_navigate(to: ~p"/locale/#{locale}")}
   end
 
   # The form's `phx-change` is required to wire `<.live_file_input>` into the
@@ -362,6 +392,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
       <.settings_dialog
         open={@settings_open}
         locale={@settings_locale}
+        download_folder={@settings_download_folder}
         languages={ElixirTorrentWebUI.Languages.list()}
       />
       <.media_player_modal player={@player} />
@@ -788,6 +819,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
 
   attr :open, :boolean, default: false
   attr :locale, :string, required: true
+  attr :download_folder, :string, required: true
   attr :languages, :list, required: true
 
   defp settings_dialog(assigns) do
@@ -845,6 +877,29 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
               {ElixirTorrentWebUI.Languages.picker_label(lang)}
             </option>
           </select>
+        </div>
+
+        <div class="mt-6">
+          <p class="mb-2 text-sm font-medium text-base-content">
+            {gettext("Default download folder")}
+          </p>
+          <div class="flex items-center gap-3 rounded-lg border border-base-300 bg-base-200/40 px-3 py-2.5">
+            <p
+              id="settings-download-folder-path"
+              class="min-w-0 flex-1 truncate text-sm text-base-content/80"
+              title={@download_folder}
+            >
+              {@download_folder}
+            </p>
+            <button
+              type="button"
+              id="settings-download-folder-change"
+              phx-click="choose_download_folder"
+              class="inline-flex shrink-0 cursor-pointer items-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-semibold text-primary-content hover:brightness-110"
+            >
+              {gettext("Change")}
+            </button>
+          </div>
         </div>
 
         <div class="mt-6 flex flex-wrap justify-end gap-3">
