@@ -46,10 +46,12 @@ defmodule ElixirTorrentWebUI.MixProject do
   defp deps do
     [
       elixir_torrent_dep(),
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev], runtime: false},
       {:phoenix, "~> 1.8.3"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 1.1.0"},
+      {:phoenix_live_view, "~> 1.2"},
       {:lazy_html, ">= 0.1.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.8.3"},
       {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
@@ -70,17 +72,11 @@ defmodule ElixirTorrentWebUI.MixProject do
     ]
   end
 
-  # Dual-mode dependency for the BitTorrent engine.
-  #
-  # By default we depend on the published Hex package (`elixir_torrent`).
-  # During local development on both this UI and the engine, set
-  # `ELIXIR_TORRENT_PATH` to a path on disk to override the source, e.g.
+  # Use the published package by default. Set ELIXIR_TORRENT_PATH only while
+  # developing and validating against a local engine checkout, e.g.
   #
   #     ELIXIR_TORRENT_PATH=../ElixirTorrent mix deps.get
   #     ELIXIR_TORRENT_PATH=../ElixirTorrent mix phx.server
-  #
-  # The Hex version is the canonical, committed version. The local override is
-  # convenient for iterating on the engine without releasing a new package.
   defp elixir_torrent_dep do
     case System.get_env("ELIXIR_TORRENT_PATH") do
       nil -> {:elixir_torrent, "~> 0.3.0"}
@@ -115,6 +111,7 @@ defmodule ElixirTorrentWebUI.MixProject do
         "format",
         "test --warnings-as-errors"
       ],
+      quality: ["compile --warnings-as-errors", "dialyzer", "credo --strict --all"],
       "mac.icon": ["cmd python3 priv/scripts/macos/generate-app-icon.py"],
       "mac.dmg": ["cmd priv/scripts/macos/build-macos-dmg.sh"]
     ]

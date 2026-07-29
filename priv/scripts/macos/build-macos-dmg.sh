@@ -29,15 +29,16 @@ if [[ ! -f "$ROOT/priv/macos/AppIcon.icns" ]]; then
 fi
 
 if [[ -d "$ROOT/priv/macos/AppIcon.icon" && ! -f "$ROOT/priv/macos/Assets.car" ]]; then
-  echo "==> Compiling Liquid Glass icon…"
-  "$ROOT/priv/scripts/macos/build-liquid-glass-icon.sh"
+  if ! "$ROOT/priv/scripts/macos/build-liquid-glass-icon.sh"; then
+    echo "warning: Liquid Glass icon requires Xcode 26+; using AppIcon.icns fallback" >&2
+  fi
 fi
 
 echo "==> Building release (prod, desktop)…"
 export ELIXIR_TORRENT_DESKTOP_BUILD=1
 export MIX_ENV=prod
 
-mix deps.get --only prod
+mix deps.get --only prod --check-locked
 MIX_ENV=prod mix compile
 mix phx.digest.clean --all
 mix assets.deploy
