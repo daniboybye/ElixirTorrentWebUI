@@ -66,7 +66,7 @@ defmodule ElixirTorrentWebUI.PendingMagnets do
     count = map_size(state.entries)
 
     if count > 0 do
-      Logger.info("[magnet_pending] restored count=#{count} from disk")
+      Logger.debug("[magnet_pending] restored count=#{count} from disk")
     end
 
     {:ok, state}
@@ -98,9 +98,7 @@ defmodule ElixirTorrentWebUI.PendingMagnets do
         {:reply, :ok, state}
 
       {:error, reason} ->
-        Logger.warning(
-          "[magnet_pending] register_skip uri=#{inspect(uri)} reason=#{inspect(reason)}"
-        )
+        Logger.warning("[magnet_pending] register_skip reason=#{inspect(reason)}")
 
         {:reply, {:error, reason}, state}
     end
@@ -134,7 +132,7 @@ defmodule ElixirTorrentWebUI.PendingMagnets do
     |> Enum.map(&Map.fetch!(state.entries, &1))
     |> Enum.each(fn entry ->
       Task.start(fn ->
-        Logger.info("[magnet_pending] boot_restart hash=#{entry.id}")
+        Logger.debug("[magnet_pending] boot_restart hash=#{entry.id}")
         _ = ElixirTorrentWebUI.Engine.add_magnet(entry.uri)
       end)
     end)

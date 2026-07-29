@@ -40,7 +40,7 @@ defmodule ElixirTorrentWebUI.MagnetIngest do
   @spec submit(String.t()) :: :ok
   def submit(magnet_uri) when is_binary(magnet_uri) do
     uri = String.trim(magnet_uri)
-    Logger.info("MagnetIngest: queued magnet uri=#{inspect(uri)}")
+    Logger.debug("MagnetIngest: queued magnet")
     :ok = ElixirTorrentWebUI.PendingMagnets.register(uri)
 
     Task.start(fn ->
@@ -50,14 +50,14 @@ defmodule ElixirTorrentWebUI.MagnetIngest do
         rescue
           exception ->
             Logger.error(
-              "MagnetIngest: add_magnet crashed uri=#{inspect(uri)} exception=#{Exception.format(:error, exception, __STACKTRACE__)}"
+              "MagnetIngest: add_magnet crashed exception=#{Exception.format(:error, exception, __STACKTRACE__)}"
             )
 
             {:error, exception}
         end
 
       normalized = normalize_result(result)
-      Logger.info("MagnetIngest: finished uri=#{inspect(uri)} result=#{inspect(normalized)}")
+      Logger.debug("MagnetIngest: finished result=#{inspect(normalized)}")
       remember_result(uri, normalized)
       Phoenix.PubSub.broadcast(@pubsub, @topic, {:magnet_ingest, uri, normalized})
     end)

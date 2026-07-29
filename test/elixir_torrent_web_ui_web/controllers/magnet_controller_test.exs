@@ -1,6 +1,8 @@
 defmodule ElixirTorrentWebUIWeb.MagnetControllerTest do
   use ElixirTorrentWebUIWeb.ConnCase, async: false
 
+  import ExUnit.CaptureLog
+
   test "rejects a missing magnet", %{conn: conn} do
     conn = post(conn, ~p"/api/magnets", %{})
 
@@ -19,5 +21,18 @@ defmodule ElixirTorrentWebUIWeb.MagnetControllerTest do
            )
 
     refute ElixirTorrentWebUI.Engine.valid_magnet?("https://example.com/file.torrent")
+  end
+
+  test "Engine failure logs redact the submitted URI" do
+    secret = "https://tracker.example/private-passkey"
+
+    log =
+      capture_log(fn ->
+        assert {:error, _reason} = ElixirTorrentWebUI.Engine.add_magnet(secret)
+      end)
+
+    assert log =~ "Engine.add_magnet: failed"
+    refute log =~ secret
+    refute log =~ "private-passkey"
   end
 end

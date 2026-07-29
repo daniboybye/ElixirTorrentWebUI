@@ -182,9 +182,7 @@ defmodule ElixirTorrentWebUI.Engine do
     uri = String.trim(magnet_uri)
     download_dir = UiState.get().download_folder
 
-    Logger.info(
-      "Engine.add_magnet: starting uri=#{inspect(uri)} download_dir=#{inspect(download_dir)}"
-    )
+    Logger.debug("Engine.add_magnet: starting")
 
     result =
       case ElixirTorrent.download_magnet(uri, download_dir: download_dir) do
@@ -203,10 +201,10 @@ defmodule ElixirTorrentWebUI.Engine do
 
     case result do
       {:ok, pid} ->
-        Logger.info("Engine.add_magnet: ok pid=#{inspect(pid)}")
+        Logger.debug("Engine.add_magnet: started pid=#{inspect(pid)}")
 
       {:error, reason} ->
-        Logger.warning("Engine.add_magnet: failed uri=#{inspect(uri)} reason=#{inspect(reason)}")
+        Logger.warning("Engine.add_magnet: failed reason=#{inspect(reason)}")
         remove_pending_on_fatal(uri, reason)
     end
 

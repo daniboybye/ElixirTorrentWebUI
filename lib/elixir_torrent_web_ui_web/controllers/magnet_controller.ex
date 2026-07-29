@@ -18,7 +18,7 @@ defmodule ElixirTorrentWebUIWeb.MagnetController do
         |> json(%{error: "invalid magnet"})
 
       true ->
-        Logger.info("MagnetController: accepted magnet uri=#{inspect(magnet)}")
+        Logger.debug("MagnetController: accepted magnet")
         :ok = MagnetIngest.submit(magnet)
 
         conn

@@ -81,6 +81,11 @@ fileprivate actor ServerLifecycle {
         process.currentDirectoryURL = dataDirectory
         process.environment = releaseEnvironment(port: port)
 
+        if let logHandle = openServerLog() {
+            process.standardOutput = logHandle
+            process.standardError = logHandle
+        }
+
         do {
             try process.run()
             ownedProcess = process
@@ -196,6 +201,23 @@ fileprivate actor ServerLifecycle {
         environment["ELIXIR_TORRENT_DESKTOP"] = "1"
         environment["PORT"] = String(port)
         return environment
+    }
+
+    private func openServerLog() -> FileHandle? {
+        let logURL = dataDirectory.appendingPathComponent("server.log")
+
+        do {
+            if !FileManager.default.fileExists(atPath: logURL.path) {
+                FileManager.default.createFile(atPath: logURL.path, contents: nil)
+            }
+
+            let handle = try FileHandle(forWritingTo: logURL)
+            handle.seekToEndOfFile()
+            return handle
+        } catch {
+            launcherLog("Could not open server log at \(logURL.path): \(error)")
+            return nil
+        }
     }
 
     private func listenerPIDs(on port: Int) -> [pid_t] {
@@ -364,8 +386,6 @@ final class AppDelegate: NSObject {
 
         request.httpBody = body
 
-        let preview = magnet.prefix(120)
-
         for attempt in 1...5 {
             if !(await ensureServerReady()) {
                 launcherLog("Magnet submit attempt \(attempt)/5: server not HTTP-ready on port \(port)")
@@ -383,19 +403,19 @@ final class AppDelegate: NSObject {
 
                 let responseBody = String(data: data, encoding: .utf8) ?? "<non-utf8 body>"
                 if http.statusCode == 202 {
-                    launcherLog("Magnet submit ok status=202 uri=\(preview) body=\(responseBody.prefix(200))")
+                    launcherLog("Magnet submit accepted")
                     return true
                 }
 
-                launcherLog("Magnet submit failed status=\(http.statusCode) uri=\(preview) body=\(responseBody.prefix(500))")
+                launcherLog("Magnet submit failed status=\(http.statusCode) body=\(responseBody.prefix(500))")
             } catch {
-                launcherLog("Magnet submit attempt \(attempt)/5 error uri=\(preview): \(error)")
+                launcherLog("Magnet submit attempt \(attempt)/5 error: \(error)")
             }
 
             try? await Task.sleep(nanoseconds: 500_000_000)
         }
 
-        launcherLog("Magnet submit gave up after 5 attempts uri=\(preview)")
+        launcherLog("Magnet submit gave up after 5 attempts")
         return false
     }
 }

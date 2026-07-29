@@ -1,6 +1,8 @@
 defmodule ElixirTorrentWebUI.PendingMagnetsTest do
   use ExUnit.Case, async: false
 
+  import ExUnit.CaptureLog
+
   alias ElixirTorrentWebUI.PendingMagnets
 
   @magnet "magnet:?xt=urn:btih:0123456789ABCDEF0123456789ABCDEF01234567&dn=Fixture"
@@ -33,8 +35,16 @@ defmodule ElixirTorrentWebUI.PendingMagnetsTest do
   end
 
   test "rejects malformed magnets without adding state" do
-    assert {:error, _reason} = PendingMagnets.register("not-a-magnet")
-    refute Enum.any?(PendingMagnets.entries(), &(&1.uri == "not-a-magnet"))
+    secret = "not-a-magnet-with-private-tracker-passkey"
+
+    log =
+      capture_log(fn ->
+        assert {:error, _reason} = PendingMagnets.register(secret)
+      end)
+
+    assert log =~ "register_skip"
+    refute log =~ secret
+    refute Enum.any?(PendingMagnets.entries(), &(&1.uri == secret))
   end
 
   test "removes a pending magnet by URI" do
