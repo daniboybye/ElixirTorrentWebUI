@@ -33,6 +33,46 @@ defmodule ElixirTorrentWebUIWeb.MediaControllerTest do
   end
 
   test "serves a resolved image with private cache and nosniff headers", %{conn: conn} do
+    {body, _path} = configure_preview_fixture()
+
+    torrent_id = String.duplicate("A", 40)
+    conn = get(conn, ~p"/media/#{torrent_id}/7/preview")
+
+    assert response(conn, 200) == body
+    assert get_resp_header(conn, "content-type") == ["image/png"]
+    assert get_resp_header(conn, "cache-control") == ["private, max-age=60"]
+    assert get_resp_header(conn, "x-content-type-options") == ["nosniff"]
+  end
+
+  test "serves valid byte ranges for preview images", %{conn: conn} do
+    {body, _path} = configure_preview_fixture()
+    torrent_id = String.duplicate("A", 40)
+
+    conn =
+      conn
+      |> put_req_header("range", "bytes=2-4")
+      |> get(~p"/media/#{torrent_id}/7/preview")
+
+    assert response(conn, 206) == binary_part(body, 2, 3)
+    assert get_resp_header(conn, "content-range") == ["bytes 2-4/8"]
+    assert get_resp_header(conn, "content-length") == ["3"]
+  end
+
+  test "rejects malformed and out-of-bounds byte ranges" do
+    configure_preview_fixture()
+    torrent_id = String.duplicate("A", 40)
+
+    for range <- ["bytes=wat", "bytes=99-100", "items=0-1"] do
+      response =
+        build_conn()
+        |> put_req_header("range", range)
+        |> get(~p"/media/#{torrent_id}/7/preview")
+
+      assert response(response, 416) == "Invalid range"
+    end
+  end
+
+  defp configure_preview_fixture do
     path = Path.join(System.tmp_dir!(), "media-preview-#{System.unique_integer([:positive])}.png")
     body = <<137, 80, 78, 71, 13, 10, 26, 10>>
     File.write!(path, body)
@@ -49,13 +89,7 @@ defmodule ElixirTorrentWebUIWeb.MediaControllerTest do
       File.rm(path)
     end)
 
-    torrent_id = String.duplicate("A", 40)
-    conn = get(conn, ~p"/media/#{torrent_id}/7/preview")
-
-    assert response(conn, 200) == body
-    assert get_resp_header(conn, "content-type") == ["image/png"]
-    assert get_resp_header(conn, "cache-control") == ["private, max-age=60"]
-    assert get_resp_header(conn, "x-content-type-options") == ["nosniff"]
+    {body, path}
   end
 
   defp restore_env(key, nil), do: Application.delete_env(:elixir_torrent_web_ui, key)

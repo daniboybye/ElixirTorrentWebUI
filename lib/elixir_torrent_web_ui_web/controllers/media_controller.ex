@@ -57,17 +57,23 @@ defmodule ElixirTorrentWebUIWeb.MediaController do
   end
 
   defp serve_range(conn, path, size, "bytes=" <> spec) do
-    {start, end_byte} = parse_range(spec, size)
-    length = end_byte - start + 1
+    case parse_range(spec, size) do
+      {:ok, start, end_byte} ->
+        length = end_byte - start + 1
 
-    conn
-    |> put_status(206)
-    |> put_resp_header("content-range", "bytes #{start}-#{end_byte}/#{size}")
-    |> put_resp_header("content-length", Integer.to_string(length))
-    |> send_file(206, path, start, length)
+        conn
+        |> put_resp_header("content-range", "bytes #{start}-#{end_byte}/#{size}")
+        |> put_resp_header("content-length", Integer.to_string(length))
+        |> send_file(206, path, start, length)
+
+      :error ->
+        invalid_range(conn)
+    end
   end
 
-  defp serve_range(conn, _path, _size, _range) do
+  defp serve_range(conn, _path, _size, _range), do: invalid_range(conn)
+
+  defp invalid_range(conn) do
     conn
     |> put_status(:requested_range_not_satisfiable)
     |> text("Invalid range")
@@ -76,14 +82,24 @@ defmodule ElixirTorrentWebUIWeb.MediaController do
   defp parse_range(spec, size) do
     case String.split(spec, "-", parts: 2) do
       [start_str, ""] ->
-        start = String.to_integer(start_str)
-        {start, size - 1}
+        with {start, ""} <- Integer.parse(start_str),
+             true <- start >= 0 and start < size do
+          {:ok, start, size - 1}
+        else
+          _ -> :error
+        end
 
       [start_str, end_str] ->
-        {String.to_integer(start_str), String.to_integer(end_str)}
+        with {start, ""} <- Integer.parse(start_str),
+             {end_byte, ""} <- Integer.parse(end_str),
+             true <- start >= 0 and start < size and end_byte >= start do
+          {:ok, start, min(end_byte, size - 1)}
+        else
+          _ -> :error
+        end
 
       _ ->
-        {0, size - 1}
+        :error
     end
   end
 

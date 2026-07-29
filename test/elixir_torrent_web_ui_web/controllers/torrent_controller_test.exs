@@ -12,4 +12,12 @@ defmodule ElixirTorrentWebUIWeb.TorrentControllerTest do
                ~w(down_kbps name progress status up_kbps)
     end)
   end
+
+  test "rejects missing and invalid torrent paths", %{conn: conn} do
+    missing = post(conn, ~p"/api/torrents", %{})
+    assert %{"error" => "missing path"} = json_response(missing, 400)
+
+    invalid = post(build_conn(), ~p"/api/torrents", %{"path" => "/tmp/not-a-torrent.txt"})
+    assert %{"error" => "invalid torrent path"} = json_response(invalid, 400)
+  end
 end

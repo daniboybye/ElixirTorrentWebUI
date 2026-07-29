@@ -761,7 +761,8 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   attr :expanded, :boolean, required: true
   attr :locale, :string, required: true
 
-  defp torrent_card(assigns) do
+  @doc false
+  def torrent_card(assigns) do
     ~H"""
     <div
       id={"torrent-#{@torrent.id}-#{@locale}"}
@@ -1010,7 +1011,8 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
 
   attr :player, :map, default: nil
 
-  defp media_player_modal(assigns) do
+  @doc false
+  def media_player_modal(assigns) do
     ~H"""
     <div
       :if={@player}
@@ -1068,7 +1070,8 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   attr :download_folder, :string, required: true
   attr :languages, :list, required: true
 
-  defp settings_dialog(assigns) do
+  @doc false
+  def settings_dialog(assigns) do
     ~H"""
     <div
       :if={@open}
@@ -1190,7 +1193,8 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
 
   attr :dialog, :map, default: nil
 
-  defp remove_torrent_dialog(assigns) do
+  @doc false
+  def remove_torrent_dialog(assigns) do
     ~H"""
     <div
       :if={@dialog}

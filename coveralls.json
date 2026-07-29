@@ -1,0 +1,9 @@
+{
+  "skip_files": [
+    "lib/elixir_torrent_web_ui_web.ex",
+    "lib/elixir_torrent_web_ui_web/components/core_components.ex"
+  ],
+  "coverage_options": {
+    "minimum_coverage": 55
+  }
+}

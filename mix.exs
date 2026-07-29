@@ -11,6 +11,7 @@ defmodule ElixirTorrentWebUI.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
+      test_coverage: [tool: ExCoveralls],
       compilers: [:phoenix_live_view] ++ Mix.compilers(),
       listeners: [Phoenix.CodeReloader]
     ]
@@ -28,7 +29,11 @@ defmodule ElixirTorrentWebUI.MixProject do
 
   def cli do
     [
-      preferred_envs: [precommit: :test]
+      preferred_envs: [
+        precommit: :test,
+        coveralls: :test,
+        "coveralls.html": :test
+      ]
     ]
   end
 
@@ -48,6 +53,7 @@ defmodule ElixirTorrentWebUI.MixProject do
       elixir_torrent_dep(),
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev], runtime: false},
+      {:excoveralls, "~> 0.18", only: :test},
       {:phoenix, "~> 1.8.3"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
