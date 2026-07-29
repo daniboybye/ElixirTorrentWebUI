@@ -10,12 +10,12 @@ msgstr ""
 msgid "Actions"
 msgstr "Mga aksyon"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:445
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:459
 #, elixir-autogen, elixir-format
 msgid "Add torrent"
 msgstr "Magdagdag ng torrent"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1119
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1183
 #, elixir-autogen, elixir-format
 msgid "Apply"
 msgstr "Mag-apply"
@@ -26,21 +26,21 @@ msgstr "Mag-apply"
 msgid "Attempting to reconnect"
 msgstr "Sinusubukang kumonekta muli"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1022
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1039
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1112
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1086
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1103
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1176
 #, elixir-autogen, elixir-format
 msgid "Cancel"
 msgstr "Kanselahin"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1047
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1111
 #, elixir-autogen, elixir-format
 msgid "Language"
 msgstr "Wika"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:424
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:427
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1032
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:438
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:441
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1096
 #, elixir-autogen, elixir-format
 msgid "Settings"
 msgstr "Mga setting"
@@ -60,7 +60,7 @@ msgstr "Hindi namin mahanap ang internet"
 msgid "close"
 msgstr "malapit na"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1163
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1227
 #, elixir-autogen, elixir-format
 msgid "Are you sure you want to remove the selected torrent?"
 msgstr "Sigurado ka bang gusto mong alisin ang napiling torrent?"
@@ -70,28 +70,28 @@ msgstr "Sigurado ka bang gusto mong alisin ang napiling torrent?"
 msgid "Cannot play this file"
 msgstr "Hindi ma-play ang file na ito"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:980
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1156
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1044
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1220
 #, elixir-autogen, elixir-format
 msgid "Close"
 msgstr "Isara"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1144
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1208
 #, elixir-autogen, elixir-format
 msgid "Close dialog"
 msgstr "Isara ang dialog"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:964
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1028
 #, elixir-autogen, elixir-format
 msgid "Close player"
 msgstr "Isara ang manlalaro"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1200
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1264
 #, elixir-autogen, elixir-format
 msgid "Connecting"
 msgstr "Kumokonekta"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:226
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:240
 #, elixir-autogen, elixir-format
 msgid "Could not open folder in Finder"
 msgstr "Hindi mabuksan ang folder sa Finder"
@@ -101,29 +101,29 @@ msgstr "Hindi mabuksan ang folder sa Finder"
 msgid "Creator:"
 msgstr "Tagalikha:"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:868
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:882
 #, elixir-autogen, elixir-format
 msgid "Date Added"
 msgstr "Petsa ng Idinagdag"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:891
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:905
 #, elixir-autogen, elixir-format
 msgid "Download"
 msgstr "I-download"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:702
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:931
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:716
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:937
 #, elixir-autogen, elixir-format
 msgid "Downloaded"
 msgstr "Na-download"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1202
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1266
 #, elixir-autogen, elixir-format
 msgid "Downloading"
 msgstr "Nagda-download"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:492
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:509
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:506
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:523
 #, elixir-autogen, elixir-format
 msgid "Drop files here!"
 msgstr "I-drop ang mga file dito!"
@@ -134,226 +134,226 @@ msgid "Version %{version}"
 msgstr "Bersyon %{version}"
 
 #: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:114
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:381
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:395
 #, elixir-autogen, elixir-format
 msgid "Failed to add torrent: %{reason}"
 msgstr "Nabigong magdagdag ng torrent: %{reason}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:800
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:812
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:814
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:826
 #, elixir-autogen, elixir-format
 msgid "Hide Torrent Files"
 msgstr "Itago ang Torrent Files"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1201
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1265
 #, elixir-autogen, elixir-format
 msgid "Idle"
 msgstr "Idle"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:889
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:903
 #, elixir-autogen, elixir-format
 msgid "Name"
 msgstr "Pangalan"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:348
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:388
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:362
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:402
 #, elixir-autogen, elixir-format
 msgid "Only .torrent files are allowed"
 msgstr ".torrent file lang ang pinapayagan"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:494
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:512
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:508
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:526
 #, elixir-autogen, elixir-format
 msgid "Only `.torrent` files accepted"
 msgstr "`.torrent` file lang ang tinanggap"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:903
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1005
 #, elixir-autogen, elixir-format
 msgid "Play %{name}"
 msgstr "Maglaro ng %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:785
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:792
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1175
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:799
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:806
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1239
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent"
 msgstr "Alisin ang Torrent"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1184
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1248
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent + Data"
 msgstr "Alisin ang Torrent + Data"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1149
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1213
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent?"
 msgstr "Alisin ang Torrent?"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1194
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1258
 #, elixir-autogen, elixir-format
 msgid "Removed torrent and data: %{name}"
 msgstr "Inalis ang torrent at data: %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1196
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1260
 #, elixir-autogen, elixir-format
 msgid "Removed torrent: %{name}"
 msgstr "Inalis ang torrent: %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1199
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1263
 #, elixir-autogen, elixir-format
 msgid "Seeding"
 msgstr "Nagpupuno"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:773
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:780
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:787
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:794
 #, elixir-autogen, elixir-format
 msgid "Show Folder"
 msgstr "Ipakita ang Folder"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:223
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:237
 #, elixir-autogen, elixir-format
 msgid "Show Folder is only available on macOS"
 msgstr "Available lang ang Show Folder sa macOS"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:800
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:812
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:814
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:826
 #, elixir-autogen, elixir-format
 msgid "Show Torrent Files"
 msgstr "Ipakita ang Torrent Files"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:890
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:904
 #, elixir-autogen, elixir-format
 msgid "Size"
 msgstr "Sukat"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1292
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1356
 #, elixir-autogen, elixir-format
 msgid "Theme"
 msgstr "Tema"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:493
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:507
 #, elixir-autogen, elixir-format
 msgid "This file type is not supported"
 msgstr "Ang uri ng file na ito ay hindi suportado"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1287
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1288
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1351
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1352
 #, elixir-autogen, elixir-format
 msgid "Toggle theme"
 msgstr "I-toggle ang tema"
 
 #: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:105
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:373
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:387
 #, elixir-autogen, elixir-format
 msgid "Torrent added: %{name}"
 msgstr "Idinagdag ang Torrent: %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:874
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:888
 #, elixir-autogen, elixir-format
 msgid "Total Files"
 msgstr "Kabuuang mga File"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:880
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:894
 #, elixir-autogen, elixir-format
 msgid "Total Size"
 msgstr "Kabuuang Sukat"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:460
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:474
 #, elixir-autogen, elixir-format
 msgid "Drag and drop a `.torrent` file here, or"
 msgstr "I-drag at i-drop ang isang `.torrent` file dito, o"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:190
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:204
 #, elixir-autogen, elixir-format
 msgid "Failed to remove torrent: %{reason}"
 msgstr "Nabigong alisin ang torrent: %{reason}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:706
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:720
 #, elixir-autogen, elixir-format
 msgid "All-time bytes downloaded"
 msgstr "Kabuuang bytes na na-download"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:717
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:731
 #, elixir-autogen, elixir-format
 msgid "All-time bytes uploaded"
 msgstr "Kabuuang bytes na na-upload"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1082
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1146
 #, elixir-autogen, elixir-format
 msgid "Change"
 msgstr "Palitan"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:266
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:280
 #, elixir-autogen, elixir-format
 msgid "Choose Folder is only available on macOS"
 msgstr "Available lang ang pagpili ng folder sa macOS"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:272
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:286
 #, elixir-autogen, elixir-format
 msgid "Could not choose download folder"
 msgstr "Hindi mapili ang download folder"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:730
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:744
 #, elixir-autogen, elixir-format
 msgid "Current download speed"
 msgstr "Kasalukuyang bilis ng download"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:736
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:750
 #, elixir-autogen, elixir-format
 msgid "Current upload speed"
 msgstr "Kasalukuyang bilis ng upload"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1066
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1130
 #, elixir-autogen, elixir-format
 msgid "Default download folder"
 msgstr "Default na download folder"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:725
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:739
 #, elixir-autogen, elixir-format
 msgid "Speed"
 msgstr "Bilis"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:698
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:712
 #, elixir-autogen, elixir-format
 msgid "Transfer statistics"
 msgstr "Mga istatistika ng transfer"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:713
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:727
 #, elixir-autogen, elixir-format
 msgid "Uploaded"
 msgstr "Na-upload"
 
-#: lib/elixir_torrent_web_ui/engine.ex:265
+#: lib/elixir_torrent_web_ui/engine.ex:266
 #, elixir-autogen, elixir-format
 msgid "Could not download metadata from any peer"
 msgstr "Hindi ma-download ang metadata mula sa anumang peer"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:309
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:323
 #, elixir-autogen, elixir-format
 msgid "Could not read clipboard"
 msgstr "Hindi mabasa ang clipboard"
 
-#: lib/elixir_torrent_web_ui/engine.ex:268
+#: lib/elixir_torrent_web_ui/engine.ex:269
 #, elixir-autogen, elixir-format
 msgid "Downloaded metadata does not match the magnet hash"
 msgstr "Hindi tumutugma ang na-download na metadata sa magnet hash"
 
-#: lib/elixir_torrent_web_ui/engine.ex:276
+#: lib/elixir_torrent_web_ui/engine.ex:277
 #, elixir-autogen, elixir-format
 msgid "Failed to add magnet: %{reason}"
 msgstr "Nabigong magdagdag ng magnet: %{reason}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:323
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:337
 #, elixir-autogen, elixir-format
 msgid "Fetching metadata from peers…"
 msgstr "Kinukuha ang metadata mula sa mga peer…"
 
-#: lib/elixir_torrent_web_ui/engine.ex:255
+#: lib/elixir_torrent_web_ui/engine.ex:256
 #, elixir-autogen, elixir-format
 msgid "Invalid info hash in magnet link"
 msgstr "Di-wastong info hash sa magnet link"
 
-#: lib/elixir_torrent_web_ui/engine.ex:256
+#: lib/elixir_torrent_web_ui/engine.ex:257
 #, elixir-autogen, elixir-format
 msgid "Invalid magnet link"
 msgstr "Di-wastong magnet link"
@@ -364,12 +364,12 @@ msgstr "Di-wastong magnet link"
 msgid "Magnet download started"
 msgstr "Nagsimula na ang pag-download ng magnet"
 
-#: lib/elixir_torrent_web_ui/engine.ex:259
+#: lib/elixir_torrent_web_ui/engine.ex:260
 #, elixir-autogen, elixir-format
 msgid "Magnet has no tracker URLs and no peers were found via DHT"
 msgstr "Walang tracker URL ang magnet at walang peer na natagpuan sa DHT"
 
-#: lib/elixir_torrent_web_ui/engine.ex:254
+#: lib/elixir_torrent_web_ui/engine.ex:255
 #, elixir-autogen, elixir-format
 msgid "Magnet link is missing the info hash (xt=)"
 msgstr "Kulang ang info hash (xt=) sa magnet link"
@@ -380,79 +380,89 @@ msgstr "Kulang ang info hash (xt=) sa magnet link"
 msgid "Magnet metadata fetch already in progress"
 msgstr "Kasalukuyang kinukuha na ang metadata ng magnet"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:474
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:488
 #, elixir-autogen, elixir-format
 msgid "No active torrents. Add a `.torrent` file or magnet link to start downloading."
 msgstr ""
 "Walang aktibong torrent. Magdagdag ng `.torrent` file o magnet link para "
 "magsimulang mag-download."
 
-#: lib/elixir_torrent_web_ui/engine.ex:253
+#: lib/elixir_torrent_web_ui/engine.ex:254
 #, elixir-autogen, elixir-format
 msgid "Not a magnet link"
 msgstr "Hindi magnet link"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:319
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:333
 #, elixir-autogen, elixir-format
 msgid "Not a valid magnet link"
 msgstr "Hindi wastong magnet link"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:316
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:330
 #, elixir-autogen, elixir-format
 msgid "Paste a magnet link"
 msgstr "Mag-paste ng magnet link"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:436
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:450
 #, elixir-autogen, elixir-format
 msgid "Paste magnet & Go"
 msgstr "I-paste ang magnet at Go"
 
-#: lib/elixir_torrent_web_ui/engine.ex:262
+#: lib/elixir_torrent_web_ui/engine.ex:263
 #, elixir-autogen, elixir-format
 msgid "Timed out fetching metadata from peers"
 msgstr "Nag-time out ang pagkuha ng metadata mula sa mga peer"
 
-#: lib/elixir_torrent_web_ui/engine.ex:273
+#: lib/elixir_torrent_web_ui/engine.ex:274
 #, elixir-autogen, elixir-format
 msgid "Torrent is already downloading"
 msgstr "Nagda-download na ang torrent"
 
-#: lib/elixir_torrent_web_ui/engine.ex:271
+#: lib/elixir_torrent_web_ui/engine.ex:272
 #, elixir-autogen, elixir-format
 msgid "Torrent process started but metadata is not ready yet"
 msgstr "Nagsimula na ang proseso ng torrent ngunit hindi pa handa ang metadata"
 
-#: lib/elixir_torrent_web_ui/engine.ex:261
+#: lib/elixir_torrent_web_ui/engine.ex:262
 #, elixir-autogen, elixir-format
 msgid "Trackers returned no peers — try again later"
 msgstr "Walang peer na ibinalik ng mga tracker — subukan muli mamaya"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:465
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:479
 #, elixir-autogen, elixir-format
 msgid "click to add"
 msgstr "i-click para magdagdag"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1089
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1153
 #, elixir-autogen, elixir-format
 msgid "Lifetime transfer statistics"
 msgstr "Kabuuang istatistika ng transfer"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1101
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1165
 #, elixir-autogen, elixir-format
 msgid "Reset Statistics"
 msgstr "I-reset ang mga istatistika"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1092
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1156
 #, elixir-autogen, elixir-format
 msgid "Reset downloaded and uploaded totals for this device."
 msgstr "I-reset ang kabuuang na-download at na-upload para sa device na ito."
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1098
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1162
 #, elixir-autogen, elixir-format
 msgid "Reset lifetime transfer statistics?"
 msgstr "I-reset ang kabuuang istatistika ng transfer?"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:301
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:315
 #, elixir-autogen, elixir-format
 msgid "Transfer statistics reset"
 msgstr "Na-reset ang mga istatistika ng transfer"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:172
+#, elixir-autogen, elixir-format
+msgid "Could not open this image"
+msgstr "Hindi mabuksan ang larawang ito"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1006
+#, elixir-autogen, elixir-format
+msgid "Open image %{name}"
+msgstr "Buksan ang larawan na %{name}"

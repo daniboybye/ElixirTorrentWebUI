@@ -9,12 +9,12 @@ msgstr ""
 msgid "Actions"
 msgstr "လုပ်ဆောင်ချက်များ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:445
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:459
 #, elixir-autogen, elixir-format
 msgid "Add torrent"
 msgstr "torrent ထည့်ပါ။"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1119
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1183
 #, elixir-autogen, elixir-format
 msgid "Apply"
 msgstr "လျှောက်ထားပါ။"
@@ -25,21 +25,21 @@ msgstr "လျှောက်ထားပါ။"
 msgid "Attempting to reconnect"
 msgstr "ပြန်လည်ချိတ်ဆက်ရန် ကြိုးစားနေသည်။"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1022
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1039
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1112
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1086
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1103
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1176
 #, elixir-autogen, elixir-format
 msgid "Cancel"
 msgstr "မလုပ်တော့"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1047
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1111
 #, elixir-autogen, elixir-format
 msgid "Language"
 msgstr "ဘာသာစကား"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:424
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:427
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1032
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:438
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:441
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1096
 #, elixir-autogen, elixir-format
 msgid "Settings"
 msgstr "ဆက်တင်များ"
@@ -59,7 +59,7 @@ msgstr "အင်တာနက် မတွေ့ဘူး။"
 msgid "close"
 msgstr "အနီးကပ်"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1163
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1227
 #, elixir-autogen, elixir-format
 msgid "Are you sure you want to remove the selected torrent?"
 msgstr "ရွေးချယ်ထားသော torrent ကို ဖယ်ရှားလိုသည်မှာ သေချာပါသလား။"
@@ -69,28 +69,28 @@ msgstr "ရွေးချယ်ထားသော torrent ကို ဖယ်�
 msgid "Cannot play this file"
 msgstr "ဤဖိုင်ကို ဖွင့်၍မရပါ။"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:980
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1156
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1044
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1220
 #, elixir-autogen, elixir-format
 msgid "Close"
 msgstr "ပိတ်လိုက်"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1144
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1208
 #, elixir-autogen, elixir-format
 msgid "Close dialog"
 msgstr "ဒိုင်ယာလော့ခ်ကို ပိတ်ပါ။"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:964
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1028
 #, elixir-autogen, elixir-format
 msgid "Close player"
 msgstr "ပိတ်ကစားသမား"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1200
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1264
 #, elixir-autogen, elixir-format
 msgid "Connecting"
 msgstr "ချိတ်ဆက်နေသည်။"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:226
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:240
 #, elixir-autogen, elixir-format
 msgid "Could not open folder in Finder"
 msgstr "Finder တွင် ဖိုင်တွဲကို ဖွင့်၍မရပါ"
@@ -100,29 +100,29 @@ msgstr "Finder တွင် ဖိုင်တွဲကို ဖွင့်၍
 msgid "Creator:"
 msgstr "ဖန်တီးသူ-"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:868
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:882
 #, elixir-autogen, elixir-format
 msgid "Date Added"
 msgstr "ရက်စွဲထည့်ထားသည်။"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:891
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:905
 #, elixir-autogen, elixir-format
 msgid "Download"
 msgstr "ဒေါင်းလုဒ်လုပ်ပါ။"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:702
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:931
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:716
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:937
 #, elixir-autogen, elixir-format
 msgid "Downloaded"
 msgstr "ဒေါင်းလုဒ်လုပ်ထားသည်။"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1202
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1266
 #, elixir-autogen, elixir-format
 msgid "Downloading"
 msgstr "ဒေါင်းလုဒ်လုပ်နေသည်။"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:492
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:509
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:506
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:523
 #, elixir-autogen, elixir-format
 msgid "Drop files here!"
 msgstr "ဖိုင်များကို ဤနေရာတွင် ချလိုက်ပါ။"
@@ -133,226 +133,226 @@ msgid "Version %{version}"
 msgstr "ဗားရှင်း %{version}"
 
 #: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:114
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:381
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:395
 #, elixir-autogen, elixir-format
 msgid "Failed to add torrent: %{reason}"
 msgstr "torrent ထည့်ရန် မအောင်မြင်ပါ %{reason}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:800
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:812
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:814
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:826
 #, elixir-autogen, elixir-format
 msgid "Hide Torrent Files"
 msgstr "Torrent ဖိုင်များကို ဝှက်ထားပါ။"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1201
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1265
 #, elixir-autogen, elixir-format
 msgid "Idle"
 msgstr "ဘာမှမလုပ်ဘူး။"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:889
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:903
 #, elixir-autogen, elixir-format
 msgid "Name"
 msgstr "နာမည်"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:348
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:388
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:362
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:402
 #, elixir-autogen, elixir-format
 msgid "Only .torrent files are allowed"
 msgstr ".torrent ဖိုင်များကိုသာ ခွင့်ပြုထားသည်။"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:494
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:512
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:508
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:526
 #, elixir-autogen, elixir-format
 msgid "Only `.torrent` files accepted"
 msgstr "`.torrent` ဖိုင်များကိုသာ လက်ခံပါသည်။"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:903
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1005
 #, elixir-autogen, elixir-format
 msgid "Play %{name}"
 msgstr "%{name} ကစားရန်"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:785
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:792
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1175
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:799
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:806
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1239
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent"
 msgstr "Torrent ကို ဖယ်ရှားပါ။"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1184
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1248
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent + Data"
 msgstr "Torrent + Data ကို ဖယ်ရှားပါ။"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1149
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1213
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent?"
 msgstr "Torrent ကို ဖယ်ရှားမလား။"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1194
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1258
 #, elixir-autogen, elixir-format
 msgid "Removed torrent and data: %{name}"
 msgstr "ဖယ်ရှားထားသော torrent နှင့် ဒေတာ- %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1196
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1260
 #, elixir-autogen, elixir-format
 msgid "Removed torrent: %{name}"
 msgstr "ဖယ်ရှားထားသော torrent- %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1199
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1263
 #, elixir-autogen, elixir-format
 msgid "Seeding"
 msgstr "မျိုးစေ့"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:773
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:780
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:787
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:794
 #, elixir-autogen, elixir-format
 msgid "Show Folder"
 msgstr "Folder ကိုပြပါ။"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:223
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:237
 #, elixir-autogen, elixir-format
 msgid "Show Folder is only available on macOS"
 msgstr "Show Folder ကို macOS တွင်သာ ရနိုင်သည်"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:800
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:812
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:814
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:826
 #, elixir-autogen, elixir-format
 msgid "Show Torrent Files"
 msgstr "Torrent ဖိုင်များကိုပြသပါ။"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:890
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:904
 #, elixir-autogen, elixir-format
 msgid "Size"
 msgstr "အရွယ်အစား"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1292
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1356
 #, elixir-autogen, elixir-format
 msgid "Theme"
 msgstr "အပြင်အဆင်"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:493
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:507
 #, elixir-autogen, elixir-format
 msgid "This file type is not supported"
 msgstr "ဤဖိုင်အမျိုးအစားကို ပံ့ပိုးမထားပါ။"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1287
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1288
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1351
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1352
 #, elixir-autogen, elixir-format
 msgid "Toggle theme"
 msgstr "အပြင်အဆင်ကို ပြောင်းပါ။"
 
 #: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:105
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:373
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:387
 #, elixir-autogen, elixir-format
 msgid "Torrent added: %{name}"
 msgstr "Torrent ထည့်ထားသည်- %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:874
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:888
 #, elixir-autogen, elixir-format
 msgid "Total Files"
 msgstr "စုစုပေါင်းဖိုင်များ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:880
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:894
 #, elixir-autogen, elixir-format
 msgid "Total Size"
 msgstr "စုစုပေါင်းအရွယ်အစား"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:460
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:474
 #, elixir-autogen, elixir-format
 msgid "Drag and drop a `.torrent` file here, or"
 msgstr "`.torrent` ဖိုင်ကို ဤနေရာတွင် ဆွဲဆွဲချပါ၊ သို့မဟုတ်"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:190
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:204
 #, elixir-autogen, elixir-format
 msgid "Failed to remove torrent: %{reason}"
 msgstr "torrent ကို ဖယ်ရှားရန် မအောင်မြင်ပါ %{reason}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:706
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:720
 #, elixir-autogen, elixir-format
 msgid "All-time bytes downloaded"
 msgstr "တစ်သက်တာ ဒေါင်းလုဒ်လုပ်ထားသော ဘိုက်"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:717
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:731
 #, elixir-autogen, elixir-format
 msgid "All-time bytes uploaded"
 msgstr "တစ်သက်တာ အပ်လုဒ်လုပ်ထားသော ဘိုက်"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1082
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1146
 #, elixir-autogen, elixir-format
 msgid "Change"
 msgstr "ပြောင်းမည်"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:266
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:280
 #, elixir-autogen, elixir-format
 msgid "Choose Folder is only available on macOS"
 msgstr "Folder ရွေးချယ်ခြင်းကို macOS တွင်သာ ရနိုင်သည်"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:272
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:286
 #, elixir-autogen, elixir-format
 msgid "Could not choose download folder"
 msgstr "ဒေါင်းလုဒ် folder ရွေးချယ်၍ မရပါ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:730
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:744
 #, elixir-autogen, elixir-format
 msgid "Current download speed"
 msgstr "လက်ရှိ ဒေါင်းလုဒ် အမြန်နှုန်း"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:736
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:750
 #, elixir-autogen, elixir-format
 msgid "Current upload speed"
 msgstr "လက်ရှိ အပ်လုဒ် အမြန်နှုန်း"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1066
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1130
 #, elixir-autogen, elixir-format
 msgid "Default download folder"
 msgstr "မူရင်း ဒေါင်းလုဒ် folder"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:725
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:739
 #, elixir-autogen, elixir-format
 msgid "Speed"
 msgstr "အမြန်နှုန်း"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:698
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:712
 #, elixir-autogen, elixir-format
 msgid "Transfer statistics"
 msgstr "လွှဲပြောင်းမှု စာရင်းအင်း"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:713
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:727
 #, elixir-autogen, elixir-format
 msgid "Uploaded"
 msgstr "အပ်လုဒ်လုပ်ထားသည်"
 
-#: lib/elixir_torrent_web_ui/engine.ex:265
+#: lib/elixir_torrent_web_ui/engine.ex:266
 #, elixir-autogen, elixir-format
 msgid "Could not download metadata from any peer"
 msgstr "peer တစ်ခုမှ metadata ကို ဆွဲယူ၍ မရပါ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:309
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:323
 #, elixir-autogen, elixir-format
 msgid "Could not read clipboard"
 msgstr "clipboard ကို မဖတ်နိုင်ပါ"
 
-#: lib/elixir_torrent_web_ui/engine.ex:268
+#: lib/elixir_torrent_web_ui/engine.ex:269
 #, elixir-autogen, elixir-format
 msgid "Downloaded metadata does not match the magnet hash"
 msgstr "ဆွဲယူထားသော metadata သည် magnet hash နှင့် မကိုက်ညီပါ"
 
-#: lib/elixir_torrent_web_ui/engine.ex:276
+#: lib/elixir_torrent_web_ui/engine.ex:277
 #, elixir-autogen, elixir-format
 msgid "Failed to add magnet: %{reason}"
 msgstr "magnet ထည့်ရန် မအောင်မြင်ပါ: %{reason}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:323
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:337
 #, elixir-autogen, elixir-format
 msgid "Fetching metadata from peers…"
 msgstr "peer များထံမှ metadata ရယူနေသည်…"
 
-#: lib/elixir_torrent_web_ui/engine.ex:255
+#: lib/elixir_torrent_web_ui/engine.ex:256
 #, elixir-autogen, elixir-format
 msgid "Invalid info hash in magnet link"
 msgstr "magnet လင့်ခ်တွင် info hash မမှန်ပါ"
 
-#: lib/elixir_torrent_web_ui/engine.ex:256
+#: lib/elixir_torrent_web_ui/engine.ex:257
 #, elixir-autogen, elixir-format
 msgid "Invalid magnet link"
 msgstr "magnet လင့်ခ် မမှန်ပါ"
@@ -363,12 +363,12 @@ msgstr "magnet လင့်ခ် မမှန်ပါ"
 msgid "Magnet download started"
 msgstr "Magnet ဆွဲယူခြင်း စတင်ပါပြီ"
 
-#: lib/elixir_torrent_web_ui/engine.ex:259
+#: lib/elixir_torrent_web_ui/engine.ex:260
 #, elixir-autogen, elixir-format
 msgid "Magnet has no tracker URLs and no peers were found via DHT"
 msgstr "Magnet တွင် tracker URL မရှိပြီး DHT ဖြင့် peer မတွေ့ပါ"
 
-#: lib/elixir_torrent_web_ui/engine.ex:254
+#: lib/elixir_torrent_web_ui/engine.ex:255
 #, elixir-autogen, elixir-format
 msgid "Magnet link is missing the info hash (xt=)"
 msgstr "Magnet လင့်ခ်တွင် info hash (xt=) မပါပါ"
@@ -379,77 +379,87 @@ msgstr "Magnet လင့်ခ်တွင် info hash (xt=) မပါပါ"
 msgid "Magnet metadata fetch already in progress"
 msgstr "Magnet metadata ရယူခြင်း လုပ်ဆောင်နေပြီးသားဖြစ်သည်"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:474
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:488
 #, elixir-autogen, elixir-format
 msgid "No active torrents. Add a `.torrent` file or magnet link to start downloading."
 msgstr "တက်ကြွသော torrent မရှိပါ။ ဆွဲယူခြင်း စတင်ရန် `.torrent` ဖိုင် သို့မဟုတ် magnet လင့်ခ် ထည့်ပါ။"
 
-#: lib/elixir_torrent_web_ui/engine.ex:253
+#: lib/elixir_torrent_web_ui/engine.ex:254
 #, elixir-autogen, elixir-format
 msgid "Not a magnet link"
 msgstr "magnet လင့်ခ် မဟုတ်ပါ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:319
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:333
 #, elixir-autogen, elixir-format
 msgid "Not a valid magnet link"
 msgstr "မှန်ကန်သော magnet လင့်ခ် မဟုတ်ပါ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:316
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:330
 #, elixir-autogen, elixir-format
 msgid "Paste a magnet link"
 msgstr "magnet လင့်ခ် paste လုပ်ပါ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:436
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:450
 #, elixir-autogen, elixir-format
 msgid "Paste magnet & Go"
 msgstr "Magnet paste & Go"
 
-#: lib/elixir_torrent_web_ui/engine.ex:262
+#: lib/elixir_torrent_web_ui/engine.ex:263
 #, elixir-autogen, elixir-format
 msgid "Timed out fetching metadata from peers"
 msgstr "peer များထံမှ metadata ရယူရန် အချိန်ကုန်သွားပါပြီ"
 
-#: lib/elixir_torrent_web_ui/engine.ex:273
+#: lib/elixir_torrent_web_ui/engine.ex:274
 #, elixir-autogen, elixir-format
 msgid "Torrent is already downloading"
 msgstr "Torrent ကို ဆွဲယူနေပြီးသားဖြစ်သည်"
 
-#: lib/elixir_torrent_web_ui/engine.ex:271
+#: lib/elixir_torrent_web_ui/engine.ex:272
 #, elixir-autogen, elixir-format
 msgid "Torrent process started but metadata is not ready yet"
 msgstr "Torrent လုပ်ငန်းစဉ် စတင်ပြီးသော်လည်း metadata မပြင်ဆင်ရသေးပါ"
 
-#: lib/elixir_torrent_web_ui/engine.ex:261
+#: lib/elixir_torrent_web_ui/engine.ex:262
 #, elixir-autogen, elixir-format
 msgid "Trackers returned no peers — try again later"
 msgstr "Tracker များက peer မပြန်ပါ — နောက်မှ ထပ်ကြိုးစားပါ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:465
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:479
 #, elixir-autogen, elixir-format
 msgid "click to add"
 msgstr "ထည့်ရန် နှိပ်ပါ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1089
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1153
 #, elixir-autogen, elixir-format
 msgid "Lifetime transfer statistics"
 msgstr "တစ်သက်တာ လွှဲပြောင်းမှု စာရင်းအင်း"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1101
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1165
 #, elixir-autogen, elixir-format
 msgid "Reset Statistics"
 msgstr "စာရင်းအင်းကို ပြန်လည်သတ်မှတ်ပါ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1092
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1156
 #, elixir-autogen, elixir-format
 msgid "Reset downloaded and uploaded totals for this device."
 msgstr "ဤစက်အတွက် ဒေါင်းလုဒ်နှင့် အပ်လုဒ် စုစုပေါင်းများကို ပြန်လည်သတ်မှတ်ပါ။"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1098
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1162
 #, elixir-autogen, elixir-format
 msgid "Reset lifetime transfer statistics?"
 msgstr "တစ်သက်တာ လွှဲပြောင်းမှု စာရင်းအင်းကို ပြန်လည်သတ်မှတ်မလား?"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:301
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:315
 #, elixir-autogen, elixir-format
 msgid "Transfer statistics reset"
 msgstr "လွှဲပြောင်းမှု စာရင်းအင်း ပြန်လည်သတ်မှတ်ပြီးပါပြီ"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:172
+#, elixir-autogen, elixir-format
+msgid "Could not open this image"
+msgstr "ဤပုံကို ဖွင့်၍ မရပါ"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1006
+#, elixir-autogen, elixir-format
+msgid "Open image %{name}"
+msgstr "ပုံ %{name} ဖွင့်ပါ"

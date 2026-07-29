@@ -9,12 +9,12 @@ msgstr ""
 msgid "Actions"
 msgstr "Veiksmai"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:445
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:459
 #, elixir-autogen, elixir-format
 msgid "Add torrent"
 msgstr "Pridėti torrentą"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1119
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1183
 #, elixir-autogen, elixir-format
 msgid "Apply"
 msgstr "Taikyti"
@@ -25,21 +25,21 @@ msgstr "Taikyti"
 msgid "Attempting to reconnect"
 msgstr "Bandoma vėl prisijungti"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1022
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1039
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1112
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1086
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1103
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1176
 #, elixir-autogen, elixir-format
 msgid "Cancel"
 msgstr "Atšaukti"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1047
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1111
 #, elixir-autogen, elixir-format
 msgid "Language"
 msgstr "Kalba"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:424
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:427
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1032
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:438
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:441
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1096
 #, elixir-autogen, elixir-format
 msgid "Settings"
 msgstr "Nustatymai"
@@ -59,7 +59,7 @@ msgstr "Nerandame interneto"
 msgid "close"
 msgstr "uždaryti"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1163
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1227
 #, elixir-autogen, elixir-format
 msgid "Are you sure you want to remove the selected torrent?"
 msgstr "Ar tikrai norite pašalinti pasirinktą torrentą?"
@@ -69,28 +69,28 @@ msgstr "Ar tikrai norite pašalinti pasirinktą torrentą?"
 msgid "Cannot play this file"
 msgstr "Negalima paleisti šio failo"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:980
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1156
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1044
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1220
 #, elixir-autogen, elixir-format
 msgid "Close"
 msgstr "Uždaryti"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1144
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1208
 #, elixir-autogen, elixir-format
 msgid "Close dialog"
 msgstr "Uždaryti dialogo langą"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:964
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1028
 #, elixir-autogen, elixir-format
 msgid "Close player"
 msgstr "Uždaryti grotuvą"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1200
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1264
 #, elixir-autogen, elixir-format
 msgid "Connecting"
 msgstr "Prisijungimas"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:226
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:240
 #, elixir-autogen, elixir-format
 msgid "Could not open folder in Finder"
 msgstr "Nepavyko atidaryti aplanko Finder"
@@ -100,29 +100,29 @@ msgstr "Nepavyko atidaryti aplanko Finder"
 msgid "Creator:"
 msgstr "Kūrėjas:"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:868
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:882
 #, elixir-autogen, elixir-format
 msgid "Date Added"
 msgstr "Įtraukimo data"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:891
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:905
 #, elixir-autogen, elixir-format
 msgid "Download"
 msgstr "Atsisiųsti"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:702
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:931
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:716
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:937
 #, elixir-autogen, elixir-format
 msgid "Downloaded"
 msgstr "Atsisiųsta"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1202
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1266
 #, elixir-autogen, elixir-format
 msgid "Downloading"
 msgstr "Atsisiunčiama"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:492
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:509
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:506
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:523
 #, elixir-autogen, elixir-format
 msgid "Drop files here!"
 msgstr "Numeskite failus čia!"
@@ -133,226 +133,226 @@ msgid "Version %{version}"
 msgstr "%{version} versija"
 
 #: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:114
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:381
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:395
 #, elixir-autogen, elixir-format
 msgid "Failed to add torrent: %{reason}"
 msgstr "Nepavyko pridėti torrento: %{reason}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:800
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:812
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:814
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:826
 #, elixir-autogen, elixir-format
 msgid "Hide Torrent Files"
 msgstr "Slėpti torrent failus"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1201
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1265
 #, elixir-autogen, elixir-format
 msgid "Idle"
 msgstr "Tuščia eiga"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:889
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:903
 #, elixir-autogen, elixir-format
 msgid "Name"
 msgstr "Vardas"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:348
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:388
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:362
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:402
 #, elixir-autogen, elixir-format
 msgid "Only .torrent files are allowed"
 msgstr "Leidžiami tik .torrent failai"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:494
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:512
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:508
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:526
 #, elixir-autogen, elixir-format
 msgid "Only `.torrent` files accepted"
 msgstr "Priimami tik `.torrent` failai"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:903
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1005
 #, elixir-autogen, elixir-format
 msgid "Play %{name}"
 msgstr "Žaisti %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:785
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:792
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1175
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:799
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:806
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1239
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent"
 msgstr "Pašalinti torrentą"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1184
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1248
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent + Data"
 msgstr "Pašalinkite torrent + duomenis"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1149
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1213
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent?"
 msgstr "Pašalinti torrentą?"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1194
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1258
 #, elixir-autogen, elixir-format
 msgid "Removed torrent and data: %{name}"
 msgstr "Pašalintas torrentas ir duomenys: %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1196
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1260
 #, elixir-autogen, elixir-format
 msgid "Removed torrent: %{name}"
 msgstr "Pašalintas torrentas: %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1199
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1263
 #, elixir-autogen, elixir-format
 msgid "Seeding"
 msgstr "Sėjama"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:773
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:780
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:787
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:794
 #, elixir-autogen, elixir-format
 msgid "Show Folder"
 msgstr "Rodyti aplanką"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:223
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:237
 #, elixir-autogen, elixir-format
 msgid "Show Folder is only available on macOS"
 msgstr "Rodyti aplanką galima tik macOS"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:800
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:812
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:814
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:826
 #, elixir-autogen, elixir-format
 msgid "Show Torrent Files"
 msgstr "Rodyti torrent failus"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:890
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:904
 #, elixir-autogen, elixir-format
 msgid "Size"
 msgstr "Dydis"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1292
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1356
 #, elixir-autogen, elixir-format
 msgid "Theme"
 msgstr "tema"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:493
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:507
 #, elixir-autogen, elixir-format
 msgid "This file type is not supported"
 msgstr "Šis failo tipas nepalaikomas"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1287
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1288
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1351
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1352
 #, elixir-autogen, elixir-format
 msgid "Toggle theme"
 msgstr "Perjungti temą"
 
 #: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:105
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:373
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:387
 #, elixir-autogen, elixir-format
 msgid "Torrent added: %{name}"
 msgstr "Torrent pridėtas: %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:874
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:888
 #, elixir-autogen, elixir-format
 msgid "Total Files"
 msgstr "Iš viso failų"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:880
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:894
 #, elixir-autogen, elixir-format
 msgid "Total Size"
 msgstr "Bendras dydis"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:460
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:474
 #, elixir-autogen, elixir-format
 msgid "Drag and drop a `.torrent` file here, or"
 msgstr "Nuvilkite `.torrent` failą čia arba"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:190
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:204
 #, elixir-autogen, elixir-format
 msgid "Failed to remove torrent: %{reason}"
 msgstr "Nepavyko pašalinti torrento: %{reason}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:706
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:720
 #, elixir-autogen, elixir-format
 msgid "All-time bytes downloaded"
 msgstr "Viso laiko atsisiųsti baitai"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:717
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:731
 #, elixir-autogen, elixir-format
 msgid "All-time bytes uploaded"
 msgstr "Viso laiko išsiųsti baitai"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1082
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1146
 #, elixir-autogen, elixir-format
 msgid "Change"
 msgstr "Keisti"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:266
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:280
 #, elixir-autogen, elixir-format
 msgid "Choose Folder is only available on macOS"
 msgstr "Aplanko pasirinkimas galimas tik macOS"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:272
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:286
 #, elixir-autogen, elixir-format
 msgid "Could not choose download folder"
 msgstr "Nepavyko pasirinkti atsisiuntimo aplanko"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:730
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:744
 #, elixir-autogen, elixir-format
 msgid "Current download speed"
 msgstr "Dabartinis atsisiuntimo greitis"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:736
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:750
 #, elixir-autogen, elixir-format
 msgid "Current upload speed"
 msgstr "Dabartinis išsiuntimo greitis"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1066
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1130
 #, elixir-autogen, elixir-format
 msgid "Default download folder"
 msgstr "Numatytasis atsisiuntimo aplankas"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:725
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:739
 #, elixir-autogen, elixir-format
 msgid "Speed"
 msgstr "Greitis"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:698
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:712
 #, elixir-autogen, elixir-format
 msgid "Transfer statistics"
 msgstr "Perdavimo statistika"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:713
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:727
 #, elixir-autogen, elixir-format
 msgid "Uploaded"
 msgstr "Išsiųsta"
 
-#: lib/elixir_torrent_web_ui/engine.ex:265
+#: lib/elixir_torrent_web_ui/engine.ex:266
 #, elixir-autogen, elixir-format
 msgid "Could not download metadata from any peer"
 msgstr "Nepavyko atsisiųsti metaduomenų iš jokio partnerio"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:309
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:323
 #, elixir-autogen, elixir-format
 msgid "Could not read clipboard"
 msgstr "Nepavyko nuskaityti iškarpinės"
 
-#: lib/elixir_torrent_web_ui/engine.ex:268
+#: lib/elixir_torrent_web_ui/engine.ex:269
 #, elixir-autogen, elixir-format
 msgid "Downloaded metadata does not match the magnet hash"
 msgstr "Atsisiųsti metaduomenys neatitinka magneto maišos"
 
-#: lib/elixir_torrent_web_ui/engine.ex:276
+#: lib/elixir_torrent_web_ui/engine.ex:277
 #, elixir-autogen, elixir-format
 msgid "Failed to add magnet: %{reason}"
 msgstr "Nepavyko pridėti magneto: %{reason}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:323
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:337
 #, elixir-autogen, elixir-format
 msgid "Fetching metadata from peers…"
 msgstr "Gaunami metaduomenys iš partnerių…"
 
-#: lib/elixir_torrent_web_ui/engine.ex:255
+#: lib/elixir_torrent_web_ui/engine.ex:256
 #, elixir-autogen, elixir-format
 msgid "Invalid info hash in magnet link"
 msgstr "Netinkama info hash magneto nuorodoje"
 
-#: lib/elixir_torrent_web_ui/engine.ex:256
+#: lib/elixir_torrent_web_ui/engine.ex:257
 #, elixir-autogen, elixir-format
 msgid "Invalid magnet link"
 msgstr "Netinkama magneto nuoroda"
@@ -363,12 +363,12 @@ msgstr "Netinkama magneto nuoroda"
 msgid "Magnet download started"
 msgstr "Magneto atsisiuntimas pradėtas"
 
-#: lib/elixir_torrent_web_ui/engine.ex:259
+#: lib/elixir_torrent_web_ui/engine.ex:260
 #, elixir-autogen, elixir-format
 msgid "Magnet has no tracker URLs and no peers were found via DHT"
 msgstr "Magnete nėra tracker URL ir per DHT partnerių nerasta"
 
-#: lib/elixir_torrent_web_ui/engine.ex:254
+#: lib/elixir_torrent_web_ui/engine.ex:255
 #, elixir-autogen, elixir-format
 msgid "Magnet link is missing the info hash (xt=)"
 msgstr "Magneto nuorodoje trūksta info hash (xt=)"
@@ -379,77 +379,87 @@ msgstr "Magneto nuorodoje trūksta info hash (xt=)"
 msgid "Magnet metadata fetch already in progress"
 msgstr "Magneto metaduomenų gavimas jau vyksta"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:474
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:488
 #, elixir-autogen, elixir-format
 msgid "No active torrents. Add a `.torrent` file or magnet link to start downloading."
 msgstr "Nėra aktyvių torrentų. Pridėkite `.torrent` failą arba magneto nuorodą, kad pradėtumėte atsisiuntimą."
 
-#: lib/elixir_torrent_web_ui/engine.ex:253
+#: lib/elixir_torrent_web_ui/engine.ex:254
 #, elixir-autogen, elixir-format
 msgid "Not a magnet link"
 msgstr "Ne magneto nuoroda"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:319
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:333
 #, elixir-autogen, elixir-format
 msgid "Not a valid magnet link"
 msgstr "Netinkama magneto nuoroda"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:316
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:330
 #, elixir-autogen, elixir-format
 msgid "Paste a magnet link"
 msgstr "Įklijuokite magneto nuorodą"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:436
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:450
 #, elixir-autogen, elixir-format
 msgid "Paste magnet & Go"
 msgstr "Įklijuoti magnetą ir pradėti"
 
-#: lib/elixir_torrent_web_ui/engine.ex:262
+#: lib/elixir_torrent_web_ui/engine.ex:263
 #, elixir-autogen, elixir-format
 msgid "Timed out fetching metadata from peers"
 msgstr "Baigėsi metaduomenų gavimo iš partnerių laikas"
 
-#: lib/elixir_torrent_web_ui/engine.ex:273
+#: lib/elixir_torrent_web_ui/engine.ex:274
 #, elixir-autogen, elixir-format
 msgid "Torrent is already downloading"
 msgstr "Torrentas jau atsisiunčiamas"
 
-#: lib/elixir_torrent_web_ui/engine.ex:271
+#: lib/elixir_torrent_web_ui/engine.ex:272
 #, elixir-autogen, elixir-format
 msgid "Torrent process started but metadata is not ready yet"
 msgstr "Torrento procesas paleistas, bet metaduomenys dar neparuošti"
 
-#: lib/elixir_torrent_web_ui/engine.ex:261
+#: lib/elixir_torrent_web_ui/engine.ex:262
 #, elixir-autogen, elixir-format
 msgid "Trackers returned no peers — try again later"
 msgstr "Trackeriai negrąžino partnerių — bandykite vėliau"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:465
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:479
 #, elixir-autogen, elixir-format
 msgid "click to add"
 msgstr "spustelėkite, kad pridėtumėte"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1089
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1153
 #, elixir-autogen, elixir-format
 msgid "Lifetime transfer statistics"
 msgstr "Visos trukmės perdavimo statistika"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1101
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1165
 #, elixir-autogen, elixir-format
 msgid "Reset Statistics"
 msgstr "Atstatyti statistiką"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1092
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1156
 #, elixir-autogen, elixir-format
 msgid "Reset downloaded and uploaded totals for this device."
 msgstr "Atstatyti šio įrenginio atsisiuntimo ir išsiuntimo sumas."
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1098
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1162
 #, elixir-autogen, elixir-format
 msgid "Reset lifetime transfer statistics?"
 msgstr "Atstatyti visos trukmės perdavimo statistiką?"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:301
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:315
 #, elixir-autogen, elixir-format
 msgid "Transfer statistics reset"
 msgstr "Perdavimo statistika atstatyta"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:172
+#, elixir-autogen, elixir-format
+msgid "Could not open this image"
+msgstr "Nepavyko atidaryti šio vaizdo"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1006
+#, elixir-autogen, elixir-format
+msgid "Open image %{name}"
+msgstr "Atidaryti vaizdą %{name}"

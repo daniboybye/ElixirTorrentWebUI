@@ -23,6 +23,7 @@ defmodule ElixirTorrentWebUIWeb.Router do
     end
 
     get "/locale/:locale", LocaleController, :update
+    get "/media/:torrent_id/:file_index/preview", MediaController, :preview
     get "/media/:torrent_id/:file_index", MediaController, :show
   end
 

@@ -9,12 +9,12 @@ msgstr ""
 msgid "Actions"
 msgstr "การดำเนินการ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:445
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:459
 #, elixir-autogen, elixir-format
 msgid "Add torrent"
 msgstr "เพิ่มทอร์เรนต์"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1119
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1183
 #, elixir-autogen, elixir-format
 msgid "Apply"
 msgstr "นำมาใช้"
@@ -25,21 +25,21 @@ msgstr "นำมาใช้"
 msgid "Attempting to reconnect"
 msgstr "กำลังพยายามเชื่อมต่อใหม่"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1022
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1039
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1112
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1086
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1103
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1176
 #, elixir-autogen, elixir-format
 msgid "Cancel"
 msgstr "ยกเลิก"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1047
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1111
 #, elixir-autogen, elixir-format
 msgid "Language"
 msgstr "ภาษา"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:424
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:427
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1032
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:438
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:441
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1096
 #, elixir-autogen, elixir-format
 msgid "Settings"
 msgstr "การตั้งค่า"
@@ -59,7 +59,7 @@ msgstr "เราไม่พบอินเทอร์เน็ต"
 msgid "close"
 msgstr "ปิด"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1163
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1227
 #, elixir-autogen, elixir-format
 msgid "Are you sure you want to remove the selected torrent?"
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบทอร์เรนต์ที่เลือก"
@@ -69,28 +69,28 @@ msgstr "คุณแน่ใจหรือไม่ว่าต้องกา
 msgid "Cannot play this file"
 msgstr "ไม่สามารถเล่นไฟล์นี้ได้"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:980
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1156
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1044
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1220
 #, elixir-autogen, elixir-format
 msgid "Close"
 msgstr "ปิด"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1144
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1208
 #, elixir-autogen, elixir-format
 msgid "Close dialog"
 msgstr "ปิดกล่องโต้ตอบ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:964
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1028
 #, elixir-autogen, elixir-format
 msgid "Close player"
 msgstr "ปิดผู้เล่น"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1200
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1264
 #, elixir-autogen, elixir-format
 msgid "Connecting"
 msgstr "กำลังเชื่อมต่อ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:226
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:240
 #, elixir-autogen, elixir-format
 msgid "Could not open folder in Finder"
 msgstr "ไม่สามารถเปิดโฟลเดอร์ใน Finder"
@@ -100,29 +100,29 @@ msgstr "ไม่สามารถเปิดโฟลเดอร์ใน Fi
 msgid "Creator:"
 msgstr "ผู้สร้าง:"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:868
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:882
 #, elixir-autogen, elixir-format
 msgid "Date Added"
 msgstr "วันที่เพิ่ม"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:891
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:905
 #, elixir-autogen, elixir-format
 msgid "Download"
 msgstr "ดาวน์โหลด"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:702
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:931
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:716
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:937
 #, elixir-autogen, elixir-format
 msgid "Downloaded"
 msgstr "ดาวน์โหลดแล้ว"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1202
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1266
 #, elixir-autogen, elixir-format
 msgid "Downloading"
 msgstr "กำลังดาวน์โหลด"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:492
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:509
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:506
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:523
 #, elixir-autogen, elixir-format
 msgid "Drop files here!"
 msgstr "วางไฟล์ที่นี่!"
@@ -133,226 +133,226 @@ msgid "Version %{version}"
 msgstr "เวอร์ชัน %{version}"
 
 #: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:114
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:381
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:395
 #, elixir-autogen, elixir-format
 msgid "Failed to add torrent: %{reason}"
 msgstr "ไม่สามารถเพิ่มฝนตกหนัก: %{reason}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:800
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:812
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:814
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:826
 #, elixir-autogen, elixir-format
 msgid "Hide Torrent Files"
 msgstr "ซ่อนไฟล์ Torrent"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1201
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1265
 #, elixir-autogen, elixir-format
 msgid "Idle"
 msgstr "ไม่ได้ใช้งาน"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:889
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:903
 #, elixir-autogen, elixir-format
 msgid "Name"
 msgstr "ชื่อ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:348
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:388
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:362
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:402
 #, elixir-autogen, elixir-format
 msgid "Only .torrent files are allowed"
 msgstr "อนุญาตเฉพาะไฟล์ .torrent เท่านั้น"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:494
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:512
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:508
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:526
 #, elixir-autogen, elixir-format
 msgid "Only `.torrent` files accepted"
 msgstr "ยอมรับเฉพาะไฟล์ `.torrent` เท่านั้น"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:903
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1005
 #, elixir-autogen, elixir-format
 msgid "Play %{name}"
 msgstr "เล่น %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:785
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:792
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1175
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:799
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:806
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1239
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent"
 msgstr "ลบ ทอร์เรนต์"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1184
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1248
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent + Data"
 msgstr "ลบ Torrent + ข้อมูล"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1149
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1213
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent?"
 msgstr "ลบ Torrent?"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1194
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1258
 #, elixir-autogen, elixir-format
 msgid "Removed torrent and data: %{name}"
 msgstr "ลบทอร์เรนต์และข้อมูล: %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1196
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1260
 #, elixir-autogen, elixir-format
 msgid "Removed torrent: %{name}"
 msgstr "ลบทอร์เรนต์แล้ว: %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1199
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1263
 #, elixir-autogen, elixir-format
 msgid "Seeding"
 msgstr "การเพาะเมล็ด"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:773
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:780
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:787
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:794
 #, elixir-autogen, elixir-format
 msgid "Show Folder"
 msgstr "แสดงโฟลเดอร์"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:223
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:237
 #, elixir-autogen, elixir-format
 msgid "Show Folder is only available on macOS"
 msgstr "แสดงโฟลเดอร์มีเฉพาะใน macOS เท่านั้น"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:800
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:812
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:814
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:826
 #, elixir-autogen, elixir-format
 msgid "Show Torrent Files"
 msgstr "แสดงไฟล์ทอร์เรนต์"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:890
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:904
 #, elixir-autogen, elixir-format
 msgid "Size"
 msgstr "ขนาด"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1292
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1356
 #, elixir-autogen, elixir-format
 msgid "Theme"
 msgstr "ธีม"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:493
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:507
 #, elixir-autogen, elixir-format
 msgid "This file type is not supported"
 msgstr "ไม่รองรับไฟล์ประเภทนี้"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1287
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1288
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1351
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1352
 #, elixir-autogen, elixir-format
 msgid "Toggle theme"
 msgstr "สลับธีม"
 
 #: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:105
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:373
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:387
 #, elixir-autogen, elixir-format
 msgid "Torrent added: %{name}"
 msgstr "ฝนตกหนักเพิ่ม: %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:874
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:888
 #, elixir-autogen, elixir-format
 msgid "Total Files"
 msgstr "ไฟล์ทั้งหมด"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:880
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:894
 #, elixir-autogen, elixir-format
 msgid "Total Size"
 msgstr "ขนาดรวม"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:460
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:474
 #, elixir-autogen, elixir-format
 msgid "Drag and drop a `.torrent` file here, or"
 msgstr "ลากและวางไฟล์ `.torrent` ที่นี่ หรือ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:190
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:204
 #, elixir-autogen, elixir-format
 msgid "Failed to remove torrent: %{reason}"
 msgstr "ไม่สามารถลบฝนตกหนัก: %{reason}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:706
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:720
 #, elixir-autogen, elixir-format
 msgid "All-time bytes downloaded"
 msgstr "ไบต์ที่ดาวน์โหลดทั้งหมด"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:717
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:731
 #, elixir-autogen, elixir-format
 msgid "All-time bytes uploaded"
 msgstr "ไบต์ที่อัปโหลดทั้งหมด"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1082
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1146
 #, elixir-autogen, elixir-format
 msgid "Change"
 msgstr "เปลี่ยน"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:266
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:280
 #, elixir-autogen, elixir-format
 msgid "Choose Folder is only available on macOS"
 msgstr "เลือกโฟลเดอร์ใช้ได้เฉพาะบน macOS"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:272
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:286
 #, elixir-autogen, elixir-format
 msgid "Could not choose download folder"
 msgstr "เลือกโฟลเดอร์ดาวน์โหลดไม่ได้"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:730
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:744
 #, elixir-autogen, elixir-format
 msgid "Current download speed"
 msgstr "ความเร็วดาวน์โหลดปัจจุบัน"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:736
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:750
 #, elixir-autogen, elixir-format
 msgid "Current upload speed"
 msgstr "ความเร็วอัปโหลดปัจจุบัน"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1066
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1130
 #, elixir-autogen, elixir-format
 msgid "Default download folder"
 msgstr "โฟลเดอร์ดาวน์โหลดเริ่มต้น"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:725
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:739
 #, elixir-autogen, elixir-format
 msgid "Speed"
 msgstr "ความเร็ว"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:698
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:712
 #, elixir-autogen, elixir-format
 msgid "Transfer statistics"
 msgstr "สถิติการถ่ายโอน"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:713
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:727
 #, elixir-autogen, elixir-format
 msgid "Uploaded"
 msgstr "อัปโหลดแล้ว"
 
-#: lib/elixir_torrent_web_ui/engine.ex:265
+#: lib/elixir_torrent_web_ui/engine.ex:266
 #, elixir-autogen, elixir-format
 msgid "Could not download metadata from any peer"
 msgstr "ไม่สามารถดาวน์โหลด metadata จาก peer ใดๆ ได้"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:309
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:323
 #, elixir-autogen, elixir-format
 msgid "Could not read clipboard"
 msgstr "ไม่สามารถอ่านคลิปบอร์ดได้"
 
-#: lib/elixir_torrent_web_ui/engine.ex:268
+#: lib/elixir_torrent_web_ui/engine.ex:269
 #, elixir-autogen, elixir-format
 msgid "Downloaded metadata does not match the magnet hash"
 msgstr "metadata ที่ดาวน์โหลดไม่ตรงกับ magnet hash"
 
-#: lib/elixir_torrent_web_ui/engine.ex:276
+#: lib/elixir_torrent_web_ui/engine.ex:277
 #, elixir-autogen, elixir-format
 msgid "Failed to add magnet: %{reason}"
 msgstr "ไม่สามารถเพิ่ม magnet ได้: %{reason}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:323
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:337
 #, elixir-autogen, elixir-format
 msgid "Fetching metadata from peers…"
 msgstr "กำลังดึง metadata จาก peers…"
 
-#: lib/elixir_torrent_web_ui/engine.ex:255
+#: lib/elixir_torrent_web_ui/engine.ex:256
 #, elixir-autogen, elixir-format
 msgid "Invalid info hash in magnet link"
 msgstr "info hash ในลิงก์ magnet ไม่ถูกต้อง"
 
-#: lib/elixir_torrent_web_ui/engine.ex:256
+#: lib/elixir_torrent_web_ui/engine.ex:257
 #, elixir-autogen, elixir-format
 msgid "Invalid magnet link"
 msgstr "ลิงก์ magnet ไม่ถูกต้อง"
@@ -363,12 +363,12 @@ msgstr "ลิงก์ magnet ไม่ถูกต้อง"
 msgid "Magnet download started"
 msgstr "เริ่มดาวน์โหลด magnet แล้ว"
 
-#: lib/elixir_torrent_web_ui/engine.ex:259
+#: lib/elixir_torrent_web_ui/engine.ex:260
 #, elixir-autogen, elixir-format
 msgid "Magnet has no tracker URLs and no peers were found via DHT"
 msgstr "magnet ไม่มี URL ของ tracker และไม่พบ peers ผ่าน DHT"
 
-#: lib/elixir_torrent_web_ui/engine.ex:254
+#: lib/elixir_torrent_web_ui/engine.ex:255
 #, elixir-autogen, elixir-format
 msgid "Magnet link is missing the info hash (xt=)"
 msgstr "ลิงก์ magnet ไม่มี info hash (xt=)"
@@ -379,79 +379,89 @@ msgstr "ลิงก์ magnet ไม่มี info hash (xt=)"
 msgid "Magnet metadata fetch already in progress"
 msgstr "กำลังดึง metadata ของ magnet อยู่แล้ว"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:474
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:488
 #, elixir-autogen, elixir-format
 msgid "No active torrents. Add a `.torrent` file or magnet link to start downloading."
 msgstr ""
 "ไม่มีทอร์เรนต์ที่ใช้งานอยู่ เพิ่มไฟล์ `.torrent` หรือลิงก์ magnet "
 "เพื่อเริ่มดาวน์โหลด"
 
-#: lib/elixir_torrent_web_ui/engine.ex:253
+#: lib/elixir_torrent_web_ui/engine.ex:254
 #, elixir-autogen, elixir-format
 msgid "Not a magnet link"
 msgstr "ไม่ใช่ลิงก์ magnet"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:319
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:333
 #, elixir-autogen, elixir-format
 msgid "Not a valid magnet link"
 msgstr "ไม่ใช่ลิงก์ magnet ที่ถูกต้อง"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:316
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:330
 #, elixir-autogen, elixir-format
 msgid "Paste a magnet link"
 msgstr "วางลิงก์ magnet"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:436
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:450
 #, elixir-autogen, elixir-format
 msgid "Paste magnet & Go"
 msgstr "วาง magnet แล้วไป"
 
-#: lib/elixir_torrent_web_ui/engine.ex:262
+#: lib/elixir_torrent_web_ui/engine.ex:263
 #, elixir-autogen, elixir-format
 msgid "Timed out fetching metadata from peers"
 msgstr "หมดเวลารอดึง metadata จาก peers"
 
-#: lib/elixir_torrent_web_ui/engine.ex:273
+#: lib/elixir_torrent_web_ui/engine.ex:274
 #, elixir-autogen, elixir-format
 msgid "Torrent is already downloading"
 msgstr "ทอร์เรนต์กำลังดาวน์โหลดอยู่แล้ว"
 
-#: lib/elixir_torrent_web_ui/engine.ex:271
+#: lib/elixir_torrent_web_ui/engine.ex:272
 #, elixir-autogen, elixir-format
 msgid "Torrent process started but metadata is not ready yet"
 msgstr "เริ่มกระบวนการทอร์เรนต์แล้ว แต่ metadata ยังไม่พร้อม"
 
-#: lib/elixir_torrent_web_ui/engine.ex:261
+#: lib/elixir_torrent_web_ui/engine.ex:262
 #, elixir-autogen, elixir-format
 msgid "Trackers returned no peers — try again later"
 msgstr "tracker ไม่ส่ง peers กลับมา — ลองอีกครั้งภายหลัง"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:465
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:479
 #, elixir-autogen, elixir-format
 msgid "click to add"
 msgstr "คลิกเพื่อเพิ่ม"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1089
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1153
 #, elixir-autogen, elixir-format
 msgid "Lifetime transfer statistics"
 msgstr "สถิติการถ่ายโอนตลอดการใช้งาน"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1101
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1165
 #, elixir-autogen, elixir-format
 msgid "Reset Statistics"
 msgstr "รีเซ็ตสถิติ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1092
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1156
 #, elixir-autogen, elixir-format
 msgid "Reset downloaded and uploaded totals for this device."
 msgstr "รีเซ็ตยอดรวมดาวน์โหลดและอัปโหลดสำหรับอุปกรณ์นี้."
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1098
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1162
 #, elixir-autogen, elixir-format
 msgid "Reset lifetime transfer statistics?"
 msgstr "รีเซ็ตสถิติการถ่ายโอนตลอดการใช้งานหรือไม่?"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:301
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:315
 #, elixir-autogen, elixir-format
 msgid "Transfer statistics reset"
 msgstr "รีเซ็ตสถิติการถ่ายโอนแล้ว"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:172
+#, elixir-autogen, elixir-format
+msgid "Could not open this image"
+msgstr "ไม่สามารถเปิดรูปภาพนี้ได้"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1006
+#, elixir-autogen, elixir-format
+msgid "Open image %{name}"
+msgstr "เปิดรูปภาพ %{name}"

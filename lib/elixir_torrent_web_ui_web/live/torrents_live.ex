@@ -160,6 +160,20 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   end
 
   @impl true
+  def handle_event(
+        "open_image",
+        %{"torrent_id" => torrent_id, "file_index" => file_index},
+        socket
+      ) do
+    with {index, ""} <- Integer.parse(file_index),
+         :ok <- Engine.open_image(torrent_id, index) do
+      {:noreply, socket}
+    else
+      _ -> {:noreply, put_flash(socket, :error, gettext("Could not open this image"))}
+    end
+  end
+
+  @impl true
   def handle_event("close_player", _params, socket) do
     {:noreply, assign(socket, :player, nil)}
   end
@@ -895,23 +909,15 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
                   id={"torrent-file-#{@torrent.id}-#{file.index}"}
                   class={[
                     "grid grid-cols-[minmax(0,1fr)_5rem_6rem] gap-3 border-b border-base-300/70 px-4 py-3 text-sm last:border-b-0 transition-colors hover:bg-base-300/70",
-                    Engine.playable_file?(file) && "group cursor-pointer"
+                    file_action(file) && "group cursor-pointer"
                   ]}
-                  phx-click={Engine.playable_file?(file) && "open_player"}
+                  phx-click={file_action(file)}
                   phx-value-torrent_id={@torrent.id}
                   phx-value-file_index={file.index}
-                  aria-label={Engine.playable_file?(file) && gettext("Play %{name}", name: file.name)}
+                  aria-label={file_aria_label(file)}
                 >
                   <div class="flex min-w-0 items-center gap-3">
-                    <%= if Engine.playable_file?(file) do %>
-                      <span
-                        id={"torrent-file-play-#{@torrent.id}-#{file.index}"}
-                        class="inline-flex size-9 shrink-0 items-center justify-center rounded-full border-2 border-base-content bg-transparent text-base-content transition group-hover:border-success group-hover:bg-success group-hover:text-white"
-                        aria-hidden="true"
-                      >
-                        <.icon name="hero-play" class="size-4 translate-x-px" />
-                      </span>
-                    <% end %>
+                    <.torrent_file_leading file={file} torrent_id={@torrent.id} />
                     <div class="min-w-0 flex-1">
                       <p class="truncate font-medium text-base-content" title={file.path}>
                         {file.name}
@@ -942,6 +948,64 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
       <% end %>
     </div>
     """
+  end
+
+  attr :file, Engine.FileRow, required: true
+  attr :torrent_id, :string, required: true
+
+  @doc false
+  def torrent_file_leading(assigns) do
+    ~H"""
+    <%= cond do %>
+      <% Engine.playable_file?(@file) -> %>
+        <span
+          id={"torrent-file-play-#{@torrent_id}-#{@file.index}"}
+          class="inline-flex size-9 shrink-0 items-center justify-center rounded-full border-2 border-base-content bg-transparent text-base-content transition group-hover:border-success group-hover:bg-success group-hover:text-white"
+          aria-hidden="true"
+        >
+          <.icon name="hero-play" class="size-4 translate-x-px" />
+        </span>
+      <% Engine.previewable_image?(@file) -> %>
+        <span
+          id={"torrent-file-image-#{@torrent_id}-#{@file.index}"}
+          class="inline-flex size-9 shrink-0 overflow-hidden rounded-md border border-base-300 bg-base-300/40"
+          aria-hidden="true"
+        >
+          <img
+            src={~p"/media/#{@torrent_id}/#{@file.index}/preview"}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            class="size-full object-cover"
+          />
+        </span>
+      <% Engine.openable_image?(@file) -> %>
+        <span
+          id={"torrent-file-image-#{@torrent_id}-#{@file.index}"}
+          class="inline-flex size-9 shrink-0 items-center justify-center rounded-md border border-base-300 bg-base-300/40 text-base-content/70"
+          aria-hidden="true"
+        >
+          <.icon name="hero-photo" class="size-5" />
+        </span>
+      <% true -> %>
+    <% end %>
+    """
+  end
+
+  defp file_action(file) do
+    cond do
+      Engine.playable_file?(file) -> "open_player"
+      Engine.openable_image?(file) -> "open_image"
+      true -> nil
+    end
+  end
+
+  defp file_aria_label(file) do
+    cond do
+      Engine.playable_file?(file) -> gettext("Play %{name}", name: file.name)
+      Engine.openable_image?(file) -> gettext("Open image %{name}", name: file.name)
+      true -> nil
+    end
   end
 
   attr :player, :map, default: nil

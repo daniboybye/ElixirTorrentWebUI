@@ -16,6 +16,25 @@ defmodule ElixirTorrentWebUIWeb.MediaController do
     end
   end
 
+  def preview(conn, %{"torrent_id" => torrent_id, "file_index" => file_index}) do
+    with {index, ""} <- Integer.parse(file_index),
+         {:ok, %{path: path, content_type: content_type}} <-
+           media_resolver().resolve_image_preview(torrent_id, index) do
+      conn
+      |> put_resp_header("cache-control", "private, max-age=60")
+      |> serve_path(path, content_type)
+    else
+      _ ->
+        conn
+        |> put_status(:not_found)
+        |> text("Not found")
+    end
+  end
+
+  defp media_resolver do
+    Application.get_env(:elixir_torrent_web_ui, :media_resolver, Engine)
+  end
+
   defp serve_path(conn, path, content_type) do
     size = File.stat!(path).size
 
@@ -24,6 +43,7 @@ defmodule ElixirTorrentWebUIWeb.MediaController do
       |> put_resp_header("accept-ranges", "bytes")
       |> put_resp_header("content-type", content_type)
       |> put_resp_header("content-disposition", content_disposition(path))
+      |> put_resp_header("x-content-type-options", "nosniff")
 
     case get_req_header(conn, "range") do
       [range | _] ->

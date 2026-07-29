@@ -9,8 +9,9 @@ defmodule ElixirTorrentWebUI.Engine do
 
   use Gettext, backend: ElixirTorrentWebUIWeb.Gettext
 
-  alias ElixirTorrentWebUI.{Media, TorrentCatalog, UiState}
+  alias ElixirTorrentWebUI.{Media, OsIntegration, PathGuard, TorrentCatalog, UiState}
 
+  @max_inline_image_bytes 50 * 1024 * 1024
   @min_play_progress_percent 1.0
 
   defmodule FileRow do
@@ -302,6 +303,17 @@ defmodule ElixirTorrentWebUI.Engine do
     progress >= @min_play_progress_percent and (Media.video?(name) or Media.video?(path))
   end
 
+  @spec openable_image?(FileRow.t()) :: boolean()
+  def openable_image?(%FileRow{complete?: complete?, name: name, path: path}) do
+    complete? and (Media.image?(name) or Media.image?(path))
+  end
+
+  @spec previewable_image?(FileRow.t()) :: boolean()
+  def previewable_image?(%FileRow{length: length, name: name, path: path} = file) do
+    openable_image?(file) and length <= @max_inline_image_bytes and
+      (Media.browser_image?(name) or Media.browser_image?(path))
+  end
+
   @spec resolve_video(String.t(), non_neg_integer()) ::
           {:ok, %{name: String.t(), path: Path.t(), content_type: String.t()}}
           | {:error, term()}
@@ -313,6 +325,37 @@ defmodule ElixirTorrentWebUI.Engine do
          :ok <- ensure_readable(path),
          {:ok, content_type} <- Media.content_type(file.name) do
       {:ok, %{name: file.name, path: path, content_type: content_type}}
+    end
+  end
+
+  @spec resolve_image_preview(String.t(), non_neg_integer()) ::
+          {:ok, %{name: String.t(), path: Path.t(), content_type: String.t()}}
+          | {:error, term()}
+  def resolve_image_preview(torrent_id, file_index) do
+    with {:ok, hash} <- hash_from_hex_id(torrent_id),
+         {:ok, file} <- find_file(hash, file_index),
+         true <- previewable_image?(file),
+         {:ok, path} <- safe_disk_path(file.path, torrent_id),
+         :ok <- ensure_readable(path),
+         {:ok, content_type} <- image_content_type(file) do
+      {:ok, %{name: file.name, path: path, content_type: content_type}}
+    else
+      false -> {:error, :not_previewable}
+      other -> other
+    end
+  end
+
+  @spec open_image(String.t(), non_neg_integer()) :: :ok | {:error, term()}
+  def open_image(torrent_id, file_index) do
+    with {:ok, hash} <- hash_from_hex_id(torrent_id),
+         {:ok, file} <- find_file(hash, file_index),
+         true <- openable_image?(file),
+         {:ok, path} <- safe_disk_path(file.path, torrent_id),
+         :ok <- ensure_readable(path) do
+      OsIntegration.open_file(path)
+    else
+      false -> {:error, :not_openable}
+      other -> other
     end
   end
 
@@ -439,6 +482,8 @@ defmodule ElixirTorrentWebUI.Engine do
       nil -> {:error, :file_not_found}
       file -> {:ok, file}
     end
+  catch
+    :exit, _ -> {:error, :torrent_not_found}
   end
 
   @spec validate_playable(FileRow.t()) :: :ok | {:error, term()}
@@ -446,16 +491,19 @@ defmodule ElixirTorrentWebUI.Engine do
     if playable_file?(file), do: :ok, else: {:error, :not_playable}
   end
 
+  defp image_content_type(file) do
+    if Media.image?(file.name) do
+      Media.image_content_type(file.name)
+    else
+      Media.image_content_type(file.path)
+    end
+  end
+
   @spec safe_disk_path(String.t(), String.t()) :: {:ok, Path.t()} | {:error, :invalid_path}
   defp safe_disk_path(relative, torrent_id) when is_binary(relative) and is_binary(torrent_id) do
-    base = Path.expand(TorrentCatalog.download_dir(torrent_id))
-    path = Path.expand(Path.join(base, relative))
-
-    if String.starts_with?(path, base <> "/") or path == base do
-      {:ok, path}
-    else
-      {:error, :invalid_path}
-    end
+    torrent_id
+    |> TorrentCatalog.download_dir()
+    |> PathGuard.safe_join(relative)
   end
 
   @spec run_folder_picker() :: {:ok, String.t()} | {:error, :cancelled}

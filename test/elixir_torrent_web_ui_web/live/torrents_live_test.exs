@@ -55,6 +55,42 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLiveTest do
     assert ElixirTorrentWebUI.StatsStore.get() == %{total_downloaded: 0, total_uploaded: 0}
   end
 
+  test "renders lazy image thumbnails and an OS-open fallback" do
+    torrent_id = String.duplicate("A", 40)
+
+    preview =
+      render_component(&ElixirTorrentWebUIWeb.TorrentsLive.torrent_file_leading/1,
+        file: file_row("cover.jpg"),
+        torrent_id: torrent_id
+      )
+
+    assert preview =~ ~s(id="torrent-file-image-#{torrent_id}-7")
+    assert preview =~ ~s(src="/media/#{torrent_id}/7/preview")
+    assert preview =~ ~s(loading="lazy")
+    assert preview =~ ~s(decoding="async")
+
+    fallback =
+      render_component(&ElixirTorrentWebUIWeb.TorrentsLive.torrent_file_leading/1,
+        file: file_row("capture.heic"),
+        torrent_id: torrent_id
+      )
+
+    assert fallback =~ "hero-photo"
+    refute fallback =~ "<img"
+  end
+
+  test "reports image open failures without accepting arbitrary paths", %{conn: conn} do
+    {:ok, view, _html} = live(conn, ~p"/")
+
+    html =
+      render_click(view, "open_image", %{
+        "torrent_id" => String.duplicate("0", 40),
+        "file_index" => "0"
+      })
+
+    assert html =~ "Could not open this image"
+  end
+
   test "locale route remounts UI in Bulgarian without manual reload", %{conn: conn} do
     conn = get(conn, ~p"/")
     assert html_response(conn, 200) =~ "Settings"
@@ -90,5 +126,17 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLiveTest do
     assert html =~ "Settings"
     assert html =~ "Add torrent"
     refute html =~ "Настройки"
+  end
+
+  defp file_row(name) do
+    %ElixirTorrentWebUI.Engine.FileRow{
+      index: 7,
+      path: "album/#{name}",
+      name: name,
+      length: 1_024,
+      downloaded: 1_024,
+      progress: 100.0,
+      complete?: true
+    }
   end
 end
