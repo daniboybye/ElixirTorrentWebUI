@@ -22,6 +22,14 @@ erl_crash.dump
 # Temporary files, for example, from tests.
 /tmp/
 
+# Local runtime state and downloaded data.
+/.elixir_torrent/
+
+# Local AI project memory (mirrors the ElixirTorrent workflow).
+/CLAUDE.md
+/.claude/
+/.cursor/
+
 # Ignore package tarball (built via "mix hex.build").
 elixir_torrent_web_ui-*.tar
 
