@@ -16,6 +16,7 @@ defmodule ElixirTorrentWebUI.Application do
     children = [
       ElixirTorrentWebUI.TorrentCatalog,
       ElixirTorrentWebUI.UiState,
+      ElixirTorrentWebUI.StatsStore,
       ElixirTorrentWebUIWeb.Telemetry,
       {DNSCluster,
        query: Application.get_env(:elixir_torrent_web_ui, :dns_cluster_query) || :ignore},
@@ -34,6 +35,7 @@ defmodule ElixirTorrentWebUI.Application do
 
   @impl true
   def stop(_state) do
+    ElixirTorrentWebUI.StatsStore.persist_state()
     ElixirTorrentWebUI.TorrentCatalog.persist_state()
     :ok
   end

@@ -2,213 +2,335 @@
 msgid ""
 msgstr ""
 "Language: sr\n"
-"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
+#: lib/elixir_torrent_web_ui_web/components/core_components.ex:371
 #, elixir-autogen, elixir-format
 msgid "Actions"
 msgstr "Акције"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:360
 #, elixir-autogen, elixir-format
 msgid "Add torrent"
 msgstr "Додај торрент"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:994
 #, elixir-autogen, elixir-format
 msgid "Apply"
 msgstr "Пријавите се"
 
+#: lib/elixir_torrent_web_ui_web/components/layouts.ex:91
+#: lib/elixir_torrent_web_ui_web/components/layouts.ex:103
 #, elixir-autogen, elixir-format
 msgid "Attempting to reconnect"
 msgstr "Покушај поновног повезивања"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:915
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:932
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:987
 #, elixir-autogen, elixir-format
 msgid "Cancel"
 msgstr "Откажи"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:940
 #, elixir-autogen, elixir-format
 msgid "Language"
 msgstr "Језик"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:348
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:351
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:925
 #, elixir-autogen, elixir-format
 msgid "Settings"
 msgstr "Подешавања"
 
+#: lib/elixir_torrent_web_ui_web/components/layouts.ex:98
 #, elixir-autogen, elixir-format
 msgid "Something went wrong!"
 msgstr "Нешто је пошло по злу!"
 
+#: lib/elixir_torrent_web_ui_web/components/layouts.ex:86
 #, elixir-autogen, elixir-format
 msgid "We can't find the internet"
 msgstr "Не можемо да пронађемо интернет"
 
+#: lib/elixir_torrent_web_ui_web/components/core_components.ex:77
 #, elixir-autogen, elixir-format
 msgid "close"
 msgstr "затворити"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1038
 #, elixir-autogen, elixir-format
 msgid "Are you sure you want to remove the selected torrent?"
 msgstr "Да ли сте сигурни да желите да уклоните изабрани торент?"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:115
 #, elixir-autogen, elixir-format
 msgid "Cannot play this file"
 msgstr "Није могуће репродуковати ову датотеку"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:873
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1031
 #, elixir-autogen, elixir-format
 msgid "Close"
 msgstr "Затвори"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1019
 #, elixir-autogen, elixir-format
 msgid "Close dialog"
 msgstr "Затвори дијалог"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:857
 #, elixir-autogen, elixir-format
 msgid "Close player"
 msgstr "Затвори плејер"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1075
 #, elixir-autogen, elixir-format
 msgid "Connecting"
 msgstr "Повезивање"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:183
 #, elixir-autogen, elixir-format
 msgid "Could not open folder in Finder"
 msgstr "Није могуће отворити фасциклу у Finder"
 
+#: lib/elixir_torrent_web_ui_web/components/layouts.ex:53
 #, elixir-autogen, elixir-format
 msgid "Creator:"
 msgstr "Креатор:"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:761
 #, elixir-autogen, elixir-format
 msgid "Date Added"
 msgstr "Датум додавања"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:784
 #, elixir-autogen, elixir-format
 msgid "Download"
 msgstr "Преузми"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:595
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:824
 #, elixir-autogen, elixir-format
 msgid "Downloaded"
 msgstr "Преузето"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1077
 #, elixir-autogen, elixir-format
 msgid "Downloading"
 msgstr "Преузимање"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:407
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:424
 #, elixir-autogen, elixir-format
 msgid "Drop files here!"
 msgstr "Испустите датотеке овде!"
 
+#: lib/elixir_torrent_web_ui_web/components/layouts.ex:50
 #, elixir-autogen, elixir-format
 msgid "Version %{version}"
 msgstr "Верзија %{version}"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:71
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:305
 #, elixir-autogen, elixir-format
 msgid "Failed to add torrent: %{reason}"
 msgstr "Додавање торрента није успело: %{reason}"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:693
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:705
 #, elixir-autogen, elixir-format
 msgid "Hide Torrent Files"
 msgstr "Сакриј торент датотеке"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1076
 #, elixir-autogen, elixir-format
 msgid "Idle"
 msgstr "Идле"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:782
 #, elixir-autogen, elixir-format
 msgid "Name"
 msgstr "Име"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:272
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:312
 #, elixir-autogen, elixir-format
 msgid "Only .torrent files are allowed"
 msgstr "Дозвољене су само .torrent датотеке"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:409
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:427
 #, elixir-autogen, elixir-format
 msgid "Only `.torrent` files accepted"
 msgstr "Прихваћене су само `.torrent` датотеке"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:796
 #, elixir-autogen, elixir-format
 msgid "Play %{name}"
 msgstr "Играј %{name}"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:678
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:685
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1050
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent"
 msgstr "Уклони торент"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1059
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent + Data"
 msgstr "Уклони торент + податке"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1024
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent?"
 msgstr "Уклонити Торрент?"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1069
 #, elixir-autogen, elixir-format
 msgid "Removed torrent and data: %{name}"
 msgstr "Уклоњен торрент и подаци: %{name}"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1071
 #, elixir-autogen, elixir-format
 msgid "Removed torrent: %{name}"
 msgstr "Уклоњен торрент: %{name}"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1074
 #, elixir-autogen, elixir-format
 msgid "Seeding"
 msgstr "Сејање"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:666
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:673
 #, elixir-autogen, elixir-format
 msgid "Show Folder"
 msgstr "Прикажи фасциклу"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:180
 #, elixir-autogen, elixir-format
 msgid "Show Folder is only available on macOS"
 msgstr "Приказ фасцикле је доступан само на macOS"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:693
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:705
 #, elixir-autogen, elixir-format
 msgid "Show Torrent Files"
 msgstr "Прикажи торент датотеке"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:783
 #, elixir-autogen, elixir-format
 msgid "Size"
 msgstr "Величина"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1167
 #, elixir-autogen, elixir-format
 msgid "Theme"
 msgstr "Тема"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:408
 #, elixir-autogen, elixir-format
 msgid "This file type is not supported"
 msgstr "Овај тип датотеке није подржан"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1162
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1163
 #, elixir-autogen, elixir-format
 msgid "Toggle theme"
 msgstr "Пребаци тему"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:62
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:297
 #, elixir-autogen, elixir-format
 msgid "Torrent added: %{name}"
 msgstr "Торрент је додат: %{name}"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:767
 #, elixir-autogen, elixir-format
 msgid "Total Files"
 msgstr "Тотал Филес"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:773
 #, elixir-autogen, elixir-format
 msgid "Total Size"
 msgstr "Укупна величина"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:380
 #, elixir-autogen, elixir-format
 msgid "Click to Add"
 msgstr "Кликните да бисте додали"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:375
 #, elixir-autogen, elixir-format
 msgid "Drag and drop a `.torrent` file here, or"
 msgstr "Превуците и отпустите `.torrent` датотеку овде или"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:147
 #, elixir-autogen, elixir-format
 msgid "Failed to remove torrent: %{reason}"
 msgstr "Уклањање торрента није успело: %{reason}"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:389
 #, elixir-autogen, elixir-format
 msgid "No active torrents. Add a `.torrent` file to start downloading."
-msgstr "Нема активних торрената. Додајте `.torrent` датотеку да бисте започели преузимање."
-"Нема активних торента. Додајте датотеку __ТОРРЕНТБТ__ да бисте започели "
-"преузимање."
+msgstr ""
+"Нема активних торрената. Додајте `.torrent` датотеку да бисте започели "
+"преузимање.Нема активних торента. Додајте датотеку __ТОРРЕНТБТ__ да бисте "
+"започели преузимање."
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:599
+#, elixir-autogen, elixir-format
+msgid "All-time bytes downloaded"
+msgstr "Укупно преузето бајтова"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:610
+#, elixir-autogen, elixir-format
+msgid "All-time bytes uploaded"
+msgstr "Укупно отпремљено бајтова"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:975
+#, elixir-autogen, elixir-format
+msgid "Change"
+msgstr "Промени"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:223
+#, elixir-autogen, elixir-format
+msgid "Choose Folder is only available on macOS"
+msgstr "Избор фасцикле доступан је само на macOS"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:229
+#, elixir-autogen, elixir-format
+msgid "Could not choose download folder"
+msgstr "Није могуће изабрати фасциклу за преузимање"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:623
+#, elixir-autogen, elixir-format
+msgid "Current download speed"
+msgstr "Тренутна брзина преузимања"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:629
+#, elixir-autogen, elixir-format
+msgid "Current upload speed"
+msgstr "Тренутна брзина отпремања"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:959
+#, elixir-autogen, elixir-format
+msgid "Default download folder"
+msgstr "Подразумевана фасцикла за преузимање"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:618
+#, elixir-autogen, elixir-format
+msgid "Speed"
+msgstr "Брзина"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:591
+#, elixir-autogen, elixir-format
+msgid "Transfer statistics"
+msgstr "Статистика преноса"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:606
+#, elixir-autogen, elixir-format
+msgid "Uploaded"
+msgstr "Отпремљено"

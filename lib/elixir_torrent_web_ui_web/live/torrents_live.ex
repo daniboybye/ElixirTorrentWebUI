@@ -1,7 +1,7 @@
 defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   use ElixirTorrentWebUIWeb, :live_view
 
-  alias ElixirTorrentWebUI.{Engine, Locale, TorrentIngest}
+  alias ElixirTorrentWebUI.{Engine, Locale, StatsStore, TorrentIngest}
 
   @refresh_ms 1_000
 
@@ -9,6 +9,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   def mount(_params, _session, socket) do
     %{theme: theme, expanded: expanded, download_folder: download_folder} =
       ElixirTorrentWebUI.UiState.get()
+
     locale = socket.assigns.locale
 
     socket =
@@ -21,7 +22,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
       |> assign(:settings_download_folder, download_folder)
       |> assign(:download_folder, download_folder)
       |> assign(:player, nil)
-      |> assign(:torrents, Engine.list_torrents(expanded))
+      |> assign_torrents(Engine.list_torrents(expanded))
       |> allow_upload(:torrent,
         accept: ~w(.torrent),
         max_entries: 1,
@@ -59,7 +60,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     {:noreply,
      socket
      |> put_flash(:info, gettext("Torrent added: %{name}", name: name))
-     |> assign(:torrents, Engine.list_torrents(socket.assigns.expanded))}
+     |> assign_torrents(Engine.list_torrents(socket.assigns.expanded))}
   end
 
   def handle_info({:torrent_ingest, _path, {:error, reason}}, socket) do
@@ -74,7 +75,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   @impl true
   def handle_info(:refresh, socket) do
     Process.send_after(self(), :refresh, @refresh_ms)
-    {:noreply, assign(socket, :torrents, Engine.list_torrents(socket.assigns.expanded))}
+    {:noreply, assign_torrents(socket, Engine.list_torrents(socket.assigns.expanded))}
   end
 
   @impl true
@@ -136,7 +137,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
              |> assign(:remove_dialog, nil)
              |> assign(:expanded, expanded)
              |> put_flash(:info, removed_flash(name, delete?))
-             |> assign(:torrents, Engine.list_torrents(expanded))}
+             |> assign_torrents(Engine.list_torrents(expanded))}
 
           {:error, reason} ->
             {:noreply,
@@ -166,7 +167,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     {:noreply,
      socket
      |> assign(:expanded, expanded)
-     |> assign(:torrents, Engine.list_torrents(expanded))}
+     |> assign_torrents(Engine.list_torrents(expanded))}
   end
 
   @impl true
@@ -219,15 +220,13 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         {:noreply, assign(socket, :settings_download_folder, folder)}
 
       {:error, :unsupported_platform} ->
-        {:noreply,
-         put_flash(socket, :error, gettext("Choose Folder is only available on macOS"))}
+        {:noreply, put_flash(socket, :error, gettext("Choose Folder is only available on macOS"))}
 
       {:error, :cancelled} ->
         {:noreply, socket}
 
       {:error, _} ->
-        {:noreply,
-         put_flash(socket, :error, gettext("Could not choose download folder"))}
+        {:noreply, put_flash(socket, :error, gettext("Could not choose download folder"))}
     end
   end
 
@@ -296,7 +295,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
           {:noreply,
            socket
            |> put_flash(:info, gettext("Torrent added: %{name}", name: entry.client_name))
-           |> assign(:torrents, Engine.list_torrents(socket.assigns.expanded))}
+           |> assign_torrents(Engine.list_torrents(socket.assigns.expanded))}
 
         {:error, reason} ->
           {:noreply,
@@ -335,6 +334,9 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
               <p class="text-base font-semibold text-base-content">ElixirTorrent Web</p>
             </div>
           </div>
+
+          <.aggregate_stats_bar stats={@stats} />
+
           <div class="flex flex-wrap items-center gap-2">
             <.theme_toggle theme={@theme} locale={@locale} />
 
@@ -550,6 +552,24 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     """
   end
 
+  @spec assign_torrents(Phoenix.LiveView.Socket.t(), list(Engine.TorrentRow.t())) ::
+          Phoenix.LiveView.Socket.t()
+  defp assign_torrents(socket, torrents) do
+    rates = Engine.aggregate_rates(torrents)
+    all_time = StatsStore.get()
+
+    stats = %Engine.AggregateStats{
+      bytes_downloaded: all_time.total_downloaded,
+      bytes_uploaded: all_time.total_uploaded,
+      down_kbps: rates.down_kbps,
+      up_kbps: rates.up_kbps
+    }
+
+    socket
+    |> assign(:torrents, torrents)
+    |> assign(:stats, stats)
+  end
+
   @spec persist_upload(Path.t(), Phoenix.LiveView.UploadEntry.t()) :: Path.t()
   defp persist_upload(tmp_path, entry) do
     dir = Path.join(System.tmp_dir!(), "elixir_torrent_web_ui/uploads")
@@ -559,6 +579,61 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     dest = Path.join(dir, filename)
     File.cp!(tmp_path, dest)
     dest
+  end
+
+  attr :stats, Engine.AggregateStats, required: true
+
+  defp aggregate_stats_bar(assigns) do
+    ~H"""
+    <div
+      id="aggregate-stats"
+      class="flex flex-wrap items-end justify-center gap-x-3 gap-y-1 text-xs tabular-nums text-base-content/80 sm:gap-x-4 sm:text-sm"
+      aria-label={gettext("Transfer statistics")}
+    >
+      <div class="flex flex-col items-center gap-0.5">
+        <span class="text-[10px] font-medium uppercase tracking-wide text-base-content/50">
+          {gettext("Downloaded")}
+        </span>
+        <span
+          class="inline-flex items-center gap-1 text-success"
+          title={gettext("All-time bytes downloaded")}
+        >
+          ↓ {format_bytes(@stats.bytes_downloaded)}
+        </span>
+      </div>
+      <div class="flex flex-col items-center gap-0.5">
+        <span class="text-[10px] font-medium uppercase tracking-wide text-base-content/50">
+          {gettext("Uploaded")}
+        </span>
+        <span
+          class="inline-flex items-center gap-1 text-secondary"
+          title={gettext("All-time bytes uploaded")}
+        >
+          ↑ {format_bytes(@stats.bytes_uploaded)}
+        </span>
+      </div>
+      <span class="hidden pb-0.5 text-base-content/40 sm:inline" aria-hidden="true">|</span>
+      <div class="flex flex-col items-center gap-0.5">
+        <span class="text-[10px] font-medium uppercase tracking-wide text-base-content/50">
+          {gettext("Speed")}
+        </span>
+        <div class="inline-flex items-center gap-2">
+          <span
+            class="inline-flex items-center gap-1 text-success"
+            title={gettext("Current download speed")}
+          >
+            ↓ {format_speed(@stats.down_kbps)}
+          </span>
+          <span
+            class="inline-flex items-center gap-1 text-secondary"
+            title={gettext("Current upload speed")}
+          >
+            ↑ {format_speed(@stats.up_kbps)}
+          </span>
+        </div>
+      </div>
+    </div>
+    """
   end
 
   attr :torrent, Engine.TorrentRow, required: true

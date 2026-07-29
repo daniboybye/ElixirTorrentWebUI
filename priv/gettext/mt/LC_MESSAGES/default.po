@@ -2,211 +2,332 @@
 msgid ""
 msgstr ""
 "Language: mt\n"
-"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: lib/elixir_torrent_web_ui_web/components/core_components.ex:371
 #, elixir-autogen, elixir-format
 msgid "Actions"
 msgstr "Azzjonijiet"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:360
 #, elixir-autogen, elixir-format
 msgid "Add torrent"
 msgstr "Żid it-torrent"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:994
 #, elixir-autogen, elixir-format
 msgid "Apply"
 msgstr "Applika"
 
+#: lib/elixir_torrent_web_ui_web/components/layouts.ex:91
+#: lib/elixir_torrent_web_ui_web/components/layouts.ex:103
 #, elixir-autogen, elixir-format
 msgid "Attempting to reconnect"
 msgstr "Jippruvaw jerġgħu jgħaqqdu"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:915
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:932
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:987
 #, elixir-autogen, elixir-format
 msgid "Cancel"
 msgstr "Ikkanċella"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:940
 #, elixir-autogen, elixir-format
 msgid "Language"
 msgstr "Lingwa"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:348
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:351
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:925
 #, elixir-autogen, elixir-format
 msgid "Settings"
 msgstr "Settings"
 
+#: lib/elixir_torrent_web_ui_web/components/layouts.ex:98
 #, elixir-autogen, elixir-format
 msgid "Something went wrong!"
 msgstr "Xi ħaġa marret ħażin!"
 
+#: lib/elixir_torrent_web_ui_web/components/layouts.ex:86
 #, elixir-autogen, elixir-format
 msgid "We can't find the internet"
 msgstr "Ma nistgħux insibu l-internet"
 
+#: lib/elixir_torrent_web_ui_web/components/core_components.ex:77
 #, elixir-autogen, elixir-format
 msgid "close"
 msgstr "qrib"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1038
 #, elixir-autogen, elixir-format
 msgid "Are you sure you want to remove the selected torrent?"
 msgstr "Int żgur li trid tneħħi t-torrent magħżul?"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:115
 #, elixir-autogen, elixir-format
 msgid "Cannot play this file"
 msgstr "Ma tistax tilgħab dan il-fajl"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:873
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1031
 #, elixir-autogen, elixir-format
 msgid "Close"
 msgstr "Agħlaq"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1019
 #, elixir-autogen, elixir-format
 msgid "Close dialog"
 msgstr "Agħlaq id-djalogu"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:857
 #, elixir-autogen, elixir-format
 msgid "Close player"
 msgstr "Agħlaq plejer"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1075
 #, elixir-autogen, elixir-format
 msgid "Connecting"
 msgstr "Konnessjoni"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:183
 #, elixir-autogen, elixir-format
 msgid "Could not open folder in Finder"
 msgstr "Ma setgħetx tiftaħ folder fi Finder"
 
+#: lib/elixir_torrent_web_ui_web/components/layouts.ex:53
 #, elixir-autogen, elixir-format
 msgid "Creator:"
 msgstr "Ħallieq:"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:761
 #, elixir-autogen, elixir-format
 msgid "Date Added"
 msgstr "Data Miżjuda"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:784
 #, elixir-autogen, elixir-format
 msgid "Download"
 msgstr "Niżżel"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:595
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:824
 #, elixir-autogen, elixir-format
 msgid "Downloaded"
 msgstr "Niżżel"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1077
 #, elixir-autogen, elixir-format
 msgid "Downloading"
 msgstr "Tniżżil"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:407
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:424
 #, elixir-autogen, elixir-format
 msgid "Drop files here!"
 msgstr "Waqqa 'fajls hawn!"
 
+#: lib/elixir_torrent_web_ui_web/components/layouts.ex:50
 #, elixir-autogen, elixir-format
 msgid "Version %{version}"
 msgstr "Verżjoni %{version}"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:71
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:305
 #, elixir-autogen, elixir-format
 msgid "Failed to add torrent: %{reason}"
 msgstr "Naqas milli żżid it-torrent: %{reason}"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:693
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:705
 #, elixir-autogen, elixir-format
 msgid "Hide Torrent Files"
 msgstr "Aħbi Fajls tat-Torrent"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1076
 #, elixir-autogen, elixir-format
 msgid "Idle"
 msgstr "Idle"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:782
 #, elixir-autogen, elixir-format
 msgid "Name"
 msgstr "Isem"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:272
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:312
 #, elixir-autogen, elixir-format
 msgid "Only .torrent files are allowed"
 msgstr "Huma permessi biss .torrent fajls"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:409
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:427
 #, elixir-autogen, elixir-format
 msgid "Only `.torrent` files accepted"
 msgstr "`.torrent` biss fajls aċċettati"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:796
 #, elixir-autogen, elixir-format
 msgid "Play %{name}"
 msgstr "Ilgħab %{name}"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:678
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:685
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1050
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent"
 msgstr "Neħħi Torrent"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1059
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent + Data"
 msgstr "Neħħi Torrent + Data"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1024
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent?"
 msgstr "Neħħi Torrent?"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1069
 #, elixir-autogen, elixir-format
 msgid "Removed torrent and data: %{name}"
 msgstr "Tneħħija t-torrent u d-dejta: %{name}"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1071
 #, elixir-autogen, elixir-format
 msgid "Removed torrent: %{name}"
 msgstr "Torrent imneħħi: %{name}"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1074
 #, elixir-autogen, elixir-format
 msgid "Seeding"
 msgstr "Żrigħ"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:666
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:673
 #, elixir-autogen, elixir-format
 msgid "Show Folder"
 msgstr "Uri Folder"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:180
 #, elixir-autogen, elixir-format
 msgid "Show Folder is only available on macOS"
 msgstr "Show Folder huwa disponibbli biss fuq macOS"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:693
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:705
 #, elixir-autogen, elixir-format
 msgid "Show Torrent Files"
 msgstr "Uri Fajls tat-Torrent"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:783
 #, elixir-autogen, elixir-format
 msgid "Size"
 msgstr "Daqs"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1167
 #, elixir-autogen, elixir-format
 msgid "Theme"
 msgstr "Tema"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:408
 #, elixir-autogen, elixir-format
 msgid "This file type is not supported"
 msgstr "Dan it-tip ta' fajl mhuwiex appoġġjat"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1162
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1163
 #, elixir-autogen, elixir-format
 msgid "Toggle theme"
 msgstr "Aqleb it-tema"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:62
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:297
 #, elixir-autogen, elixir-format
 msgid "Torrent added: %{name}"
 msgstr "Torrent miżjud: %{name}"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:767
 #, elixir-autogen, elixir-format
 msgid "Total Files"
 msgstr "Fajls totali"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:773
 #, elixir-autogen, elixir-format
 msgid "Total Size"
 msgstr "Daqs Totali"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:380
 #, elixir-autogen, elixir-format
 msgid "Click to Add"
 msgstr "Ikklikkja biex Żid"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:375
 #, elixir-autogen, elixir-format
 msgid "Drag and drop a `.torrent` file here, or"
 msgstr "Iddreggja u qiegħed fajl `.torrent` hawn, jew"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:147
 #, elixir-autogen, elixir-format
 msgid "Failed to remove torrent: %{reason}"
 msgstr "Naqas milli tneħħi t-torrent: %{reason}"
 
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:389
 #, elixir-autogen, elixir-format
 msgid "No active torrents. Add a `.torrent` file to start downloading."
 msgstr "Ebda torrents attivi. Żid fajl `.torrent` biex tibda tniżżel."
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:599
+#, elixir-autogen, elixir-format
+msgid "All-time bytes downloaded"
+msgstr "Bytes imniżżla matul iż-żmien kollu"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:610
+#, elixir-autogen, elixir-format
+msgid "All-time bytes uploaded"
+msgstr "Bytes imtellgħa matul iż-żmien kollu"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:975
+#, elixir-autogen, elixir-format
+msgid "Change"
+msgstr "Ibdel"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:223
+#, elixir-autogen, elixir-format
+msgid "Choose Folder is only available on macOS"
+msgstr "Agħżel Folder huwa disponibbli biss fuq macOS"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:229
+#, elixir-autogen, elixir-format
+msgid "Could not choose download folder"
+msgstr "Ma setax jagħżel folder tat-tniżżil"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:623
+#, elixir-autogen, elixir-format
+msgid "Current download speed"
+msgstr "Veloċità ta' tniżżil attwali"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:629
+#, elixir-autogen, elixir-format
+msgid "Current upload speed"
+msgstr "Veloċità ta' ttellgħ attwali"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:959
+#, elixir-autogen, elixir-format
+msgid "Default download folder"
+msgstr "Folder tat-tniżżil default"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:618
+#, elixir-autogen, elixir-format
+msgid "Speed"
+msgstr "Veloċità"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:591
+#, elixir-autogen, elixir-format
+msgid "Transfer statistics"
+msgstr "Statistika tat-trasferiment"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:606
+#, elixir-autogen, elixir-format
+msgid "Uploaded"
+msgstr "Imtella'"

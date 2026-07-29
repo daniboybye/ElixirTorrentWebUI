@@ -6,6 +6,16 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLiveTest do
     {:ok, conn: build_conn()}
   end
 
+  test "renders lifetime totals and current aggregate rates in the top bar", %{conn: conn} do
+    html = conn |> get(~p"/") |> html_response(200)
+
+    assert html =~ ~s(id="aggregate-stats")
+    assert html =~ "Transfer statistics"
+    assert html =~ "Downloaded"
+    assert html =~ "Uploaded"
+    assert html =~ "Speed"
+  end
+
   test "locale route remounts UI in Bulgarian without manual reload", %{conn: conn} do
     conn = get(conn, ~p"/")
     assert html_response(conn, 200) =~ "Settings"

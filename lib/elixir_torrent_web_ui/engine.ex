@@ -10,6 +10,8 @@ defmodule ElixirTorrentWebUI.Engine do
   @min_play_progress_percent 1.0
 
   defmodule FileRow do
+    @moduledoc false
+
     @enforce_keys [:index, :path, :name, :length, :downloaded, :progress, :complete?]
     defstruct [:index, :path, :name, :length, :downloaded, :progress, :complete?]
 
@@ -25,12 +27,15 @@ defmodule ElixirTorrentWebUI.Engine do
   end
 
   defmodule TorrentRow do
+    @moduledoc false
+
     @enforce_keys [
       :id,
       :hash,
       :name,
       :progress,
       :bytes_downloaded,
+      :bytes_uploaded,
       :bytes_size,
       :down_kbps,
       :up_kbps,
@@ -47,6 +52,7 @@ defmodule ElixirTorrentWebUI.Engine do
       :name,
       :progress,
       :bytes_downloaded,
+      :bytes_uploaded,
       :bytes_size,
       :down_kbps,
       :up_kbps,
@@ -64,6 +70,7 @@ defmodule ElixirTorrentWebUI.Engine do
             name: String.t(),
             progress: float(),
             bytes_downloaded: non_neg_integer(),
+            bytes_uploaded: non_neg_integer(),
             bytes_size: non_neg_integer(),
             down_kbps: number(),
             up_kbps: number(),
@@ -75,6 +82,44 @@ defmodule ElixirTorrentWebUI.Engine do
             files: [FileRow.t()]
           }
   end
+
+  defmodule AggregateStats do
+    @moduledoc false
+
+    defstruct bytes_downloaded: 0, bytes_uploaded: 0, down_kbps: 0, up_kbps: 0
+
+    @type t :: %__MODULE__{
+            bytes_downloaded: non_neg_integer(),
+            bytes_uploaded: non_neg_integer(),
+            down_kbps: number(),
+            up_kbps: number()
+          }
+  end
+
+  @spec aggregate_rates(list(TorrentRow.t())) :: AggregateStats.t()
+  def aggregate_rates(torrents) when is_list(torrents) do
+    Enum.reduce(torrents, %AggregateStats{}, fn torrent, acc ->
+      %AggregateStats{
+        down_kbps: acc.down_kbps + torrent.down_kbps,
+        up_kbps: acc.up_kbps + torrent.up_kbps
+      }
+    end)
+  end
+
+  @spec aggregate_stats(list(TorrentRow.t())) :: AggregateStats.t()
+  def aggregate_stats(torrents) when is_list(torrents) do
+    rates = aggregate_rates(torrents)
+
+    %AggregateStats{
+      bytes_downloaded: Enum.sum(Enum.map(torrents, & &1.bytes_downloaded)),
+      bytes_uploaded: Enum.sum(Enum.map(torrents, & &1.bytes_uploaded)),
+      down_kbps: rates.down_kbps,
+      up_kbps: rates.up_kbps
+    }
+  end
+
+  @spec aggregate_stats() :: AggregateStats.t()
+  def aggregate_stats, do: aggregate_stats(list_torrents())
 
   @spec list_torrents(MapSet.t()) :: list(TorrentRow.t())
   def list_torrents(expanded \\ MapSet.new()) do
@@ -184,8 +229,16 @@ defmodule ElixirTorrentWebUI.Engine do
   defp row_for(hash, expanded) do
     id = Torrent.hex_encoded_hash(hash)
 
-    [name, speed, downloaded, size, peer_status, added_at] =
-      Torrent.get(hash, [:name, :speed, :downloaded, :bytes_size, :peer_status, :added_at])
+    [name, speed, downloaded, uploaded, size, peer_status, added_at] =
+      Torrent.get(hash, [
+        :name,
+        :speed,
+        :downloaded,
+        :uploaded,
+        :bytes_size,
+        :peer_status,
+        :added_at
+      ])
 
     progress =
       if size > 0 do
@@ -216,6 +269,7 @@ defmodule ElixirTorrentWebUI.Engine do
       name: name,
       progress: progress,
       bytes_downloaded: downloaded,
+      bytes_uploaded: uploaded,
       bytes_size: size,
       down_kbps: speed.download,
       up_kbps: speed.upload,
