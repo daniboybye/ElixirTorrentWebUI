@@ -31,6 +31,30 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLiveTest do
              "Could not read clipboard"
   end
 
+  test "resets lifetime statistics from Settings", %{conn: conn} do
+    original = :sys.get_state(ElixirTorrentWebUI.StatsStore)
+
+    on_exit(fn ->
+      :sys.replace_state(ElixirTorrentWebUI.StatsStore, fn _state -> original end)
+      ElixirTorrentWebUI.StatsStore.persist_state()
+    end)
+
+    :sys.replace_state(ElixirTorrentWebUI.StatsStore, fn state ->
+      %{state | total_downloaded: 4_096, total_uploaded: 2_048, dirty?: true}
+    end)
+
+    {:ok, view, html} = live(conn, ~p"/")
+    assert html =~ "4 KB"
+    assert html =~ "2 KB"
+
+    view |> element("#open-settings") |> render_click()
+    assert has_element?(view, "#settings-reset-statistics", "Reset Statistics")
+
+    html = view |> element("#settings-reset-statistics") |> render_click()
+    assert html =~ "Transfer statistics reset"
+    assert ElixirTorrentWebUI.StatsStore.get() == %{total_downloaded: 0, total_uploaded: 0}
+  end
+
   test "locale route remounts UI in Bulgarian without manual reload", %{conn: conn} do
     conn = get(conn, ~p"/")
     assert html_response(conn, 200) =~ "Settings"

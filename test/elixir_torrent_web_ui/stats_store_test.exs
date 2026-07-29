@@ -17,4 +17,25 @@ defmodule ElixirTorrentWebUI.StatsStoreTest do
     assert StatsStore.accumulate_counter(5_000, 80, 500) == {5_080, 80, true}
     assert StatsStore.accumulate_counter(5_000, 0, 500) == {5_000, 0, false}
   end
+
+  test "reset_state keeps current Engine counters as the new baseline" do
+    hash = :crypto.strong_rand_bytes(20)
+
+    state = %{
+      total_downloaded: 5_000,
+      total_uploaded: 2_000,
+      last_seen: %{hash => {400, 100}},
+      dirty?: false
+    }
+
+    assert %{
+             total_downloaded: 0,
+             total_uploaded: 0,
+             last_seen: %{^hash => {450, 125}},
+             dirty?: true
+           } = StatsStore.reset_state(state, %{hash => {450, 125}})
+
+    assert StatsStore.accumulate_counter(0, 450, 450) == {0, 450, false}
+    assert StatsStore.accumulate_counter(0, 125, 125) == {0, 125, false}
+  end
 end

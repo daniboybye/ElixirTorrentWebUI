@@ -11,10 +11,12 @@ defmodule ElixirTorrentWebUI.StatsStore do
           total_uploaded: non_neg_integer()
         }
 
+  @type counters :: %{binary() => {non_neg_integer(), non_neg_integer()}}
+
   @type state :: %{
           total_downloaded: non_neg_integer(),
           total_uploaded: non_neg_integer(),
-          last_seen: %{binary() => {non_neg_integer(), non_neg_integer()}},
+          last_seen: counters(),
           dirty?: boolean()
         }
 
@@ -24,6 +26,9 @@ defmodule ElixirTorrentWebUI.StatsStore do
 
   @spec get() :: totals()
   def get, do: GenServer.call(__MODULE__, :get)
+
+  @spec reset() :: :ok
+  def reset, do: GenServer.call(__MODULE__, :reset)
 
   @spec persist_state() :: :ok
   def persist_state, do: GenServer.call(__MODULE__, :persist)
@@ -46,6 +51,18 @@ defmodule ElixirTorrentWebUI.StatsStore do
     end
   end
 
+  @doc false
+  @spec reset_state(state(), counters()) :: state()
+  def reset_state(state, last_seen) do
+    %{
+      state
+      | total_downloaded: 0,
+        total_uploaded: 0,
+        last_seen: last_seen,
+        dirty?: true
+    }
+  end
+
   @impl true
   def init(_opts) do
     state = load_from_disk()
@@ -57,6 +74,15 @@ defmodule ElixirTorrentWebUI.StatsStore do
   @impl true
   def handle_call(:get, _from, state) do
     {:reply, totals(state), state}
+  end
+
+  def handle_call(:reset, _from, state) do
+    state =
+      state
+      |> reset_state(snapshot_counters())
+      |> persist()
+
+    {:reply, :ok, state}
   end
 
   @impl true
@@ -101,6 +127,15 @@ defmodule ElixirTorrentWebUI.StatsStore do
     last_seen = Map.take(last_seen, active)
 
     %{state | total_downloaded: td, total_uploaded: tu, last_seen: last_seen, dirty?: dirty?}
+  end
+
+  @spec snapshot_counters() :: counters()
+  defp snapshot_counters do
+    Torrents.list()
+    |> Map.new(fn hash ->
+      [downloaded, uploaded] = Torrent.get(hash, [:downloaded, :uploaded])
+      {hash, {downloaded, uploaded}}
+    end)
   end
 
   @spec totals(state()) :: totals()

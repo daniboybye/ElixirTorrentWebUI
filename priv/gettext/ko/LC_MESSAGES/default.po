@@ -9,12 +9,12 @@ msgstr ""
 msgid "Actions"
 msgstr "행위"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:435
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:445
 #, elixir-autogen, elixir-format
 msgid "Add torrent"
 msgstr "토렌트 추가"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1091
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1119
 #, elixir-autogen, elixir-format
 msgid "Apply"
 msgstr "적용하다"
@@ -25,21 +25,21 @@ msgstr "적용하다"
 msgid "Attempting to reconnect"
 msgstr "다시 연결을 시도하는 중"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1012
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1029
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1084
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1022
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1039
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1112
 #, elixir-autogen, elixir-format
 msgid "Cancel"
 msgstr "취소"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1037
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1047
 #, elixir-autogen, elixir-format
 msgid "Language"
 msgstr "언어"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:414
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:417
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1022
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:424
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:427
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1032
 #, elixir-autogen, elixir-format
 msgid "Settings"
 msgstr "설정"
@@ -59,7 +59,7 @@ msgstr "인터넷을 찾을 수 없습니다"
 msgid "close"
 msgstr "닫다"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1135
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1163
 #, elixir-autogen, elixir-format
 msgid "Are you sure you want to remove the selected torrent?"
 msgstr "선택한 토렌트를 삭제하시겠습니까?"
@@ -69,23 +69,23 @@ msgstr "선택한 토렌트를 삭제하시겠습니까?"
 msgid "Cannot play this file"
 msgstr "이 파일을 재생할 수 없습니다"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:970
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1128
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:980
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1156
 #, elixir-autogen, elixir-format
 msgid "Close"
 msgstr "닫다"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1116
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1144
 #, elixir-autogen, elixir-format
 msgid "Close dialog"
 msgstr "대화상자 닫기"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:954
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:964
 #, elixir-autogen, elixir-format
 msgid "Close player"
 msgstr "플레이어 닫기"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1172
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1200
 #, elixir-autogen, elixir-format
 msgid "Connecting"
 msgstr "연결 중"
@@ -100,29 +100,29 @@ msgstr "Finder에서 폴더를 열 수 없습니다."
 msgid "Creator:"
 msgstr "창조자:"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:858
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:868
 #, elixir-autogen, elixir-format
 msgid "Date Added"
 msgstr "추가된 날짜"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:881
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:891
 #, elixir-autogen, elixir-format
 msgid "Download"
 msgstr "다운로드"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:692
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:921
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:702
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:931
 #, elixir-autogen, elixir-format
 msgid "Downloaded"
 msgstr "다운로드됨"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1174
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1202
 #, elixir-autogen, elixir-format
 msgid "Downloading"
 msgstr "다운로드 중"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:482
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:499
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:492
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:509
 #, elixir-autogen, elixir-format
 msgid "Drop files here!"
 msgstr "여기에 파일을 드롭하세요!"
@@ -133,78 +133,78 @@ msgid "Version %{version}"
 msgstr "버전 %{version}"
 
 #: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:114
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:371
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:381
 #, elixir-autogen, elixir-format
 msgid "Failed to add torrent: %{reason}"
 msgstr "토렌트 추가 실패: %{reason}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:790
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:802
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:800
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:812
 #, elixir-autogen, elixir-format
 msgid "Hide Torrent Files"
 msgstr "토렌트 파일 숨기기"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1173
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1201
 #, elixir-autogen, elixir-format
 msgid "Idle"
 msgstr "게으른"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:879
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:889
 #, elixir-autogen, elixir-format
 msgid "Name"
 msgstr "이름"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:338
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:378
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:348
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:388
 #, elixir-autogen, elixir-format
 msgid "Only .torrent files are allowed"
 msgstr ".torrent 파일만 허용됩니다."
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:484
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:502
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:494
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:512
 #, elixir-autogen, elixir-format
 msgid "Only `.torrent` files accepted"
 msgstr "`.torrent` 파일만 허용됩니다."
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:893
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:903
 #, elixir-autogen, elixir-format
 msgid "Play %{name}"
 msgstr "%{name} 재생"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:775
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:782
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1147
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:785
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:792
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1175
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent"
 msgstr "토렌트 제거"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1156
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1184
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent + Data"
 msgstr "토렌트 + 데이터 제거"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1121
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1149
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent?"
 msgstr "토렌트를 제거하시겠습니까?"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1166
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1194
 #, elixir-autogen, elixir-format
 msgid "Removed torrent and data: %{name}"
 msgstr "삭제된 토렌트 및 데이터: %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1168
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1196
 #, elixir-autogen, elixir-format
 msgid "Removed torrent: %{name}"
 msgstr "삭제된 토렌트: %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1171
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1199
 #, elixir-autogen, elixir-format
 msgid "Seeding"
 msgstr "파종"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:763
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:770
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:773
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:780
 #, elixir-autogen, elixir-format
 msgid "Show Folder"
 msgstr "폴더 표시"
@@ -214,50 +214,50 @@ msgstr "폴더 표시"
 msgid "Show Folder is only available on macOS"
 msgstr "폴더 표시는 macOS에서만 사용할 수 있습니다."
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:790
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:802
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:800
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:812
 #, elixir-autogen, elixir-format
 msgid "Show Torrent Files"
 msgstr "토렌트 파일 표시"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:880
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:890
 #, elixir-autogen, elixir-format
 msgid "Size"
 msgstr "크기"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1264
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1292
 #, elixir-autogen, elixir-format
 msgid "Theme"
 msgstr "주제"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:483
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:493
 #, elixir-autogen, elixir-format
 msgid "This file type is not supported"
 msgstr "이 파일 형식은 지원되지 않습니다."
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1259
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1260
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1287
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1288
 #, elixir-autogen, elixir-format
 msgid "Toggle theme"
 msgstr "테마 전환"
 
 #: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:105
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:363
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:373
 #, elixir-autogen, elixir-format
 msgid "Torrent added: %{name}"
 msgstr "추가된 토렌트: %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:864
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:874
 #, elixir-autogen, elixir-format
 msgid "Total Files"
 msgstr "총 파일 수"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:870
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:880
 #, elixir-autogen, elixir-format
 msgid "Total Size"
 msgstr "전체 크기"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:450
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:460
 #, elixir-autogen, elixir-format
 msgid "Drag and drop a `.torrent` file here, or"
 msgstr "`.torrent` 파일을 여기에 끌어다 놓거나"
@@ -267,17 +267,17 @@ msgstr "`.torrent` 파일을 여기에 끌어다 놓거나"
 msgid "Failed to remove torrent: %{reason}"
 msgstr "토렌트 제거 실패: %{reason}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:696
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:706
 #, elixir-autogen, elixir-format
 msgid "All-time bytes downloaded"
 msgstr "누적 다운로드 바이트"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:707
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:717
 #, elixir-autogen, elixir-format
 msgid "All-time bytes uploaded"
 msgstr "누적 업로드 바이트"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1072
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1082
 #, elixir-autogen, elixir-format
 msgid "Change"
 msgstr "변경"
@@ -292,67 +292,67 @@ msgstr "폴더 선택은 macOS에서만 사용할 수 있습니다."
 msgid "Could not choose download folder"
 msgstr "다운로드 폴더를 선택할 수 없습니다."
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:720
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:730
 #, elixir-autogen, elixir-format
 msgid "Current download speed"
 msgstr "현재 다운로드 속도"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:726
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:736
 #, elixir-autogen, elixir-format
 msgid "Current upload speed"
 msgstr "현재 업로드 속도"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1056
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1066
 #, elixir-autogen, elixir-format
 msgid "Default download folder"
 msgstr "기본 다운로드 폴더"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:715
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:725
 #, elixir-autogen, elixir-format
 msgid "Speed"
 msgstr "속도"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:688
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:698
 #, elixir-autogen, elixir-format
 msgid "Transfer statistics"
 msgstr "전송 통계"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:703
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:713
 #, elixir-autogen, elixir-format
 msgid "Uploaded"
 msgstr "업로드됨"
 
-#: lib/elixir_torrent_web_ui/engine.ex:267
+#: lib/elixir_torrent_web_ui/engine.ex:265
 #, elixir-autogen, elixir-format
 msgid "Could not download metadata from any peer"
 msgstr "어느 피어에서도 메타데이터를 다운로드할 수 없습니다"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:299
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:309
 #, elixir-autogen, elixir-format
 msgid "Could not read clipboard"
 msgstr "클립보드를 읽을 수 없습니다"
 
-#: lib/elixir_torrent_web_ui/engine.ex:270
+#: lib/elixir_torrent_web_ui/engine.ex:268
 #, elixir-autogen, elixir-format
 msgid "Downloaded metadata does not match the magnet hash"
 msgstr "다운로드한 메타데이터가 마그넷 해시와 일치하지 않습니다"
 
-#: lib/elixir_torrent_web_ui/engine.ex:278
+#: lib/elixir_torrent_web_ui/engine.ex:276
 #, elixir-autogen, elixir-format
 msgid "Failed to add magnet: %{reason}"
 msgstr "마그넷 추가 실패: %{reason}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:313
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:323
 #, elixir-autogen, elixir-format
 msgid "Fetching metadata from peers…"
 msgstr "피어에서 메타데이터를 가져오는 중…"
 
-#: lib/elixir_torrent_web_ui/engine.ex:257
+#: lib/elixir_torrent_web_ui/engine.ex:255
 #, elixir-autogen, elixir-format
 msgid "Invalid info hash in magnet link"
 msgstr "마그넷 링크의 info hash가 올바르지 않습니다"
 
-#: lib/elixir_torrent_web_ui/engine.ex:258
+#: lib/elixir_torrent_web_ui/engine.ex:256
 #, elixir-autogen, elixir-format
 msgid "Invalid magnet link"
 msgstr "잘못된 마그넷 링크입니다"
@@ -363,12 +363,12 @@ msgstr "잘못된 마그넷 링크입니다"
 msgid "Magnet download started"
 msgstr "마그넷 다운로드가 시작되었습니다"
 
-#: lib/elixir_torrent_web_ui/engine.ex:261
+#: lib/elixir_torrent_web_ui/engine.ex:259
 #, elixir-autogen, elixir-format
 msgid "Magnet has no tracker URLs and no peers were found via DHT"
 msgstr "마그넷에 트래커 URL이 없으며 DHT로 피어를 찾지 못했습니다"
 
-#: lib/elixir_torrent_web_ui/engine.ex:256
+#: lib/elixir_torrent_web_ui/engine.ex:254
 #, elixir-autogen, elixir-format
 msgid "Magnet link is missing the info hash (xt=)"
 msgstr "마그넷 링크에 info hash(xt=)가 없습니다"
@@ -379,52 +379,77 @@ msgstr "마그넷 링크에 info hash(xt=)가 없습니다"
 msgid "Magnet metadata fetch already in progress"
 msgstr "마그넷 메타데이터를 이미 가져오는 중입니다"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:464
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:474
 #, elixir-autogen, elixir-format
 msgid "No active torrents. Add a `.torrent` file or magnet link to start downloading."
 msgstr "활성 토렌트가 없습니다. 다운로드를 시작하려면 `.torrent` 파일 또는 마그넷 링크를 추가하세요."
 
-#: lib/elixir_torrent_web_ui/engine.ex:255
+#: lib/elixir_torrent_web_ui/engine.ex:253
 #, elixir-autogen, elixir-format
 msgid "Not a magnet link"
 msgstr "마그넷 링크가 아닙니다"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:309
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:319
 #, elixir-autogen, elixir-format
 msgid "Not a valid magnet link"
 msgstr "유효한 마그넷 링크가 아닙니다"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:306
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:316
 #, elixir-autogen, elixir-format
 msgid "Paste a magnet link"
 msgstr "마그넷 링크 붙여넣기"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:426
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:436
 #, elixir-autogen, elixir-format
 msgid "Paste magnet & Go"
 msgstr "마그넷 붙여넣고 시작"
 
-#: lib/elixir_torrent_web_ui/engine.ex:264
+#: lib/elixir_torrent_web_ui/engine.ex:262
 #, elixir-autogen, elixir-format
 msgid "Timed out fetching metadata from peers"
 msgstr "피어에서 메타데이터를 가져오는 데 시간이 초과되었습니다"
 
-#: lib/elixir_torrent_web_ui/engine.ex:275
+#: lib/elixir_torrent_web_ui/engine.ex:273
 #, elixir-autogen, elixir-format
 msgid "Torrent is already downloading"
 msgstr "토렌트가 이미 다운로드 중입니다"
 
-#: lib/elixir_torrent_web_ui/engine.ex:273
+#: lib/elixir_torrent_web_ui/engine.ex:271
 #, elixir-autogen, elixir-format
 msgid "Torrent process started but metadata is not ready yet"
 msgstr "토렌트 프로세스는 시작되었지만 메타데이터가 아직 준비되지 않았습니다"
 
-#: lib/elixir_torrent_web_ui/engine.ex:263
+#: lib/elixir_torrent_web_ui/engine.ex:261
 #, elixir-autogen, elixir-format
 msgid "Trackers returned no peers — try again later"
 msgstr "트래커에서 피어를 반환하지 않았습니다 — 나중에 다시 시도하세요"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:455
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:465
 #, elixir-autogen, elixir-format
 msgid "click to add"
 msgstr "클릭하여 추가"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1089
+#, elixir-autogen, elixir-format
+msgid "Lifetime transfer statistics"
+msgstr "누적 전송 통계"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1101
+#, elixir-autogen, elixir-format
+msgid "Reset Statistics"
+msgstr "통계 초기화"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1092
+#, elixir-autogen, elixir-format
+msgid "Reset downloaded and uploaded totals for this device."
+msgstr "이 기기의 다운로드 및 업로드 누적값을 초기화합니다."
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1098
+#, elixir-autogen, elixir-format
+msgid "Reset lifetime transfer statistics?"
+msgstr "누적 전송 통계를 초기화하시겠습니까?"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:301
+#, elixir-autogen, elixir-format
+msgid "Transfer statistics reset"
+msgstr "전송 통계가 초기화되었습니다"

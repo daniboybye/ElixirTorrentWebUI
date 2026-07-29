@@ -293,6 +293,16 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   end
 
   @impl true
+  def handle_event("reset_statistics", _params, socket) do
+    :ok = StatsStore.reset()
+
+    {:noreply,
+     socket
+     |> put_flash(:info, gettext("Transfer statistics reset"))
+     |> assign_torrents(Engine.list_torrents(socket.assigns.expanded))}
+  end
+
+  @impl true
   def handle_event("add_magnet", params, socket) do
     case Map.get(params, "error") do
       "clipboard" ->
@@ -1072,6 +1082,24 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
               {gettext("Change")}
             </button>
           </div>
+        </div>
+
+        <div class="mt-6 rounded-lg border border-base-300 bg-base-200/40 px-3 py-3">
+          <p class="text-sm font-medium text-base-content">
+            {gettext("Lifetime transfer statistics")}
+          </p>
+          <p class="mt-1 text-xs text-base-content/60">
+            {gettext("Reset downloaded and uploaded totals for this device.")}
+          </p>
+          <button
+            type="button"
+            id="settings-reset-statistics"
+            phx-click="reset_statistics"
+            data-confirm={gettext("Reset lifetime transfer statistics?")}
+            class="mt-3 inline-flex cursor-pointer items-center rounded-md border border-error/50 bg-base-100 px-4 py-2 text-sm font-semibold text-error transition hover:bg-error hover:text-error-content"
+          >
+            {gettext("Reset Statistics")}
+          </button>
         </div>
 
         <div class="mt-6 flex flex-wrap justify-end gap-3">
