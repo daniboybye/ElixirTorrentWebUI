@@ -8,326 +8,325 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Actions"
 msgstr "Vitendo"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:360
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:435
 #, elixir-autogen, elixir-format
 msgid "Add torrent"
 msgstr "Ongeza torrent"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:994
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1091
 #, elixir-autogen, elixir-format
 msgid "Apply"
 msgstr "Omba"
-
-#: lib/elixir_torrent_web_ui_web/components/layouts.ex:91
 #: lib/elixir_torrent_web_ui_web/components/layouts.ex:103
 #, elixir-autogen, elixir-format
 msgid "Attempting to reconnect"
 msgstr "Kujaribu kuunganisha tena"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:915
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:932
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:987
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1084
 #, elixir-autogen, elixir-format
 msgid "Cancel"
 msgstr "Ghairi"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:940
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1037
 #, elixir-autogen, elixir-format
 msgid "Language"
 msgstr "Lugha"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:348
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:351
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:925
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1022
 #, elixir-autogen, elixir-format
 msgid "Settings"
 msgstr "Mipangilio"
-
 #: lib/elixir_torrent_web_ui_web/components/layouts.ex:98
 #, elixir-autogen, elixir-format
 msgid "Something went wrong!"
 msgstr "Hitilafu fulani imetokea!"
-
 #: lib/elixir_torrent_web_ui_web/components/layouts.ex:86
 #, elixir-autogen, elixir-format
 msgid "We can't find the internet"
 msgstr "Hatuwezi kupata mtandao"
-
 #: lib/elixir_torrent_web_ui_web/components/core_components.ex:77
 #, elixir-autogen, elixir-format
 msgid "close"
 msgstr "karibu"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1038
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1135
 #, elixir-autogen, elixir-format
 msgid "Are you sure you want to remove the selected torrent?"
 msgstr "Je, una uhakika unataka kuondoa mkondo uliochaguliwa?"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:115
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:158
 #, elixir-autogen, elixir-format
 msgid "Cannot play this file"
 msgstr "Haiwezi kucheza faili hii"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:873
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1031
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1128
 #, elixir-autogen, elixir-format
 msgid "Close"
 msgstr "Funga"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1019
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1116
 #, elixir-autogen, elixir-format
 msgid "Close dialog"
 msgstr "Funga kidirisha"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:857
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:954
 #, elixir-autogen, elixir-format
 msgid "Close player"
 msgstr "Mchezaji wa karibu"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1075
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1172
 #, elixir-autogen, elixir-format
 msgid "Connecting"
 msgstr "Inaunganisha"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:183
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:226
 #, elixir-autogen, elixir-format
 msgid "Could not open folder in Finder"
 msgstr "Haikuweza kufungua folda katika Finder"
-
 #: lib/elixir_torrent_web_ui_web/components/layouts.ex:53
 #, elixir-autogen, elixir-format
 msgid "Creator:"
 msgstr "Muumbaji:"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:761
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:858
 #, elixir-autogen, elixir-format
 msgid "Date Added"
 msgstr "Tarehe Iliyoongezwa"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:784
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:881
 #, elixir-autogen, elixir-format
 msgid "Download"
 msgstr "Pakua"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:595
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:824
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:921
 #, elixir-autogen, elixir-format
 msgid "Downloaded"
 msgstr "Imepakuliwa"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1077
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1174
 #, elixir-autogen, elixir-format
 msgid "Downloading"
 msgstr "Inapakua"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:407
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:424
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:499
 #, elixir-autogen, elixir-format
 msgid "Drop files here!"
 msgstr "Dondosha faili hapa!"
-
 #: lib/elixir_torrent_web_ui_web/components/layouts.ex:50
 #, elixir-autogen, elixir-format
 msgid "Version %{version}"
 msgstr "Toleo %{version}"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:71
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:305
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:371
 #, elixir-autogen, elixir-format
 msgid "Failed to add torrent: %{reason}"
 msgstr "Imeshindwa kuongeza mkondo: %{reason}"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:693
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:705
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:802
 #, elixir-autogen, elixir-format
 msgid "Hide Torrent Files"
 msgstr "Ficha Faili za Torrent"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1076
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1173
 #, elixir-autogen, elixir-format
 msgid "Idle"
 msgstr "Bila kufanya kitu"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:782
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:879
 #, elixir-autogen, elixir-format
 msgid "Name"
 msgstr "Jina"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:272
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:312
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:378
 #, elixir-autogen, elixir-format
 msgid "Only .torrent files are allowed"
 msgstr "Faili .torrent pekee ndizo zinazoruhusiwa"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:409
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:427
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:502
 #, elixir-autogen, elixir-format
 msgid "Only `.torrent` files accepted"
 msgstr "Faili `.torrent` pekee ndizo zilizokubaliwa"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:796
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:893
 #, elixir-autogen, elixir-format
 msgid "Play %{name}"
 msgstr "Cheza %{name}"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:678
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:685
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1050
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1147
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent"
 msgstr "Ondoa Torrent"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1059
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1156
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent + Data"
 msgstr "Ondoa Torrent + Data"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1024
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1121
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent?"
 msgstr "Ungependa kuondoa Torrent?"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1069
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1166
 #, elixir-autogen, elixir-format
 msgid "Removed torrent and data: %{name}"
 msgstr "Imeondoa mkondo na data: %{name}"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1071
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1168
 #, elixir-autogen, elixir-format
 msgid "Removed torrent: %{name}"
 msgstr "Umeondoa mkondo: %{name}"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1074
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1171
 #, elixir-autogen, elixir-format
 msgid "Seeding"
 msgstr "Kupanda mbegu"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:666
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:673
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:770
 #, elixir-autogen, elixir-format
 msgid "Show Folder"
 msgstr "Onyesha Folda"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:180
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:223
 #, elixir-autogen, elixir-format
 msgid "Show Folder is only available on macOS"
 msgstr "Onyesha Folda inapatikana tu kwenye macOS"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:693
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:705
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:802
 #, elixir-autogen, elixir-format
 msgid "Show Torrent Files"
 msgstr "Onyesha Faili za Torrent"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:783
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:880
 #, elixir-autogen, elixir-format
 msgid "Size"
 msgstr "Ukubwa"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1167
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1264
 #, elixir-autogen, elixir-format
 msgid "Theme"
 msgstr "Mandhari"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:408
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:483
 #, elixir-autogen, elixir-format
 msgid "This file type is not supported"
 msgstr "Aina hii ya faili haitumiki"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1162
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1163
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1260
 #, elixir-autogen, elixir-format
 msgid "Toggle theme"
 msgstr "Geuza mandhari"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:62
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:297
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:363
 #, elixir-autogen, elixir-format
 msgid "Torrent added: %{name}"
 msgstr "Torrent imeongezwa: %{name}"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:767
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:864
 #, elixir-autogen, elixir-format
 msgid "Total Files"
 msgstr "Jumla ya Faili"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:773
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:870
 #, elixir-autogen, elixir-format
 msgid "Total Size"
 msgstr "Ukubwa Jumla"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:380
-#, elixir-autogen, elixir-format
-msgid "Click to Add"
-msgstr "Bofya ili Kuongeza"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:375
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:450
 #, elixir-autogen, elixir-format
 msgid "Drag and drop a `.torrent` file here, or"
 msgstr "Buruta na udondoshe `.torrent` faili hapa, au"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:147
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:190
 #, elixir-autogen, elixir-format
 msgid "Failed to remove torrent: %{reason}"
 msgstr "Imeshindwa kuondoa mkondo: %{reason}"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:389
-#, elixir-autogen, elixir-format
-msgid "No active torrents. Add a `.torrent` file to start downloading."
-msgstr "Hakuna mito inayotumika. Ongeza faili `.torrent` ili kuanza kupakua."
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:599
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:696
 #, elixir-autogen, elixir-format
 msgid "All-time bytes downloaded"
 msgstr "Bajiti zote zilizopakuliwa"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:610
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:707
 #, elixir-autogen, elixir-format
 msgid "All-time bytes uploaded"
 msgstr "Bajiti zote zilizopakiwa"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:975
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1072
 #, elixir-autogen, elixir-format
 msgid "Change"
 msgstr "Badilisha"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:223
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:266
 #, elixir-autogen, elixir-format
 msgid "Choose Folder is only available on macOS"
 msgstr "Kuchagua folda kunapatikana tu kwenye macOS"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:229
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:272
 #, elixir-autogen, elixir-format
 msgid "Could not choose download folder"
 msgstr "Haikuwezekana kuchagua folda ya kupakua"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:623
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:720
 #, elixir-autogen, elixir-format
 msgid "Current download speed"
 msgstr "Kasi ya sasa ya kupakua"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:629
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:726
 #, elixir-autogen, elixir-format
 msgid "Current upload speed"
 msgstr "Kasi ya sasa ya kupakia"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:959
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1056
 #, elixir-autogen, elixir-format
 msgid "Default download folder"
 msgstr "Folda chaguo-msingi ya kupakua"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:618
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:715
 #, elixir-autogen, elixir-format
 msgid "Speed"
 msgstr "Kasi"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:591
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:688
 #, elixir-autogen, elixir-format
 msgid "Transfer statistics"
 msgstr "Takwimu za uhamishaji"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:606
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:703
 #, elixir-autogen, elixir-format
 msgid "Uploaded"
 msgstr "Imepakiwa"
+#: lib/elixir_torrent_web_ui/engine.ex:267
+#, elixir-autogen, elixir-format
+msgid "Could not download metadata from any peer"
+msgstr "Haikuwezekana kupakua metadata kutoka kwa peer yoyote"
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:299
+#, elixir-autogen, elixir-format
+msgid "Could not read clipboard"
+msgstr "Haikuwezekana kusoma ubao wa kunakili"
+#: lib/elixir_torrent_web_ui/engine.ex:270
+#, elixir-autogen, elixir-format
+msgid "Downloaded metadata does not match the magnet hash"
+msgstr "Metadata iliyopakuliwa hailingani na hash ya magnet"
+#: lib/elixir_torrent_web_ui/engine.ex:278
+#, elixir-autogen, elixir-format
+msgid "Failed to add magnet: %{reason}"
+msgstr "Imeshindwa kuongeza magnet: %{reason}"
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:313
+#, elixir-autogen, elixir-format
+msgid "Fetching metadata from peers…"
+msgstr "Inachukua metadata kutoka kwa peers…"
+#: lib/elixir_torrent_web_ui/engine.ex:257
+#, elixir-autogen, elixir-format
+msgid "Invalid info hash in magnet link"
+msgstr "Info hash si sahihi kwenye kiungo cha magnet"
+#: lib/elixir_torrent_web_ui/engine.ex:258
+#, elixir-autogen, elixir-format
+msgid "Invalid magnet link"
+msgstr "Kiungo cha magnet si sahihi"
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:92
+#, elixir-autogen, elixir-format
+msgid "Magnet download started"
+msgstr "Upakuaji wa magnet umeanza"
+#: lib/elixir_torrent_web_ui/engine.ex:261
+#, elixir-autogen, elixir-format
+msgid "Magnet has no tracker URLs and no peers were found via DHT"
+msgstr "Magnet haina URL za tracker na hakuna peers zilizopatikana kupitia DHT"
+#: lib/elixir_torrent_web_ui/engine.ex:256
+#, elixir-autogen, elixir-format
+msgid "Magnet link is missing the info hash (xt=)"
+msgstr "Kiungo cha magnet hakina info hash (xt=)"
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:85
+#, elixir-autogen, elixir-format
+msgid "Magnet metadata fetch already in progress"
+msgstr "Upatikanaji wa metadata wa magnet unaendelea tayari"
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:464
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file or magnet link to start downloading."
+msgstr ""
+"Hakuna torrent zenye shughuli. Ongeza faili ya `.torrent` au kiungo cha "
+"magnet ili kuanza kupakua."
+#: lib/elixir_torrent_web_ui/engine.ex:255
+#, elixir-autogen, elixir-format
+msgid "Not a magnet link"
+msgstr "Si kiungo cha magnet"
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:309
+#, elixir-autogen, elixir-format
+msgid "Not a valid magnet link"
+msgstr "Si kiungo halali cha magnet"
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:306
+#, elixir-autogen, elixir-format
+msgid "Paste a magnet link"
+msgstr "Bandika kiungo cha magnet"
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:426
+#, elixir-autogen, elixir-format
+msgid "Paste magnet & Go"
+msgstr "Bandika magnet na endelea"
+#: lib/elixir_torrent_web_ui/engine.ex:264
+#, elixir-autogen, elixir-format
+msgid "Timed out fetching metadata from peers"
+msgstr "Muda umekwisha wakati wa kuchukua metadata kutoka kwa peers"
+#: lib/elixir_torrent_web_ui/engine.ex:275
+#, elixir-autogen, elixir-format
+msgid "Torrent is already downloading"
+msgstr "Torrent tayari inapakuliwa"
+#: lib/elixir_torrent_web_ui/engine.ex:273
+#, elixir-autogen, elixir-format
+msgid "Torrent process started but metadata is not ready yet"
+msgstr "Mchakato wa torrent umeanza lakini metadata bado haijaandaliwa"
+#: lib/elixir_torrent_web_ui/engine.ex:263
+#, elixir-autogen, elixir-format
+msgid "Trackers returned no peers — try again later"
+msgstr "Tracker hazikurudisha peers — jaribu tena baadaye"
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:455
+#, elixir-autogen, elixir-format
+msgid "click to add"
+msgstr "bofya ili kuongeza"

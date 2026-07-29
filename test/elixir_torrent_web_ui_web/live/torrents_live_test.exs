@@ -1,6 +1,8 @@
 defmodule ElixirTorrentWebUIWeb.TorrentsLiveTest do
   use ElixirTorrentWebUIWeb.ConnCase, async: false
 
+  import Phoenix.LiveViewTest
+
   setup do
     :ok = ElixirTorrentWebUI.UiState.put_locale("en")
     {:ok, conn: build_conn()}
@@ -14,6 +16,19 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLiveTest do
     assert html =~ "Downloaded"
     assert html =~ "Uploaded"
     assert html =~ "Speed"
+  end
+
+  test "validates pasted magnet links before starting ingest", %{conn: conn} do
+    {:ok, view, _html} = live(conn, ~p"/")
+
+    assert render_click(view, "add_magnet", %{"magnet" => ""}) =~
+             "Paste a magnet link"
+
+    assert render_click(view, "add_magnet", %{"magnet" => "not-a-magnet"}) =~
+             "Not a valid magnet link"
+
+    assert render_click(view, "add_magnet", %{"error" => "clipboard"}) =~
+             "Could not read clipboard"
   end
 
   test "locale route remounts UI in Bulgarian without manual reload", %{conn: conn} do

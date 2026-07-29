@@ -8,6 +8,7 @@ defmodule ElixirTorrentWebUI.Application do
   @impl true
   def start(_type, _args) do
     :ok = ElixirTorrentWebUI.DataDir.ensure!()
+    :ok = ElixirTorrentWebUI.MagnetIngest.ensure_table!()
 
     # Ensure the BitTorrent engine (from ../ElixirTorrent) is running.
     # We keep the UI app responsible for starting/stopping the engine.
@@ -15,6 +16,7 @@ defmodule ElixirTorrentWebUI.Application do
 
     children = [
       ElixirTorrentWebUI.TorrentCatalog,
+      ElixirTorrentWebUI.PendingMagnets,
       ElixirTorrentWebUI.UiState,
       ElixirTorrentWebUI.StatsStore,
       ElixirTorrentWebUIWeb.Telemetry,
@@ -29,6 +31,7 @@ defmodule ElixirTorrentWebUI.Application do
     with {:ok, pid} <- Supervisor.start_link(children, opts) do
       maybe_use_data_cwd!()
       ElixirTorrentWebUI.TorrentCatalog.restore_torrents()
+      :ok = ElixirTorrentWebUI.PendingMagnets.resume_on_boot()
       {:ok, pid}
     end
   end

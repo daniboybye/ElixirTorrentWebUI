@@ -5,6 +5,10 @@ defmodule ElixirTorrentWebUI.Engine do
   UI code should depend on this module (not on engine internals).
   """
 
+  require Logger
+
+  use Gettext, backend: ElixirTorrentWebUIWeb.Gettext
+
   alias ElixirTorrentWebUI.{Media, TorrentCatalog, UiState}
 
   @min_play_progress_percent 1.0
@@ -85,7 +89,6 @@ defmodule ElixirTorrentWebUI.Engine do
 
   defmodule AggregateStats do
     @moduledoc false
-
     defstruct bytes_downloaded: 0, bytes_uploaded: 0, down_kbps: 0, up_kbps: 0
 
     @type t :: %__MODULE__{
@@ -120,6 +123,14 @@ defmodule ElixirTorrentWebUI.Engine do
 
   @spec aggregate_stats() :: AggregateStats.t()
   def aggregate_stats, do: aggregate_stats(list_torrents())
+
+  @spec valid_magnet?(String.t()) :: boolean()
+  def valid_magnet?(uri) when is_binary(uri) do
+    case Magnet.parse(String.trim(uri)) do
+      {:ok, _} -> true
+      _ -> false
+    end
+  end
 
   @spec list_torrents(MapSet.t()) :: list(TorrentRow.t())
   def list_torrents(expanded \\ MapSet.new()) do
@@ -164,6 +175,111 @@ defmodule ElixirTorrentWebUI.Engine do
 
       {:ok, pid}
     end
+  end
+
+  @spec add_magnet(String.t()) :: {:ok, pid() | :fetching} | {:error, term()}
+  def add_magnet(magnet_uri) when is_binary(magnet_uri) do
+    uri = String.trim(magnet_uri)
+    download_dir = UiState.get().download_folder
+
+    Logger.info(
+      "Engine.add_magnet: starting uri=#{inspect(uri)} download_dir=#{inspect(download_dir)}"
+    )
+
+    result =
+      case ElixirTorrent.download_magnet(uri, download_dir: download_dir) do
+        {:ok, pid} ->
+          register_magnet_download(pid)
+
+        {:error, {:already_started, pid}} when is_pid(pid) ->
+          register_magnet_download(pid)
+
+        {:error, {:already_fetching, _pid}} ->
+          {:ok, :fetching}
+
+        other ->
+          other
+      end
+
+    case result do
+      {:ok, pid} ->
+        Logger.info("Engine.add_magnet: ok pid=#{inspect(pid)}")
+
+      {:error, reason} ->
+        Logger.warning("Engine.add_magnet: failed uri=#{inspect(uri)} reason=#{inspect(reason)}")
+        remove_pending_on_fatal(uri, reason)
+    end
+
+    result
+  end
+
+  @fatal_magnet_errors [
+    :timeout,
+    :missing_trackers,
+    :no_peers,
+    :info_hash_mismatch,
+    :metadata_unavailable
+  ]
+
+  defp remove_pending_on_fatal(uri, reason) when reason in @fatal_magnet_errors do
+    :ok = ElixirTorrentWebUI.PendingMagnets.remove_by_uri(uri)
+  end
+
+  defp remove_pending_on_fatal(_uri, _reason), do: :ok
+
+  @spec register_magnet_download(pid()) :: {:ok, pid()} | {:error, term()}
+  defp register_magnet_download(pid) do
+    with hash when is_binary(hash) <- Torrent.get_hash(pid),
+         [name] <- Torrent.get(hash, [:name]) do
+      id = Torrent.hex_encoded_hash(hash)
+      dest = TorrentCatalog.durable_torrent_path(id)
+      src = magnet_torrent_cache_path(id)
+
+      File.mkdir_p!(TorrentCatalog.torrents_dir())
+
+      if File.regular?(src) do
+        File.cp!(src, dest)
+      end
+
+      download_dir = UiState.get().download_folder
+      :ok = TorrentCatalog.register(hash, dest, name, download_dir)
+      :ok = ElixirTorrentWebUI.PendingMagnets.remove(id)
+
+      {:ok, pid}
+    else
+      _ -> {:error, :torrent_not_ready}
+    end
+  end
+
+  @spec magnet_error_message(term()) :: String.t()
+  def magnet_error_message(:invalid_scheme), do: gettext("Not a magnet link")
+  def magnet_error_message(:missing_xt), do: gettext("Magnet link is missing the info hash (xt=)")
+  def magnet_error_message(:invalid_btih), do: gettext("Invalid info hash in magnet link")
+  def magnet_error_message(:invalid_magnet), do: gettext("Invalid magnet link")
+
+  def magnet_error_message(:missing_trackers),
+    do: gettext("Magnet has no tracker URLs and no peers were found via DHT")
+
+  def magnet_error_message(:no_peers), do: gettext("Trackers returned no peers — try again later")
+  def magnet_error_message(:timeout), do: gettext("Timed out fetching metadata from peers")
+
+  def magnet_error_message(:metadata_unavailable),
+    do: gettext("Could not download metadata from any peer")
+
+  def magnet_error_message(:info_hash_mismatch),
+    do: gettext("Downloaded metadata does not match the magnet hash")
+
+  def magnet_error_message(:torrent_not_ready),
+    do: gettext("Torrent process started but metadata is not ready yet")
+
+  def magnet_error_message({:already_started, _}), do: gettext("Torrent is already downloading")
+
+  def magnet_error_message(other),
+    do: gettext("Failed to add magnet: %{reason}", reason: inspect(other))
+
+  @spec magnet_torrent_cache_path(String.t()) :: Path.t()
+  defp magnet_torrent_cache_path(id) do
+    Path.join([System.tmp_dir!(), "elixir_torrent", "magnets", "#{id}.torrent"])
   end
 
   @spec remove_torrent(Torrent.hash(), keyword()) :: :ok | {:error, term()}

@@ -26,10 +26,25 @@
   <string>0.1.0</string>
   <key>LSMinimumSystemVersion</key>
   <string>13.0</string>
+  <key>NSLocalNetworkUsageDescription</key>
+  <string>ElixirTorrent discovers and connects to BitTorrent peers on your local network.</string>
   <key>NSHighResolutionCapable</key>
   <true/>
   <key>LSMultipleInstancesProhibited</key>
   <true/>
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLName</key>
+      <string>BitTorrent Magnet Link</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>magnet</string>
+      </array>
+      <key>LSHandlerRank</key>
+      <string>Owner</string>
+    </dict>
+  </array>
   <key>CFBundleDocumentTypes</key>
   <array>
     <dict>
@@ -46,14 +61,14 @@
       <key>CFBundleTypeRole</key>
       <string>Viewer</string>
       <key>LSHandlerRank</key>
-      <string>Alternate</string>
+      <string>Owner</string>
       <key>LSItemContentTypes</key>
       <array>
-        <string>org.bittorrent.torrent</string>
+        <string>com.elixirtorrent.webui.torrent</string>
       </array>
     </dict>
   </array>
-  <key>UTImportedTypeDeclarations</key>
+  <key>UTExportedTypeDeclarations</key>
   <array>
     <dict>
       <key>UTTypeConformsTo</key>
@@ -65,7 +80,7 @@
       <key>UTTypeIconFile</key>
       <string>TorrentDocument</string>
       <key>UTTypeIdentifier</key>
-      <string>org.bittorrent.torrent</string>
+      <string>com.elixirtorrent.webui.torrent</string>
       <key>UTTypeTagSpecification</key>
       <dict>
         <key>public.filename-extension</key>

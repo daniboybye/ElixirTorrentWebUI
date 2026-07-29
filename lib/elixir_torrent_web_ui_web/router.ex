@@ -30,6 +30,7 @@ defmodule ElixirTorrentWebUIWeb.Router do
     pipe_through :api
 
     get "/torrents", TorrentController, :index
+    post "/magnets", MagnetController, :create
     post "/torrents", TorrentController, :create
   end
 

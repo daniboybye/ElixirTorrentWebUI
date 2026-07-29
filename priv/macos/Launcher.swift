@@ -3,19 +3,36 @@ import Darwin
 import Foundation
 import UniformTypeIdentifiers
 
+fileprivate func launcherLog(_ message: String) {
+    NSLog("[ElixirTorrentWebUI] \(message)")
+}
+
 private enum BitTorrentDocument {
-    static let contentType = UTType(importedAs: "org.bittorrent.torrent")
+    static let exportedType = UTType("com.elixirtorrent.webui.torrent")
+    static let legacyType = UTType(importedAs: "org.bittorrent.torrent")
 
     static func matches(_ url: URL) -> Bool {
         guard url.isFileURL else { return false }
 
         if let type = try? url.resourceValues(forKeys: [.contentTypeKey]).contentType,
-           type.conforms(to: contentType) {
+           conformsToTorrentType(type) {
             return true
         }
 
         if let type = UTType(filenameExtension: url.pathExtension),
-           type.conforms(to: contentType) {
+           conformsToTorrentType(type) {
+            return true
+        }
+
+        return false
+    }
+
+    private static func conformsToTorrentType(_ type: UTType) -> Bool {
+        if let exportedType, type.conforms(to: exportedType) {
+            return true
+        }
+
+        if type.conforms(to: legacyType) {
             return true
         }
 
@@ -23,7 +40,10 @@ private enum BitTorrentDocument {
     }
 
     static var defaultFilename: String {
-        "download.\(contentType.preferredFilenameExtension ?? "torrent")"
+        let ext = exportedType?.preferredFilenameExtension
+            ?? legacyType.preferredFilenameExtension
+            ?? "torrent"
+        return "download.\(ext)"
     }
 }
 
@@ -43,6 +63,7 @@ fileprivate actor ServerLifecycle {
 
     func start(port: Int) -> Bool {
         guard FileManager.default.isExecutableFile(atPath: releaseBinary.path) else {
+            launcherLog("Server start failed: release binary is not executable at \(releaseBinary.path)")
             return false
         }
 
@@ -50,6 +71,7 @@ fileprivate actor ServerLifecycle {
             try FileManager.default.createDirectory(at: dataDirectory,
                                                     withIntermediateDirectories: true)
         } catch {
+            launcherLog("Server start failed: could not create data directory \(dataDirectory.path): \(error)")
             return false
         }
 
@@ -62,8 +84,10 @@ fileprivate actor ServerLifecycle {
         do {
             try process.run()
             ownedProcess = process
+            launcherLog("Server process started on port \(port)")
             return true
         } catch {
+            launcherLog("Server start failed: \(error)")
             return false
         }
     }
@@ -212,6 +236,7 @@ final class AppDelegate: NSObject {
     private let port = Int(ProcessInfo.processInfo.environment["PORT"] ?? "4000") ?? 4000
     @MainActor private var dockTorrents: [DockTorrent] = []
     @MainActor private var dockRefreshTask: Task<Void, Never>?
+    private var openedFromURL = false
     private lazy var server = ServerLifecycle(
         dataDirectory: FileManager.default.urls(for: .applicationSupportDirectory,
                                                 in: .userDomainMask).first!
@@ -229,6 +254,10 @@ final class AppDelegate: NSObject {
         appURL.appendingPathComponent("api/torrents")
     }
 
+    private var magnetsEndpoint: URL {
+        appURL.appendingPathComponent("api/magnets")
+    }
+
     private var dataDirectory: URL {
         FileManager.default.urls(for: .applicationSupportDirectory,
                                  in: .userDomainMask).first!
@@ -237,27 +266,38 @@ final class AppDelegate: NSObject {
     }
 
     private func bootstrap() async {
-        await ensureServerReady()
+        _ = await ensureServerReady()
+
         await MainActor.run {
             startDockTorrentRefresh()
-            openBrowser()
+        }
+
+        // When launched via magnet/torrent URL, `application(_:open:)` opens the browser.
+        try? await Task.sleep(nanoseconds: 200_000_000)
+        if !openedFromURL {
+            await MainActor.run { openBrowser() }
         }
     }
 
-    private func ensureServerReady() async {
-        if await server.isPortListening(port) {
-            return
-        }
-
-        guard await server.start(port: port) else {
-            await MainActor.run {
-                showAlert("Could not start \(appDisplayName).")
-                NSApp.terminate(nil)
+    @discardableResult
+    private func ensureServerReady() async -> Bool {
+        if await !server.isPortListening(port) {
+            guard await server.start(port: port) else {
+                await MainActor.run {
+                    showAlert("Could not start \(appDisplayName).")
+                    NSApp.terminate(nil)
+                }
+                return false
             }
-            return
         }
 
-        _ = await server.waitUntilReady(url: appURL, attempts: 60, intervalNanos: 250_000_000)
+        let ready = await server.waitUntilReady(url: appURL, attempts: 60, intervalNanos: 250_000_000)
+
+        if !ready {
+            launcherLog("Server did not become HTTP-ready on port \(port) within timeout")
+        }
+
+        return ready
     }
 
     private func submitTorrentFile(at url: URL) async -> Bool {
@@ -308,6 +348,56 @@ final class AppDelegate: NSObject {
             return false
         }
     }
+
+    private func submitMagnet(_ magnet: String) async -> Bool {
+        var request = URLRequest(url: magnetsEndpoint)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.timeoutInterval = 15
+
+        let payload = ["magnet": magnet]
+
+        guard let body = try? JSONSerialization.data(withJSONObject: payload) else {
+            launcherLog("Magnet submit failed: could not encode JSON body")
+            return false
+        }
+
+        request.httpBody = body
+
+        let preview = magnet.prefix(120)
+
+        for attempt in 1...5 {
+            if !(await ensureServerReady()) {
+                launcherLog("Magnet submit attempt \(attempt)/5: server not HTTP-ready on port \(port)")
+                try? await Task.sleep(nanoseconds: 500_000_000)
+                continue
+            }
+
+            do {
+                let (data, response) = try await URLSession.shared.data(for: request)
+                guard let http = response as? HTTPURLResponse else {
+                    launcherLog("Magnet submit attempt \(attempt)/5: response was not HTTP")
+                    try? await Task.sleep(nanoseconds: 500_000_000)
+                    continue
+                }
+
+                let responseBody = String(data: data, encoding: .utf8) ?? "<non-utf8 body>"
+                if http.statusCode == 202 {
+                    launcherLog("Magnet submit ok status=202 uri=\(preview) body=\(responseBody.prefix(200))")
+                    return true
+                }
+
+                launcherLog("Magnet submit failed status=\(http.statusCode) uri=\(preview) body=\(responseBody.prefix(500))")
+            } catch {
+                launcherLog("Magnet submit attempt \(attempt)/5 error uri=\(preview): \(error)")
+            }
+
+            try? await Task.sleep(nanoseconds: 500_000_000)
+        }
+
+        launcherLog("Magnet submit gave up after 5 attempts uri=\(preview)")
+        return false
+    }
 }
 
 // MARK: - NSApplicationDelegate
@@ -320,13 +410,17 @@ extension AppDelegate: NSApplicationDelegate {
     }
 
     func application(_ application: NSApplication, open urls: [URL]) {
+        openedFromURL = true
+
         Task {
             await ensureServerReady()
 
             var handled = false
 
             for url in urls {
-                if BitTorrentDocument.matches(url) {
+                if url.scheme?.lowercased() == "magnet" {
+                    handled = await submitMagnet(url.absoluteString) || handled
+                } else if BitTorrentDocument.matches(url) {
                     handled = await submitTorrentFile(at: url) || handled
                 }
             }

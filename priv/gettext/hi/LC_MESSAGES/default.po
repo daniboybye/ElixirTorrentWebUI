@@ -9,12 +9,12 @@ msgstr ""
 msgid "Actions"
 msgstr "कार्रवाई"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:360
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:435
 #, elixir-autogen, elixir-format
 msgid "Add torrent"
 msgstr "टोरेंट जोड़ें"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:994
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1091
 #, elixir-autogen, elixir-format
 msgid "Apply"
 msgstr "आवेदन करना"
@@ -25,21 +25,21 @@ msgstr "आवेदन करना"
 msgid "Attempting to reconnect"
 msgstr "फिर से कनेक्ट करने का प्रयास"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:915
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:932
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:987
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1012
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1029
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1084
 #, elixir-autogen, elixir-format
 msgid "Cancel"
 msgstr "रद्द करना"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:940
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1037
 #, elixir-autogen, elixir-format
 msgid "Language"
 msgstr "भाषा"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:348
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:351
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:925
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:414
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:417
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1022
 #, elixir-autogen, elixir-format
 msgid "Settings"
 msgstr "सेटिंग्स"
@@ -59,38 +59,38 @@ msgstr "हमें इंटरनेट नहीं मिल रहा ह�
 msgid "close"
 msgstr "बंद करना"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1038
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1135
 #, elixir-autogen, elixir-format
 msgid "Are you sure you want to remove the selected torrent?"
 msgstr "क्या आप वाकई चयनित टोरेंट को हटाना चाहते हैं?"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:115
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:158
 #, elixir-autogen, elixir-format
 msgid "Cannot play this file"
 msgstr "यह फ़ाइल नहीं चल सकती"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:873
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1031
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:970
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1128
 #, elixir-autogen, elixir-format
 msgid "Close"
 msgstr "बंद करना"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1019
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1116
 #, elixir-autogen, elixir-format
 msgid "Close dialog"
 msgstr "संवाद बंद करें"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:857
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:954
 #, elixir-autogen, elixir-format
 msgid "Close player"
 msgstr "प्लेयर बंद करें"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1075
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1172
 #, elixir-autogen, elixir-format
 msgid "Connecting"
 msgstr "कनेक्ट"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:183
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:226
 #, elixir-autogen, elixir-format
 msgid "Could not open folder in Finder"
 msgstr "Finder में फ़ोल्डर नहीं खुल सका"
@@ -100,29 +100,29 @@ msgstr "Finder में फ़ोल्डर नहीं खुल सका"
 msgid "Creator:"
 msgstr "निर्माता:"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:761
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:858
 #, elixir-autogen, elixir-format
 msgid "Date Added"
 msgstr "तिथि जोड़ी"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:784
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:881
 #, elixir-autogen, elixir-format
 msgid "Download"
 msgstr "डाउनलोड करना"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:595
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:824
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:692
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:921
 #, elixir-autogen, elixir-format
 msgid "Downloaded"
 msgstr "डाउनलोड"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1077
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1174
 #, elixir-autogen, elixir-format
 msgid "Downloading"
 msgstr "डाउनलोड"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:407
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:424
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:482
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:499
 #, elixir-autogen, elixir-format
 msgid "Drop files here!"
 msgstr "फ़ाइल यहां छोड़ें!"
@@ -132,204 +132,301 @@ msgstr "फ़ाइल यहां छोड़ें!"
 msgid "Version %{version}"
 msgstr "संस्करण %{version}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:71
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:305
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:114
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:371
 #, elixir-autogen, elixir-format
 msgid "Failed to add torrent: %{reason}"
 msgstr "टोरेंट जोड़ने में विफल: %{reason}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:693
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:705
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:790
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:802
 #, elixir-autogen, elixir-format
 msgid "Hide Torrent Files"
 msgstr "टोरेंट फ़ाइलें छिपाएँ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1076
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1173
 #, elixir-autogen, elixir-format
 msgid "Idle"
 msgstr "निठल्ला"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:782
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:879
 #, elixir-autogen, elixir-format
 msgid "Name"
 msgstr "नाम"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:272
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:312
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:338
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:378
 #, elixir-autogen, elixir-format
 msgid "Only .torrent files are allowed"
 msgstr "केवल .torrent फ़ाइलों की अनुमति है"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:409
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:427
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:484
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:502
 #, elixir-autogen, elixir-format
 msgid "Only `.torrent` files accepted"
 msgstr "केवल `.torrent` फ़ाइलें स्वीकार की गईं"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:796
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:893
 #, elixir-autogen, elixir-format
 msgid "Play %{name}"
 msgstr "%{name} चलायें"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:678
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:685
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1050
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:775
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:782
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1147
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent"
 msgstr "टोरेंट हटाएँ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1059
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1156
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent + Data"
 msgstr "टोरेंट + डेटा हटाएँ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1024
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1121
 #, elixir-autogen, elixir-format
 msgid "Remove Torrent?"
 msgstr "टोरेंट हटाएँ?"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1069
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1166
 #, elixir-autogen, elixir-format
 msgid "Removed torrent and data: %{name}"
 msgstr "टोरेंट और डेटा हटाया गया: %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1071
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1168
 #, elixir-autogen, elixir-format
 msgid "Removed torrent: %{name}"
 msgstr "हटाया गया टोरेंट: %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1074
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1171
 #, elixir-autogen, elixir-format
 msgid "Seeding"
 msgstr "बोने"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:666
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:673
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:763
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:770
 #, elixir-autogen, elixir-format
 msgid "Show Folder"
 msgstr "फ़ोल्डर दिखाएँ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:180
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:223
 #, elixir-autogen, elixir-format
 msgid "Show Folder is only available on macOS"
 msgstr "शो फोल्डर केवल macOS पर उपलब्ध है"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:693
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:705
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:790
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:802
 #, elixir-autogen, elixir-format
 msgid "Show Torrent Files"
 msgstr "टोरेंट फ़ाइलें दिखाएँ"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:783
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:880
 #, elixir-autogen, elixir-format
 msgid "Size"
 msgstr "आकार"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1167
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1264
 #, elixir-autogen, elixir-format
 msgid "Theme"
 msgstr "विषय"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:408
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:483
 #, elixir-autogen, elixir-format
 msgid "This file type is not supported"
 msgstr "यह फ़ाइल प्रकार समर्थित नहीं है"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1162
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1163
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1259
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1260
 #, elixir-autogen, elixir-format
 msgid "Toggle theme"
 msgstr "थीम टॉगल करें"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:62
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:297
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:105
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:363
 #, elixir-autogen, elixir-format
 msgid "Torrent added: %{name}"
 msgstr "टोरेंट ने जोड़ा: %{name}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:767
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:864
 #, elixir-autogen, elixir-format
 msgid "Total Files"
 msgstr "कुल फ़ाइलें"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:773
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:870
 #, elixir-autogen, elixir-format
 msgid "Total Size"
 msgstr "कुल आकार"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:380
-#, elixir-autogen, elixir-format
-msgid "Click to Add"
-msgstr "जोड़ने के लिए क्लिक करें"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:375
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:450
 #, elixir-autogen, elixir-format
 msgid "Drag and drop a `.torrent` file here, or"
 msgstr "`.torrent` फ़ाइल को यहां खींचें और छोड़ें, या"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:147
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:190
 #, elixir-autogen, elixir-format
 msgid "Failed to remove torrent: %{reason}"
 msgstr "टोरेंट हटाने में विफल: %{reason}"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:389
-#, elixir-autogen, elixir-format
-msgid "No active torrents. Add a `.torrent` file to start downloading."
-msgstr ""
-"कोई सक्रिय टोरेंट नहीं. डाउनलोड करना शुरू करने के लिए `.torrent` फ़ाइल "
-"जोड़ें।"
-
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:599
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:696
 #, elixir-autogen, elixir-format
 msgid "All-time bytes downloaded"
 msgstr "कुल डाउनलोड किए गए बाइट"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:610
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:707
 #, elixir-autogen, elixir-format
 msgid "All-time bytes uploaded"
 msgstr "कुल अपलोड किए गए बाइट"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:975
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1072
 #, elixir-autogen, elixir-format
 msgid "Change"
 msgstr "बदलें"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:223
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:266
 #, elixir-autogen, elixir-format
 msgid "Choose Folder is only available on macOS"
 msgstr "फ़ोल्डर चुनना केवल macOS पर उपलब्ध है"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:229
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:272
 #, elixir-autogen, elixir-format
 msgid "Could not choose download folder"
 msgstr "डाउनलोड फ़ोल्डर नहीं चुन सके"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:623
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:720
 #, elixir-autogen, elixir-format
 msgid "Current download speed"
 msgstr "वर्तमान डाउनलोड गति"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:629
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:726
 #, elixir-autogen, elixir-format
 msgid "Current upload speed"
 msgstr "वर्तमान अपलोड गति"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:959
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:1056
 #, elixir-autogen, elixir-format
 msgid "Default download folder"
 msgstr "डिफ़ॉल्ट डाउनलोड फ़ोल्डर"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:618
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:715
 #, elixir-autogen, elixir-format
 msgid "Speed"
 msgstr "गति"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:591
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:688
 #, elixir-autogen, elixir-format
 msgid "Transfer statistics"
 msgstr "ट्रांसफ़र आँकड़े"
 
-#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:606
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:703
 #, elixir-autogen, elixir-format
 msgid "Uploaded"
 msgstr "अपलोड"
+
+#: lib/elixir_torrent_web_ui/engine.ex:267
+#, elixir-autogen, elixir-format
+msgid "Could not download metadata from any peer"
+msgstr "किसी भी peer से मेटाडेटा डाउनलोड नहीं हो सका"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:299
+#, elixir-autogen, elixir-format
+msgid "Could not read clipboard"
+msgstr "क्लिपबोर्ड पढ़ा नहीं जा सका"
+
+#: lib/elixir_torrent_web_ui/engine.ex:270
+#, elixir-autogen, elixir-format
+msgid "Downloaded metadata does not match the magnet hash"
+msgstr "डाउनलोड किया गया मेटाडेटा magnet हैश से मेल नहीं खाता"
+
+#: lib/elixir_torrent_web_ui/engine.ex:278
+#, elixir-autogen, elixir-format
+msgid "Failed to add magnet: %{reason}"
+msgstr "magnet जोड़ने में विफल: %{reason}"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:313
+#, elixir-autogen, elixir-format
+msgid "Fetching metadata from peers…"
+msgstr "peers से मेटाडेटा प्राप्त किया जा रहा है…"
+
+#: lib/elixir_torrent_web_ui/engine.ex:257
+#, elixir-autogen, elixir-format
+msgid "Invalid info hash in magnet link"
+msgstr "magnet लिंक में अमान्य info hash"
+
+#: lib/elixir_torrent_web_ui/engine.ex:258
+#, elixir-autogen, elixir-format
+msgid "Invalid magnet link"
+msgstr "अमान्य magnet लिंक"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:70
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:92
+#, elixir-autogen, elixir-format
+msgid "Magnet download started"
+msgstr "Magnet डाउनलोड शुरू हुआ"
+
+#: lib/elixir_torrent_web_ui/engine.ex:261
+#, elixir-autogen, elixir-format
+msgid "Magnet has no tracker URLs and no peers were found via DHT"
+msgstr "Magnet में कोई tracker URL नहीं है और DHT के ज़रिए कोई peer नहीं मिला"
+
+#: lib/elixir_torrent_web_ui/engine.ex:256
+#, elixir-autogen, elixir-format
+msgid "Magnet link is missing the info hash (xt=)"
+msgstr "magnet लिंक में info hash (xt=) नहीं है"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:66
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:85
+#, elixir-autogen, elixir-format
+msgid "Magnet metadata fetch already in progress"
+msgstr "Magnet मेटाडेटा प्राप्त करना पहले से चल रहा है"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:464
+#, elixir-autogen, elixir-format
+msgid "No active torrents. Add a `.torrent` file or magnet link to start downloading."
+msgstr ""
+"कोई सक्रिय torrent नहीं। डाउनलोड शुरू करने के लिए `.torrent` फ़ाइल या "
+"magnet लिंक जोड़ें।"
+
+#: lib/elixir_torrent_web_ui/engine.ex:255
+#, elixir-autogen, elixir-format
+msgid "Not a magnet link"
+msgstr "magnet लिंक नहीं है"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:309
+#, elixir-autogen, elixir-format
+msgid "Not a valid magnet link"
+msgstr "मान्य magnet लिंक नहीं है"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:306
+#, elixir-autogen, elixir-format
+msgid "Paste a magnet link"
+msgstr "magnet लिंक पेस्ट करें"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:426
+#, elixir-autogen, elixir-format
+msgid "Paste magnet & Go"
+msgstr "magnet पेस्ट करें और शुरू करें"
+
+#: lib/elixir_torrent_web_ui/engine.ex:264
+#, elixir-autogen, elixir-format
+msgid "Timed out fetching metadata from peers"
+msgstr "peers से मेटाडेटा प्राप्त करते समय समय समाप्त"
+
+#: lib/elixir_torrent_web_ui/engine.ex:275
+#, elixir-autogen, elixir-format
+msgid "Torrent is already downloading"
+msgstr "Torrent पहले से डाउनलोड हो रहा है"
+
+#: lib/elixir_torrent_web_ui/engine.ex:273
+#, elixir-autogen, elixir-format
+msgid "Torrent process started but metadata is not ready yet"
+msgstr "Torrent प्रक्रिया शुरू हुई लेकिन मेटाडेटा अभी तैयार नहीं है"
+
+#: lib/elixir_torrent_web_ui/engine.ex:263
+#, elixir-autogen, elixir-format
+msgid "Trackers returned no peers — try again later"
+msgstr "Trackers ने कोई peer नहीं दिया — बाद में फिर कोशिश करें"
+
+#: lib/elixir_torrent_web_ui_web/live/torrents_live.ex:455
+#, elixir-autogen, elixir-format
+msgid "click to add"
+msgstr "जोड़ने के लिए क्लिक करें"

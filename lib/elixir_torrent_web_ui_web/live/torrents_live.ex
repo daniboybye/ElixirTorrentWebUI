@@ -1,7 +1,7 @@
 defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   use ElixirTorrentWebUIWeb, :live_view
 
-  alias ElixirTorrentWebUI.{Engine, Locale, StatsStore, TorrentIngest}
+  alias ElixirTorrentWebUI.{Engine, Locale, MagnetIngest, StatsStore, TorrentIngest}
 
   @refresh_ms 1_000
 
@@ -45,15 +45,58 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         socket
       end
 
-    if connected?(socket) do
-      Phoenix.PubSub.subscribe(ElixirTorrentWebUI.PubSub, TorrentIngest.topic())
-      Process.send_after(self(), :refresh, @refresh_ms)
-    end
+    socket =
+      if connected?(socket) do
+        Phoenix.PubSub.subscribe(ElixirTorrentWebUI.PubSub, MagnetIngest.topic())
+        Phoenix.PubSub.subscribe(ElixirTorrentWebUI.PubSub, TorrentIngest.topic())
+        Process.send_after(self(), :refresh, @refresh_ms)
+        apply_recent_magnet_result(socket, expanded)
+      else
+        socket
+      end
 
     {:ok, socket}
   end
 
+  @spec apply_recent_magnet_result(Phoenix.LiveView.Socket.t(), MapSet.t()) ::
+          Phoenix.LiveView.Socket.t()
+  defp apply_recent_magnet_result(socket, expanded) do
+    case MagnetIngest.take_last_result() do
+      {_uri, {:ok, :fetching}} ->
+        put_flash(socket, :info, gettext("Magnet metadata fetch already in progress"))
+
+      {_uri, {:ok, _pid}} ->
+        socket
+        |> put_flash(:info, gettext("Magnet download started"))
+        |> assign_torrents(Engine.list_torrents(expanded))
+
+      {_uri, {:error, reason}} ->
+        put_flash(socket, :error, Engine.magnet_error_message(reason))
+
+      nil ->
+        socket
+    end
+  end
+
   @impl true
+  def handle_info({:magnet_ingest, _uri, {:ok, :fetching}}, socket) do
+    {:noreply,
+     socket
+     |> put_flash(:info, gettext("Magnet metadata fetch already in progress"))
+     |> assign_torrents(Engine.list_torrents(socket.assigns.expanded))}
+  end
+
+  def handle_info({:magnet_ingest, _uri, {:ok, _pid}}, socket) do
+    {:noreply,
+     socket
+     |> put_flash(:info, gettext("Magnet download started"))
+     |> assign_torrents(Engine.list_torrents(socket.assigns.expanded))}
+  end
+
+  def handle_info({:magnet_ingest, _uri, {:error, reason}}, socket) do
+    {:noreply, put_flash(socket, :error, Engine.magnet_error_message(reason))}
+  end
+
   def handle_info({:torrent_ingest, path, {:ok, _pid}}, socket) do
     name = Path.basename(path)
 
@@ -249,6 +292,29 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
      |> push_navigate(to: ~p"/locale/#{locale}")}
   end
 
+  @impl true
+  def handle_event("add_magnet", params, socket) do
+    case Map.get(params, "error") do
+      "clipboard" ->
+        {:noreply, put_flash(socket, :error, gettext("Could not read clipboard"))}
+
+      _ ->
+        magnet = params |> Map.get("magnet", "") |> String.trim()
+
+        cond do
+          magnet == "" ->
+            {:noreply, put_flash(socket, :error, gettext("Paste a magnet link"))}
+
+          not Engine.valid_magnet?(magnet) ->
+            {:noreply, put_flash(socket, :error, gettext("Not a valid magnet link"))}
+
+          true ->
+            :ok = MagnetIngest.submit(magnet)
+            {:noreply, put_flash(socket, :info, gettext("Fetching metadata from peers…"))}
+        end
+    end
+  end
+
   # The form's `phx-change` is required to wire `<.live_file_input>` into the
   # upload protocol — without it the JS hook never preflights. The actual work
   # (consume + add to engine) happens in the `progress` callback below.
@@ -351,6 +417,15 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
               {gettext("Settings")}
             </button>
 
+            <button
+              type="button"
+              id="paste-magnet-go"
+              phx-hook=".PasteMagnet"
+              class="inline-flex cursor-pointer items-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-semibold text-primary-content hover:brightness-110"
+            >
+              {gettext("Paste magnet & Go")}
+            </button>
+
             <form id="add-torrent-form" phx-change="validate" phx-submit="validate">
               <.live_file_input upload={@uploads.torrent} class="sr-only" />
               <label
@@ -377,7 +452,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
               for={@uploads.torrent.ref}
               class="cursor-pointer text-primary underline"
             >
-              {gettext("Click to Add")}
+              {gettext("click to add")}
             </label>.
           </div>
         </div>
@@ -386,7 +461,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
           :if={@torrents == []}
           class="rounded-xl border border-base-300 bg-base-200 px-4 py-8 text-center text-base-content/70"
         >
-          {gettext("No active torrents. Add a `.torrent` file to start downloading.")}
+          {gettext("No active torrents. Add a `.torrent` file or magnet link to start downloading.")}
         </div>
       </div>
 
@@ -428,6 +503,28 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         </p>
       </div>
     </div>
+
+    <script :type={Phoenix.LiveView.ColocatedHook} name=".PasteMagnet">
+      export default {
+        mounted() {
+          this.el.addEventListener("click", () => this.readClipboard())
+        },
+
+        async readClipboard() {
+          if (!navigator.clipboard?.readText) {
+            this.pushEvent("add_magnet", { magnet: "", error: "clipboard" })
+            return
+          }
+
+          try {
+            const text = await navigator.clipboard.readText()
+            this.pushEvent("add_magnet", { magnet: (text || "").trim() })
+          } catch (_error) {
+            this.pushEvent("add_magnet", { magnet: "", error: "clipboard" })
+          }
+        }
+      }
+    </script>
 
     <script :type={Phoenix.LiveView.ColocatedHook} name=".DragOverlay">
       export default {
