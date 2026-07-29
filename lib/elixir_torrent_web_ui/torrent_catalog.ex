@@ -3,6 +3,8 @@ defmodule ElixirTorrentWebUI.TorrentCatalog do
 
   use GenServer
 
+  alias ElixirTorrentWebUI.UiState
+
   @type entry :: %{
           id: String.t(),
           hash: binary(),
@@ -60,8 +62,16 @@ defmodule ElixirTorrentWebUI.TorrentCatalog do
   def download_dir(id) do
     case Map.get(entries_map(), id) do
       %{download_dir: dir} when is_binary(dir) -> dir
-      _ -> data_dir()
+      _ -> default_content_download_dir()
     end
+  end
+
+  @doc false
+  @spec default_content_download_dir() :: Path.t()
+  def default_content_download_dir do
+    UiState.get().download_folder
+  catch
+    :exit, _ -> UiState.default_download_folder()
   end
 
   @impl true
@@ -181,33 +191,34 @@ defmodule ElixirTorrentWebUI.TorrentCatalog do
   end
 
   defp decode_catalog(body) do
-    with {:ok, %{"order" => order, "entries" => entries}} <- Jason.decode(body) do
-      entries =
-        entries
-        |> Enum.map(fn {id, entry} ->
-          hash =
-            case Base.decode16(id, case: :mixed) do
-              {:ok, decoded} -> decoded
-              :error -> nil
-            end
+    case Jason.decode(body) do
+      {:ok, %{"order" => order, "entries" => entries}} ->
+        %{order: order, entries: Map.new(entries, &decode_entry/1)}
 
-          {id,
-           %{
-             id: id,
-             hash: hash,
-             torrent_path: entry["torrent_path"],
-             name: entry["name"],
-             download_dir: normalize_download_dir(entry["download_dir"]),
-             added_at: parse_added_at(entry["added_at"])
-           }}
-        end)
-        |> Map.new()
-
-      %{order: order, entries: entries}
-    else
-      _ -> %{order: [], entries: %{}}
+      _ ->
+        empty_catalog()
     end
   end
+
+  defp decode_entry({id, entry}) do
+    hash =
+      case Base.decode16(id, case: :mixed) do
+        {:ok, decoded} -> decoded
+        :error -> nil
+      end
+
+    {id,
+     %{
+       id: id,
+       hash: hash,
+       torrent_path: entry["torrent_path"],
+       name: entry["name"],
+       download_dir: normalize_download_dir(entry["download_dir"]),
+       added_at: parse_added_at(entry["added_at"])
+     }}
+  end
+
+  defp empty_catalog, do: %{order: [], entries: %{}}
 
   defp parse_added_at(iso8601) when is_binary(iso8601) do
     case DateTime.from_iso8601(iso8601) do
@@ -226,8 +237,21 @@ defmodule ElixirTorrentWebUI.TorrentCatalog do
 
   @spec normalize_download_dir(Path.t()) :: Path.t()
   defp normalize_download_dir(dir) when is_binary(dir) do
-    dir = Path.expand(dir)
+    dir =
+      dir
+      |> Path.expand()
+      |> remap_legacy_data_download_dir()
+
     File.mkdir_p!(dir)
     dir
+  end
+
+  @spec remap_legacy_data_download_dir(Path.t()) :: Path.t()
+  defp remap_legacy_data_download_dir(dir) do
+    if dir == Path.expand(data_dir()) do
+      default_content_download_dir()
+    else
+      dir
+    end
   end
 end

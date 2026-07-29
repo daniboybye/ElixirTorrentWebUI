@@ -125,9 +125,8 @@ defmodule ElixirTorrentWebUI.Engine do
   def remove_torrent(hash, opts \\ []) do
     id = Torrent.hex_encoded_hash(hash)
 
-    with :ok <- ElixirTorrent.remove(hash, opts),
-         :ok <- TorrentCatalog.remove(id) do
-      :ok
+    with :ok <- ElixirTorrent.remove(hash, opts) do
+      TorrentCatalog.remove(id)
     end
   end
 
@@ -176,9 +175,8 @@ defmodule ElixirTorrentWebUI.Engine do
   @spec choose_download_folder() :: {:ok, Path.t()} | {:error, term()}
   def choose_download_folder do
     with :ok <- ensure_darwin(),
-         {:ok, path} <- run_folder_picker(),
-         {:ok, folder} <- validate_download_folder(path) do
-      {:ok, folder}
+         {:ok, path} <- run_folder_picker() do
+      validate_download_folder(path)
     end
   end
 
@@ -387,17 +385,16 @@ defmodule ElixirTorrentWebUI.Engine do
   @spec common_ancestor([Path.t()]) :: Path.t()
   defp common_ancestor([first | rest]) do
     rest
-    |> Enum.reduce(Path.split(first), fn path, acc ->
-      path
-      |> Path.split()
-      |> then(fn parts ->
-        acc
-        |> Enum.zip(parts)
-        |> Enum.take_while(fn {left, right} -> left == right end)
-        |> Enum.map(fn {part, _} -> part end)
-      end)
-    end)
+    |> Enum.reduce(Path.split(first), &common_path_parts/2)
     |> Path.join()
+  end
+
+  @spec common_path_parts(Path.t(), [String.t()]) :: [String.t()]
+  defp common_path_parts(path, acc) do
+    acc
+    |> Enum.zip(Path.split(path))
+    |> Enum.take_while(fn {left, right} -> left == right end)
+    |> Enum.map(fn {part, _} -> part end)
   end
 
   @spec status_string(Peer.status()) :: String.t()
