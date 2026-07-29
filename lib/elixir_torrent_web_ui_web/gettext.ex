@@ -21,5 +21,7 @@ defmodule ElixirTorrentWebUIWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext.Backend, otp_app: :elixir_torrent_web_ui
+  use Gettext.Backend,
+    otp_app: :elixir_torrent_web_ui,
+    plural_forms: ElixirTorrentWebUIWeb.GettextPlural
 end
