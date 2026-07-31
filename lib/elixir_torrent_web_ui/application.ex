@@ -5,7 +5,7 @@ defmodule ElixirTorrentWebUI.Application do
 
   use Application
 
-  @impl true
+  @impl Application
   def start(_type, _args) do
     :ok = ElixirTorrentWebUI.DataDir.ensure!()
     :ok = ElixirTorrentWebUI.MagnetIngest.ensure_table!()
@@ -36,7 +36,7 @@ defmodule ElixirTorrentWebUI.Application do
     end
   end
 
-  @impl true
+  @impl Application
   def stop(_state) do
     ElixirTorrentWebUI.StatsStore.persist_state()
     ElixirTorrentWebUI.TorrentCatalog.persist_state()
@@ -45,7 +45,7 @@ defmodule ElixirTorrentWebUI.Application do
 
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
-  @impl true
+  @impl Application
   def config_change(changed, _new, removed) do
     ElixirTorrentWebUIWeb.Endpoint.config_change(changed, removed)
     :ok

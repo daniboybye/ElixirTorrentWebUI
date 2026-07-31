@@ -5,11 +5,11 @@ defmodule ElixirTorrentWebUI.Engine do
   UI code should depend on this module (not on engine internals).
   """
 
-  require Logger
-
   use Gettext, backend: ElixirTorrentWebUIWeb.Gettext
 
   alias ElixirTorrentWebUI.{Media, OsIntegration, PathGuard, TorrentCatalog, UiState}
+
+  require Logger
 
   @max_inline_image_bytes 50 * 1024 * 1024
   @min_play_progress_percent 1.0

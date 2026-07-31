@@ -3,9 +3,9 @@ defmodule ElixirTorrentWebUI.PendingMagnets do
 
   use GenServer
 
-  require Logger
-
   alias ElixirTorrentWebUI.TorrentCatalog
+
+  require Logger
 
   # Match engine Magnet.Fetcher max lifetime — evict UI rows that would never
   # succeed so boot resume_on_boot does not respawn month-old dead fetches.
@@ -57,7 +57,7 @@ defmodule ElixirTorrentWebUI.PendingMagnets do
     GenServer.call(__MODULE__, :entries)
   end
 
-  @impl true
+  @impl GenServer
   def init(_opts) do
     state =
       load_from_disk()
@@ -72,7 +72,7 @@ defmodule ElixirTorrentWebUI.PendingMagnets do
     {:ok, state}
   end
 
-  @impl true
+  @impl GenServer
   def handle_call({:register, uri}, _from, state) do
     case Magnet.parse(uri) do
       {:ok, %Magnet{} = magnet} ->

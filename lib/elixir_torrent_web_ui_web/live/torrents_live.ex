@@ -5,7 +5,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
 
   @refresh_ms 1_000
 
-  @impl true
+  @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
     %{theme: theme, expanded: expanded, download_folder: download_folder} =
       ElixirTorrentWebUI.UiState.get()
@@ -78,7 +78,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     end
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_info({:magnet_ingest, _uri, {:ok, :fetching}}, socket) do
     {:noreply,
      socket
@@ -115,13 +115,13 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
      )}
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_info(:refresh, socket) do
     Process.send_after(self(), :refresh, @refresh_ms)
     {:noreply, assign_torrents(socket, Engine.list_torrents(socket.assigns.expanded))}
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_event("open_remove_dialog", %{"id" => id}, socket) do
     case Enum.find(socket.assigns.torrents, &(&1.id == id)) do
       nil ->
@@ -133,12 +133,12 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     end
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_event("close_remove_dialog", _params, socket) do
     {:noreply, assign(socket, :remove_dialog, nil)}
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_event(
         "open_player",
         %{"torrent_id" => torrent_id, "file_index" => file_index},
@@ -159,7 +159,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     end
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_event(
         "open_image",
         %{"torrent_id" => torrent_id, "file_index" => file_index},
@@ -173,12 +173,12 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     end
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_event("close_player", _params, socket) do
     {:noreply, assign(socket, :player, nil)}
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_event("confirm_remove", %{"delete_data" => delete_data}, socket) do
     case socket.assigns.remove_dialog do
       %{hash: hash, name: name, id: id} ->
@@ -210,7 +210,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     end
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_event("toggle_expand", %{"id" => id}, socket) do
     expanded =
       if MapSet.member?(socket.assigns.expanded, id) do
@@ -227,7 +227,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
      |> assign_torrents(Engine.list_torrents(expanded))}
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_event("show_folder", %{"id" => id}, socket) do
     case Engine.show_folder(id) do
       :ok ->
@@ -241,7 +241,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     end
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_event("toggle_theme", _params, socket) do
     theme = if(socket.assigns.theme == "dark", do: "light", else: "dark")
     :ok = ElixirTorrentWebUI.UiState.put_theme(theme)
@@ -252,7 +252,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
      |> push_event("set-theme", %{theme: theme})}
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_event("open_settings", _params, socket) do
     {:noreply,
      socket
@@ -261,7 +261,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
      |> assign(:settings_download_folder, socket.assigns.download_folder)}
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_event("close_settings", _params, socket) do
     {:noreply,
      socket
@@ -270,7 +270,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
      |> assign(:settings_download_folder, socket.assigns.download_folder)}
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_event("choose_download_folder", _params, socket) do
     case Engine.choose_download_folder() do
       {:ok, folder} ->
@@ -287,12 +287,12 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     end
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_event("settings_locale_changed", %{"locale" => locale}, socket) do
     {:noreply, assign(socket, :settings_locale, Locale.normalize(locale))}
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_event("apply_settings", %{"locale" => locale}, socket) do
     locale = Locale.normalize(locale)
     download_folder = socket.assigns.settings_download_folder
@@ -306,7 +306,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
      |> push_navigate(to: ~p"/locale/#{locale}")}
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_event("reset_statistics", _params, socket) do
     :ok = StatsStore.reset()
 
@@ -316,14 +316,17 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
      |> assign_torrents(Engine.list_torrents(socket.assigns.expanded))}
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def handle_event("add_magnet", params, socket) do
     case Map.get(params, "error") do
       "clipboard" ->
         {:noreply, put_flash(socket, :error, gettext("Could not read clipboard"))}
 
       _ ->
-        magnet = params |> Map.get("magnet", "") |> String.trim()
+        magnet =
+          params
+          |> Map.get("magnet", "")
+          |> String.trim()
 
         cond do
           magnet == "" ->
@@ -347,7 +350,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   # (e.g. dropped `.png` triggers `:not_accepted` because of `accept: ~w(.torrent)`).
   # We cancel them so they don't sit in the upload state forever, and surface a
   # flash so the user knows what happened.
-  @impl true
+  @impl Phoenix.LiveView
   def handle_event("validate", _params, socket) do
     invalid = Enum.reject(socket.assigns.uploads.torrent.entries, & &1.valid?)
 
@@ -410,7 +413,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     |> String.ends_with?(".torrent")
   end
 
-  @impl true
+  @impl Phoenix.LiveView
   def render(assigns) do
     _ = Locale.put(assigns.locale)
 

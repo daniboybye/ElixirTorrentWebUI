@@ -52,33 +52,33 @@ defmodule ElixirTorrentWebUI.UiState do
     Path.expand(Path.join(home, "Downloads"))
   end
 
-  @impl true
+  @impl GenServer
   def init(_opts) do
     {:ok, load_from_disk()}
   end
 
-  @impl true
+  @impl GenServer
   def handle_call(:get, _from, state) do
     {:reply, state, state}
   end
 
-  @impl true
+  @impl GenServer
   def handle_call({:put_theme, theme}, _from, state) do
     {:reply, :ok, persist(%{state | theme: theme})}
   end
 
-  @impl true
+  @impl GenServer
   def handle_call({:put_expanded, expanded}, _from, state) do
     {:reply, :ok, persist(%{state | expanded: expanded})}
   end
 
-  @impl true
+  @impl GenServer
   def handle_call({:put_locale, locale}, _from, state) do
     locale = normalize_locale(locale)
     {:reply, :ok, persist(%{state | locale: locale})}
   end
 
-  @impl true
+  @impl GenServer
   def handle_call({:put_download_folder, folder}, _from, state) do
     folder = normalize_download_folder(folder)
     {:reply, :ok, persist(%{state | download_folder: folder})}
@@ -132,7 +132,10 @@ defmodule ElixirTorrentWebUI.UiState do
           {:ok, String.t(), String.t(), Path.t(), list()} | :error
   defp decode_fields(%{"theme" => theme, "expanded" => expanded} = decoded)
        when theme in @valid_themes and is_list(expanded) do
-    locale = decoded |> Map.get("locale", @default_locale) |> normalize_locale()
+    locale =
+      decoded
+      |> Map.get("locale", @default_locale)
+      |> normalize_locale()
 
     download_folder =
       decoded

@@ -9,7 +9,10 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLiveTest do
   end
 
   test "renders lifetime totals and current aggregate rates in the top bar", %{conn: conn} do
-    html = conn |> get(~p"/") |> html_response(200)
+    html =
+      conn
+      |> get(~p"/")
+      |> html_response(200)
 
     assert html =~ ~s(id="aggregate-stats")
     assert html =~ "Transfer statistics"
@@ -47,10 +50,17 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLiveTest do
     assert html =~ "4 KB"
     assert html =~ "2 KB"
 
-    view |> element("#open-settings") |> render_click()
+    view
+    |> element("#open-settings")
+    |> render_click()
+
     assert has_element?(view, "#settings-reset-statistics", "Reset Statistics")
 
-    html = view |> element("#settings-reset-statistics") |> render_click()
+    html =
+      view
+      |> element("#settings-reset-statistics")
+      |> render_click()
+
     assert html =~ "Transfer statistics reset"
     assert ElixirTorrentWebUI.StatsStore.get() == %{total_downloaded: 0, total_uploaded: 0}
   end

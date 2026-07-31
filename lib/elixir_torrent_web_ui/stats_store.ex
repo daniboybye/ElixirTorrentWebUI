@@ -63,7 +63,7 @@ defmodule ElixirTorrentWebUI.StatsStore do
     }
   end
 
-  @impl true
+  @impl GenServer
   def init(_opts) do
     state = load_from_disk()
     schedule_tick()
@@ -71,7 +71,7 @@ defmodule ElixirTorrentWebUI.StatsStore do
     {:ok, state}
   end
 
-  @impl true
+  @impl GenServer
   def handle_call(:get, _from, state) do
     {:reply, totals(state), state}
   end
@@ -85,24 +85,24 @@ defmodule ElixirTorrentWebUI.StatsStore do
     {:reply, :ok, state}
   end
 
-  @impl true
+  @impl GenServer
   def handle_call(:persist, _from, state) do
     {:reply, :ok, persist(state)}
   end
 
-  @impl true
+  @impl GenServer
   def handle_info(:tick, state) do
     schedule_tick()
     {:noreply, tick(state)}
   end
 
-  @impl true
+  @impl GenServer
   def handle_info(:persist, state) do
     schedule_persist()
     {:noreply, maybe_persist(state)}
   end
 
-  @impl true
+  @impl GenServer
   def terminate(_reason, state) do
     _ = persist(state)
     :ok

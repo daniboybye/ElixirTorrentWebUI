@@ -1,9 +1,9 @@
 defmodule ElixirTorrentWebUIWeb.MagnetController do
   use ElixirTorrentWebUIWeb, :controller
 
-  require Logger
-
   alias ElixirTorrentWebUI.{Engine, MagnetIngest}
+
+  require Logger
 
   def create(conn, %{"magnet" => magnet}) when is_binary(magnet) do
     magnet = String.trim(magnet)

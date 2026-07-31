@@ -121,8 +121,3 @@ Notes:
 - The endpoint is bound to loopback (`127.0.0.1`) in dev config.
 - Before exposing anything beyond localhost, add auth (token/cookie) and review endpoints
   that control downloads or read files.
-
-## Roadmap
-
-See [`TODO.md`](TODO.md) for planned work (persistence polish, magnet links, search,
-cross-platform packaging, Dock menu, and more).

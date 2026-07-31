@@ -74,12 +74,12 @@ defmodule ElixirTorrentWebUI.TorrentCatalog do
     :exit, _ -> UiState.default_download_folder()
   end
 
-  @impl true
+  @impl GenServer
   def init(_opts) do
     {:ok, load_from_disk()}
   end
 
-  @impl true
+  @impl GenServer
   def handle_call({:register, hash, torrent_path, name, download_dir}, _from, state) do
     id = Torrent.hex_encoded_hash(hash)
     download_dir = normalize_download_dir(download_dir)
@@ -102,7 +102,7 @@ defmodule ElixirTorrentWebUI.TorrentCatalog do
     {:reply, :ok, state}
   end
 
-  @impl true
+  @impl GenServer
   def handle_call({:remove, id}, _from, state) do
     case Map.get(state.entries, id) do
       %{torrent_path: path} -> File.rm(path)
@@ -118,10 +118,10 @@ defmodule ElixirTorrentWebUI.TorrentCatalog do
     {:reply, :ok, state}
   end
 
-  @impl true
+  @impl GenServer
   def handle_call(:ordered_ids, _from, state), do: {:reply, state.order, state}
 
-  @impl true
+  @impl GenServer
   def handle_call(:entries, _from, state) do
     entries =
       state.order
@@ -130,7 +130,7 @@ defmodule ElixirTorrentWebUI.TorrentCatalog do
     {:reply, entries, state}
   end
 
-  @impl true
+  @impl GenServer
   def handle_call(:persist, _from, state) do
     {:reply, :ok, persist(state)}
   end
