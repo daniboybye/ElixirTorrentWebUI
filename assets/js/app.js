@@ -25,6 +25,28 @@ import {LiveSocket} from "phoenix_live_view"
 import {hooks as colocatedHooks} from "phoenix-colocated/elixir_torrent_web_ui"
 import topbar from "../vendor/topbar"
 
+const normalizeTheme = theme => theme === "light" ? "light" : "dark"
+const setTheme = theme => {
+  const normalized = normalizeTheme(theme)
+  localStorage.setItem("phx:theme", normalized)
+  document.documentElement.setAttribute("data-theme", normalized)
+}
+
+const toggleTheme = () => {
+  const current = normalizeTheme(document.documentElement.getAttribute("data-theme"))
+  setTheme(current === "dark" ? "light" : "dark")
+}
+
+if (!document.documentElement.hasAttribute("data-theme")) {
+  setTheme(localStorage.getItem("phx:theme") || "dark")
+}
+
+window.addEventListener("storage", event => {
+  if (event.key === "phx:theme") setTheme(event.newValue || "dark")
+})
+window.addEventListener("phx:set-theme", event => setTheme(event.target.dataset.phxTheme))
+window.addEventListener("phx:toggle-theme", toggleTheme)
+
 const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 
 const AutoDismissFlash = {
@@ -42,11 +64,7 @@ const AutoDismissFlash = {
 
 const UiState = {
   mounted() {
-    this.handleEvent("set-theme", ({theme}) => {
-      const normalized = theme === "light" ? "light" : "dark"
-      localStorage.setItem("phx:theme", normalized)
-      document.documentElement.setAttribute("data-theme", normalized)
-    })
+    this.handleEvent("set-theme", ({theme}) => setTheme(theme))
 
     this.handleEvent("set-locale", ({locale}) => {
       const normalized = typeof locale === "string" && locale.length > 0 ? locale : "en"

@@ -21,6 +21,16 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLiveTest do
     assert html =~ "Speed"
   end
 
+  test "keeps executable JavaScript in external assets for CSP", %{conn: conn} do
+    html =
+      conn
+      |> get(~p"/")
+      |> html_response(200)
+
+    assert html =~ ~s(src="/assets/js/app.js")
+    refute html =~ ~r/<script(?![^>]*\bsrc=)[^>]*>\s*\S/s
+  end
+
   test "validates pasted magnet links before starting ingest", %{conn: conn} do
     {:ok, view, _html} = live(conn, ~p"/")
 

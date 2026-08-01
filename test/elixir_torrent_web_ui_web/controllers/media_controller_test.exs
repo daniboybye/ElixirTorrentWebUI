@@ -18,6 +18,17 @@ defmodule ElixirTorrentWebUIWeb.MediaControllerTest do
     assert response(conn, 404) == "Not found"
   end
 
+  test "browser routes enforce a restrictive content security policy", %{conn: conn} do
+    conn = get(conn, ~p"/media/not-a-hash/0/preview")
+
+    assert [policy] = get_resp_header(conn, "content-security-policy")
+    assert policy =~ "default-src 'self'"
+    assert policy =~ "script-src 'self'"
+    assert policy =~ "object-src 'none'"
+    assert policy =~ "frame-ancestors 'none'"
+    refute policy =~ "script-src 'self' 'unsafe-inline'"
+  end
+
   test "image preview route rejects malformed file indexes", %{conn: conn} do
     torrent_id = String.duplicate("0", 40)
     conn = get(conn, ~p"/media/#{torrent_id}/not-an-index/preview")

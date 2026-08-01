@@ -1,13 +1,27 @@
 defmodule ElixirTorrentWebUIWeb.Router do
   use ElixirTorrentWebUIWeb, :router
 
+  @content_security_policy [
+                             "default-src 'self'",
+                             "base-uri 'self'",
+                             "object-src 'none'",
+                             "frame-ancestors 'none'",
+                             "form-action 'self'",
+                             "script-src 'self'",
+                             "style-src 'self' 'unsafe-inline'",
+                             "img-src 'self' data:",
+                             "media-src 'self'",
+                             "connect-src 'self'"
+                           ]
+                           |> Enum.join("; ")
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
     plug :put_root_layout, html: {ElixirTorrentWebUIWeb.Layouts, :root}
     plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug :put_secure_browser_headers, %{"content-security-policy" => @content_security_policy}
     plug ElixirTorrentWebUIWeb.Plugs.SetLocale
   end
 

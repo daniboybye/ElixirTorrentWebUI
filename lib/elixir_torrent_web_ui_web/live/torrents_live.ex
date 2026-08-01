@@ -699,7 +699,9 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     dir = Path.join(System.tmp_dir!(), "elixir_torrent_web_ui/uploads")
     File.mkdir_p!(dir)
 
-    filename = "#{entry.uuid}-#{entry.client_name}"
+    # The browser-supplied client name is display-only and must not become part
+    # of a filesystem path. LiveView generates the UUID used for storage.
+    filename = "#{entry.uuid}.torrent"
     dest = Path.join(dir, filename)
     File.cp!(tmp_path, dest)
     dest

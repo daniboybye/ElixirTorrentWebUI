@@ -35,6 +35,9 @@ defmodule ElixirTorrentWebUIWeb.MediaController do
     Application.get_env(:elixir_torrent_web_ui, :media_resolver, Engine)
   end
 
+  # The resolver derives this path server-side from torrent id/file index and
+  # validates it with PathGuard.safe_join/2 before this controller receives it.
+  # sobelow_skip ["Traversal.SendFile"]
   defp serve_path(conn, path, content_type) do
     size = File.stat!(path).size
 
@@ -56,6 +59,9 @@ defmodule ElixirTorrentWebUIWeb.MediaController do
     end
   end
 
+  # serve_path/3 is the only caller, so ranged responses retain the same
+  # server-side path resolution and traversal guard.
+  # sobelow_skip ["Traversal.SendFile"]
   defp serve_range(conn, path, size, "bytes=" <> spec) do
     case parse_range(spec, size) do
       {:ok, start, end_byte} ->
