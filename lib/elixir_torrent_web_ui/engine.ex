@@ -365,7 +365,7 @@ defmodule ElixirTorrentWebUI.Engine do
          :ok <- ensure_darwin(),
          paths <- data_paths(hash),
          {:ok, cmd, args} <- open_command(hash, paths) do
-      case System.cmd(cmd, args, stderr_to_stdout: true) do
+      case OsIntegration.system_cmd(cmd, args, stderr_to_stdout: true) do
         {_, 0} -> :ok
         _ -> {:error, :open_failed}
       end
@@ -510,7 +510,7 @@ defmodule ElixirTorrentWebUI.Engine do
   defp run_folder_picker do
     script = ~s'POSIX path of (choose folder with prompt "Choose download folder")'
 
-    case System.cmd("osascript", ["-e", script], stderr_to_stdout: true) do
+    case OsIntegration.system_cmd("osascript", ["-e", script], stderr_to_stdout: true) do
       {path, 0} -> {:ok, String.trim(path)}
       _ -> {:error, :cancelled}
     end
