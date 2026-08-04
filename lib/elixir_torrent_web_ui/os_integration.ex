@@ -16,7 +16,7 @@ defmodule ElixirTorrentWebUI.OsIntegration do
   end
 
   @doc false
-  @spec open_file_command(:os.type(), Path.t()) ::
+  @spec open_file_command({:unix | :win32, atom()}, Path.t()) ::
           {:ok, String.t(), [String.t()]} | {:error, :unsupported_platform}
   def open_file_command({:unix, :darwin}, path), do: {:ok, "open", [path]}
   def open_file_command(_os_type, _path), do: {:error, :unsupported_platform}
