@@ -19,24 +19,17 @@ jobs:
     timeout-minutes: 20
 
     env:
-      ELIXIR_TORRENT_PATH: ${{ github.workspace }}/ElixirTorrent
       MIX_ENV: dev
 
     steps:
       - name: Check out WebUI
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - name: Check out Engine
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          repository: daniboybye/ElixirTorrent
-          path: ElixirTorrent
-          persist-credentials: false
-
       - name: Install Erlang and Elixir
         uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
         with:
           version-file: .tool-versions
+          version-type: strict
 
       - name: Restore Mix cache
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
@@ -46,14 +39,14 @@ jobs:
             ~/.cache/rebar3
             deps
             _build
-          key: mix-${{ runner.os }}-${{ hashFiles('.tool-versions', 'mix.lock', 'ElixirTorrent/mix.exs') }}
+          key: mix-${{ runner.os }}-${{ hashFiles('.tool-versions', 'mix.lock') }}
 
       - name: Install Hex and Rebar
         run: |
           mix local.hex --force
           mix local.rebar --force
 
-      - name: Fetch dependencies against Engine checkout
+      - name: Fetch dependencies
         run: mix deps.get
 
       - name: Audit dependency metadata
