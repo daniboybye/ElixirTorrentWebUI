@@ -1,0 +1,20 @@
+# Keep the CI gate actionable: block fixable high/critical dependency
+# vulnerabilities and exposed secrets, while retaining explicit scan scope.
+scan:
+  scanners:
+    - vuln
+    - secret
+  skip-dirs:
+    - .git
+    - .cache
+    - _build
+    - deps
+    - node_modules
+    - dist
+severity:
+  - HIGH
+  - CRITICAL
+vulnerability:
+  ignore-unfixed: true
+exit-code: 1
+format: table
