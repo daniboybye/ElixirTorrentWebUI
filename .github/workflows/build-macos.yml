@@ -1,0 +1,94 @@
+name: Build macOS
+
+# Reusable macOS build:
+#   - called from release.yml on tag push,
+#   - or triggered manually from the Actions UI (workflow_dispatch).
+# Runs the full ExUnit suite on macOS (arm64) and produces the signed DMG
+# artifact that release.yml uploads to the GitHub Release.
+#
+# macos-15 = Apple Silicon (M-series). GitHub bills macOS runners 10x vs Linux,
+# so this workflow deliberately does not run on every PR — only on tags or
+# on-demand dispatch.
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-macos-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Test and package (macOS arm64)
+    runs-on: macos-15
+    timeout-minutes: 45
+
+    env:
+      MIX_ENV: dev
+
+    steps:
+      - name: Check out WebUI
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install Erlang and Elixir
+        uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
+        with:
+          version-file: .tool-versions
+
+      - name: Restore Mix cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.mix
+            ~/.cache/rebar3
+            deps
+            _build
+          key: mix-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('.tool-versions', 'mix.lock') }}
+          restore-keys: |
+            mix-${{ runner.os }}-${{ runner.arch }}-
+
+      - name: Install Hex and Rebar
+        run: |
+          mix local.hex --force
+          mix local.rebar --force
+
+      - name: Fetch dependencies
+        run: mix deps.get
+
+      - name: Compile (dev)
+        run: mix compile --warnings-as-errors
+
+      - name: Compile (test)
+        env:
+          MIX_ENV: test
+        run: mix compile --warnings-as-errors
+
+      - name: Run macOS test suite
+        env:
+          MIX_ENV: test
+        run: timeout --signal=TERM --kill-after=5s 60s mix test
+
+      - name: Build DMG (prod release + .app + signed DMG)
+        run: mix mac.dmg
+
+      - name: Compute SHA-256 checksum
+        working-directory: dist
+        run: |
+          shopt -s nullglob
+          for dmg in *.dmg; do
+            shasum -a 256 "$dmg" | tee "$dmg.sha256"
+          done
+
+      - name: Upload macOS artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: macos-arm64
+          path: |
+            dist/*.dmg
+            dist/*.dmg.sha256
+          if-no-files-found: error
+          retention-days: 30

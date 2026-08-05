@@ -1,0 +1,77 @@
+name: Release
+
+# Triggered when a semver tag is pushed. Also
+# runnable manually from the Actions UI — pick a tag ref to build from,
+# optionally with dry_run=true to skip the GitHub Release step and only
+# produce workflow artifacts.
+#
+# Add Windows support later by:
+#   1. adding .github/workflows/build-windows.yml (same shape as build-macos.yml
+#      but runs-on: windows-2022, invokes priv/scripts/windows/build-windows-zip.ps1),
+#   2. adding a `windows:` job below that `uses:` it,
+#   3. listing it under `needs:` on `publish` and adding *.zip* to the release
+#      files glob.
+
+on:
+  push:
+    tags:
+      - '[0-9]*.[0-9]*.[0-9]*'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Skip GitHub Release publication; only upload workflow artifacts'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  macos:
+    name: macOS arm64
+    uses: ./.github/workflows/build-macos.yml
+    permissions:
+      contents: read
+
+  # windows:
+  #   name: Windows x64
+  #   uses: ./.github/workflows/build-windows.yml
+  #   permissions:
+  #     contents: read
+
+  publish:
+    name: Publish GitHub Release
+    needs: [macos]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    if: >-
+      startsWith(github.ref, 'refs/tags/') &&
+      (github.event_name != 'workflow_dispatch' || inputs.dry_run != true)
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download all build artifacts
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          path: artifacts
+
+      - name: List downloaded files
+        run: find artifacts -type f -print
+
+      - name: Create or update GitHub Release
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.6.2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: |
+            artifacts/**/*.dmg
+            artifacts/**/*.dmg.sha256

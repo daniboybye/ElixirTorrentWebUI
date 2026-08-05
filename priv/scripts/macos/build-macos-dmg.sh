@@ -75,6 +75,11 @@ if [[ -f "$ROOT/priv/macos/Assets.car" ]]; then
   cp "$ROOT/priv/macos/Assets.car" "$APP/Contents/Resources/Assets.car"
 fi
 
+echo "==> Sealing app bundle…"
+CODESIGN_IDENTITY="${MACOS_CODESIGN_IDENTITY:--}"
+codesign --force --deep --sign "$CODESIGN_IDENTITY" "$APP"
+codesign --verify --deep --strict "$APP"
+
 echo "==> Creating DMG…"
 mkdir -p "$STAGING"
 cp -R "$APP" "$STAGING/"
