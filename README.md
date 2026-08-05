@@ -1,5 +1,7 @@
 # ElixirTorrent Web
 
+[![GitHub release](https://img.shields.io/github/v/release/daniboybye/ElixirTorrentWebUI?label=release&logo=github&color=181717)](https://github.com/daniboybye/ElixirTorrentWebUI/releases/latest) [![GitHub](https://img.shields.io/badge/source-ElixirTorrentWebUI-181717?logo=github)](https://github.com/daniboybye/ElixirTorrentWebUI) [![CI](https://img.shields.io/github/actions/workflow/status/daniboybye/ElixirTorrentWebUI/web-build-test-analyze.yml?branch=main&label=CI&logo=github)](https://github.com/daniboybye/ElixirTorrentWebUI/actions/workflows/web-build-test-analyze.yml) [![Last commit](https://img.shields.io/github/last-commit/daniboybye/ElixirTorrentWebUI/main)](https://github.com/daniboybye/ElixirTorrentWebUI/commits/main) [![Engine](https://img.shields.io/badge/Engine-ElixirTorrent-181717?logo=github)](https://github.com/daniboybye/ElixirTorrent) [![macOS](https://img.shields.io/badge/macOS-releases-silver?logo=apple)](https://github.com/daniboybye/ElixirTorrentWebUI/releases)
+
 Phoenix (LiveView) Web UI for the [`elixir_torrent`](https://hex.pm/packages/elixir_torrent)
 BitTorrent engine.
 
