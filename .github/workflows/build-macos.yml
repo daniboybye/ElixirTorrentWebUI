@@ -71,7 +71,7 @@ jobs:
       - name: Run macOS test suite
         env:
           MIX_ENV: test
-        run: timeout --signal=TERM --kill-after=5s 60s mix test
+        run: perl -e 'alarm shift; exec @ARGV' 60 mix test
 
       - name: Build DMG (prod release + .app + signed DMG)
         run: mix mac.dmg
