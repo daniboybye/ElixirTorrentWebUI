@@ -11,6 +11,13 @@ config :elixir_torrent_web_ui,
   namespace: ElixirTorrentWebUI,
   generators: [timestamp_type: :utc_datetime]
 
+# Where in-app bug reports are filed. Users are handed a browser URL that
+# opens a pre-populated GitHub issue — nothing leaves the app until they
+# review and click "Create".
+config :elixir_torrent_web_ui, :issue_report,
+  repo: "daniboybye/ElixirTorrentWebUI",
+  labels: ["bug", "in-app-report"]
+
 # Register the .torrent file extension so Phoenix LiveView's
 # `allow_upload(..., accept: ~w(.torrent))` recognises it.
 config :mime, :types, %{

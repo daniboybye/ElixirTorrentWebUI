@@ -4,10 +4,12 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   alias ElixirTorrentWebUI.{
     DefaultHandler,
     Engine,
+    IssueReport,
     Locale,
     MagnetIngest,
     StatsStore,
-    TorrentIngest
+    TorrentIngest,
+    TorrentSummary
   }
 
   require Logger
@@ -32,9 +34,18 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
       |> assign(:download_folder, download_folder)
       |> assign(:default_handler, DefaultHandler.status())
       |> assign(:default_prompt_dismissed, false)
+      |> assign(:report_open, false)
+      |> assign(:report_form, empty_report_form())
       |> assign(:player, nil)
       |> assign_torrents(Engine.list_torrents(expanded))
       |> allow_upload(:torrent,
+        accept: ~w(.torrent),
+        max_entries: 1,
+        max_file_size: 5_000_000,
+        auto_upload: true,
+        progress: &handle_progress/3
+      )
+      |> allow_upload(:report_torrent,
         accept: ~w(.torrent),
         max_entries: 1,
         max_file_size: 5_000_000,
@@ -384,6 +395,66 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   end
 
   @impl Phoenix.LiveView
+  def handle_event("open_report", params, socket) do
+    torrent_context =
+      case Map.get(params, "torrent_id") do
+        id when is_binary(id) and id != "" ->
+          socket.assigns.torrents
+          |> Enum.find(&(&1.id == id))
+          |> torrent_row_to_context()
+
+        _ ->
+          nil
+      end
+
+    form =
+      empty_report_form()
+      |> Map.put(:torrent_context, torrent_context)
+
+    {:noreply,
+     socket
+     |> assign(:report_open, true)
+     |> assign(:report_form, form)}
+  end
+
+  @impl Phoenix.LiveView
+  def handle_event("close_report", _params, socket) do
+    {:noreply,
+     socket
+     |> assign(:report_open, false)
+     |> reset_report_upload()}
+  end
+
+  @impl Phoenix.LiveView
+  def handle_event("update_report", params, socket) do
+    category =
+      params
+      |> Map.get("category", "")
+      |> nilify_blank()
+
+    magnet =
+      params
+      |> Map.get("magnet", "")
+      |> nilify_blank()
+
+    updated =
+      socket.assigns.report_form
+      |> Map.put(:category, category)
+      |> Map.put(:description, Map.get(params, "description", ""))
+      |> Map.put(:magnet, magnet)
+
+    {:noreply, assign(socket, :report_form, updated)}
+  end
+
+  @impl Phoenix.LiveView
+  def handle_event("clear_report_torrent", _params, socket) do
+    {:noreply,
+     socket
+     |> assign(:report_form, Map.put(socket.assigns.report_form, :torrent_summary, nil))
+     |> reset_report_upload()}
+  end
+
+  @impl Phoenix.LiveView
   def handle_event("add_magnet", params, socket) do
     case Map.get(params, "error") do
       "clipboard" ->
@@ -422,6 +493,11 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     {:noreply, prune_invalid_upload(socket, :torrent)}
   end
 
+  @impl Phoenix.LiveView
+  def handle_event("validate_report_torrent", _params, socket) do
+    {:noreply, prune_invalid_upload(socket, :report_torrent)}
+  end
+
   @spec prune_invalid_upload(Phoenix.LiveView.Socket.t(), atom()) :: Phoenix.LiveView.Socket.t()
   defp prune_invalid_upload(socket, key) do
     invalid = Enum.reject(socket.assigns.uploads[key].entries, & &1.valid?)
@@ -442,11 +518,39 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   # that crashes `consume_uploaded_entries/3` (plural) when chunks arrive
   # interleaved with the change event.
   @spec handle_progress(
-          :torrent,
+          :torrent | :report_torrent,
           Phoenix.LiveView.UploadEntry.t(),
           Phoenix.LiveView.Socket.t()
         ) :: {:noreply, Phoenix.LiveView.Socket.t()}
   defp handle_progress(_kind, %{done?: false}, socket), do: {:noreply, socket}
+
+  defp handle_progress(:report_torrent, entry, socket) do
+    if torrent_file?(entry) do
+      # `consume_uploaded_entry/3` unwraps the `{:ok, value}` its callback must
+      # return, so the parse result has to be wrapped once more — returning
+      # `TorrentSummary.from_path/1` directly hands back a bare summary map and
+      # the `case` below never matches, crashing the LiveView.
+      summary =
+        consume_uploaded_entry(socket, entry, fn %{path: tmp_path} ->
+          {:ok, TorrentSummary.from_path(tmp_path)}
+        end)
+
+      case summary do
+        {:ok, summary} ->
+          form = Map.put(socket.assigns.report_form, :torrent_summary, summary)
+          {:noreply, assign(socket, :report_form, form)}
+
+        {:error, reason} ->
+          Logger.warning("TorrentsLive: report attachment rejected reason=#{inspect(reason)}")
+          {:noreply, put_flash(socket, :error, gettext("Could not read that .torrent file"))}
+      end
+    else
+      {:noreply,
+       socket
+       |> cancel_upload(:report_torrent, entry.ref)
+       |> put_flash(:error, gettext("Only .torrent files are allowed"))}
+    end
+  end
 
   defp handle_progress(:torrent, entry, socket) do
     if torrent_file?(entry) do
@@ -587,6 +691,12 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         download_folder={@settings_download_folder}
         default_handler={@default_handler}
         languages={ElixirTorrentWebUI.Languages.list()}
+      />
+      <.report_dialog
+        open={@report_open}
+        form={@report_form}
+        uploads={@uploads}
+        issue_url={build_report_url(@report_form, assigns)}
       />
       <.media_player_modal player={@player} />
     </Layouts.app>
@@ -1331,6 +1441,223 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     """
   end
 
+  attr :open, :boolean, default: false
+  attr :form, :map, required: true
+  attr :uploads, :map, required: true
+  attr :issue_url, :string, required: true
+
+  @doc false
+  def report_dialog(assigns) do
+    ~H"""
+    <div
+      :if={@open}
+      id="report-dialog"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="report-dialog-title"
+    >
+      <button
+        type="button"
+        id="report-dialog-backdrop"
+        phx-click="close_report"
+        class="absolute inset-0 cursor-default bg-black/50"
+        aria-label={gettext("Cancel")}
+      />
+      <form
+        id="report-form"
+        phx-change="update_report"
+        phx-submit="update_report"
+        class="relative z-10 flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-base-300 bg-base-100 shadow-2xl"
+      >
+        <div class="flex items-start justify-between gap-4 border-b border-base-300 px-6 py-4">
+          <h2 id="report-dialog-title" class="text-xl font-semibold text-base-content">
+            {gettext("Report a problem")}
+          </h2>
+          <button
+            type="button"
+            id="report-dialog-close"
+            phx-click="close_report"
+            class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-base-content/60 transition hover:bg-base-300 hover:text-base-content"
+            aria-label={gettext("Cancel")}
+          >
+            <.icon name="hero-x-mark" class="size-5" />
+          </button>
+        </div>
+
+        <div class="flex-1 space-y-5 overflow-y-auto px-6 py-5">
+          <div>
+            <label for="report-category" class="mb-2 block text-sm font-medium text-base-content">
+              {gettext("What kind of problem?")}
+            </label>
+            <select
+              id="report-category"
+              name="category"
+              class="select select-bordered w-full bg-base-100 text-base-content"
+            >
+              <option value="" selected={@form.category in [nil, ""]}>
+                {gettext("Choose a category…")}
+              </option>
+              <option
+                :for={cat <- IssueReport.categories()}
+                value={cat.id}
+                selected={cat.id == @form.category}
+              >
+                {translate_report_category(cat.id)}
+              </option>
+            </select>
+          </div>
+
+          <div>
+            <label
+              for="report-description"
+              class="mb-2 block text-sm font-medium text-base-content"
+            >
+              {gettext("Describe what happened")}
+            </label>
+            <textarea
+              id="report-description"
+              name="description"
+              rows="5"
+              placeholder={
+                gettext("What did you do, what did you expect, and what happened instead?")
+              }
+              class="textarea textarea-bordered w-full bg-base-100 text-base-content"
+            >{@form.description}</textarea>
+          </div>
+
+          <div class="rounded-lg border border-base-300 bg-base-200/40 p-4">
+            <p class="text-sm font-medium text-base-content">
+              {gettext("Attach a torrent (optional)")}
+            </p>
+            <p class="mt-1 text-xs text-base-content/60">
+              {gettext(
+                "Attach a .torrent file or paste a magnet link so we can reproduce the problem."
+              )}
+            </p>
+
+            <div
+              :if={@form.torrent_context}
+              class="mt-3 rounded-md border border-base-300 bg-base-100 p-3 text-xs text-base-content/80"
+            >
+              <p class="font-semibold text-base-content">
+                {gettext("From this torrent")}
+              </p>
+              <p class="mt-1 truncate" title={@form.torrent_context.name}>
+                {@form.torrent_context.name}
+              </p>
+              <p class="mt-1 font-mono text-[10px] text-base-content/60">
+                {@form.torrent_context.info_hash_hex}
+              </p>
+            </div>
+
+            <div :if={!@form.torrent_context} class="mt-3 space-y-3">
+              <div>
+                <label class="mb-1 block text-xs font-medium text-base-content/70">
+                  {gettext("Upload .torrent")}
+                </label>
+                <div
+                  :if={@form.torrent_summary}
+                  class="flex items-center justify-between gap-3 rounded-md border border-base-300 bg-base-100 p-3 text-xs"
+                >
+                  <div class="min-w-0">
+                    <p
+                      class="truncate font-medium text-base-content"
+                      title={@form.torrent_summary.name}
+                    >
+                      {@form.torrent_summary.name}
+                    </p>
+                    <p class="mt-0.5 font-mono text-[10px] text-base-content/60">
+                      {@form.torrent_summary.info_hash_hex}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    id="report-torrent-clear"
+                    phx-click="clear_report_torrent"
+                    class="inline-flex shrink-0 cursor-pointer items-center rounded-md border border-base-300 bg-base-100 px-2.5 py-1 text-xs font-medium text-base-content transition hover:bg-base-300/40"
+                  >
+                    {gettext("Remove")}
+                  </button>
+                </div>
+
+                <div :if={!@form.torrent_summary} phx-change="validate_report_torrent">
+                  <.live_file_input upload={@uploads.report_torrent} class="sr-only" />
+                  <label
+                    for={@uploads.report_torrent.ref}
+                    class="mt-1 inline-flex cursor-pointer items-center rounded-md border border-base-300 bg-base-100 px-3 py-2 text-xs font-medium text-base-content transition hover:bg-base-300/40"
+                  >
+                    {gettext("Choose .torrent…")}
+                  </label>
+                </div>
+              </div>
+
+              <div>
+                <label
+                  for="report-magnet"
+                  class="mb-1 block text-xs font-medium text-base-content/70"
+                >
+                  {gettext("or paste a magnet link")}
+                </label>
+                <input
+                  id="report-magnet"
+                  name="magnet"
+                  type="text"
+                  value={@form.magnet || ""}
+                  placeholder="magnet:?xt=urn:btih:…"
+                  class="input input-bordered w-full bg-base-100 text-xs font-mono text-base-content"
+                />
+              </div>
+            </div>
+          </div>
+
+          <details class="rounded-lg border border-base-300 bg-base-200/40 px-4 py-3">
+            <summary class="cursor-pointer text-sm font-medium text-base-content">
+              {gettext("Preview what will be sent")}
+            </summary>
+            <pre
+              id="report-preview"
+              class="mt-3 max-h-64 overflow-auto rounded-md border border-base-300 bg-base-100 p-3 text-xs leading-relaxed text-base-content/80"
+            ><code>{@issue_url}</code></pre>
+            <p class="mt-2 text-xs text-base-content/60">
+              {gettext(
+                "Nothing is sent from this app. Clicking Open GitHub opens the URL in your browser so you can review and submit."
+              )}
+            </p>
+          </details>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-3 border-t border-base-300 bg-base-200/60 px-6 py-4">
+          <p class="text-xs text-base-content/60">
+            {gettext("You'll review the issue in GitHub before it's created.")}
+          </p>
+          <div class="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              id="report-cancel"
+              phx-click="close_report"
+              class="inline-flex cursor-pointer items-center rounded-lg border border-base-300 bg-base-100 px-5 py-2.5 text-sm font-semibold text-base-content transition hover:bg-base-300/40"
+            >
+              {gettext("Cancel")}
+            </button>
+            <a
+              id="report-submit"
+              href={@issue_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              phx-click={JS.push("close_report")}
+              class="inline-flex cursor-pointer items-center gap-1.5 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-content transition hover:brightness-110"
+            >
+              <.icon name="hero-arrow-top-right-on-square" class="size-4" />
+              {gettext("Open GitHub issue")}
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+    """
+  end
+
   attr :dialog, :map, default: nil
 
   @doc false
@@ -1488,12 +1815,88 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     """
   end
 
+  @spec empty_report_form() :: map()
+  defp empty_report_form do
+    %{
+      category: nil,
+      description: "",
+      magnet: nil,
+      torrent_summary: nil,
+      torrent_context: nil
+    }
+  end
+
+  defp nilify_blank(value) when is_binary(value) do
+    case String.trim(value) do
+      "" -> nil
+      trimmed -> trimmed
+    end
+  end
+
+  defp nilify_blank(_), do: nil
+
+  @spec reset_report_upload(Phoenix.LiveView.Socket.t()) :: Phoenix.LiveView.Socket.t()
+  defp reset_report_upload(socket) do
+    Enum.reduce(socket.assigns.uploads.report_torrent.entries, socket, fn entry, acc ->
+      cancel_upload(acc, :report_torrent, entry.ref)
+    end)
+  end
+
+  @spec torrent_row_to_context(Engine.TorrentRow.t() | nil) ::
+          ElixirTorrentWebUI.IssueReport.torrent_context() | nil
+  defp torrent_row_to_context(nil), do: nil
+
+  defp torrent_row_to_context(%Engine.TorrentRow{} = row) do
+    %{
+      name: row.name,
+      info_hash_hex: row.id,
+      progress_percent: row.progress,
+      status: row.status,
+      peers: row.peers,
+      down_kbps: row.down_kbps,
+      up_kbps: row.up_kbps,
+      bytes_downloaded: row.bytes_downloaded,
+      bytes_size: row.bytes_size
+    }
+  end
+
+  @spec app_context(map()) :: ElixirTorrentWebUI.IssueReport.app_context()
+  defp app_context(assigns) do
+    {os_family, os_name} = :os.type()
+
+    %{
+      version: to_string(Application.spec(:elixir_torrent_web_ui, :vsn) || "unknown"),
+      os: "#{os_family}/#{os_name}",
+      locale: to_string(assigns.locale),
+      theme: to_string(assigns.theme)
+    }
+  end
+
+  @spec build_report_url(map(), map()) :: String.t()
+  defp build_report_url(form, assigns) do
+    form
+    |> Map.put(:app_context, app_context(assigns))
+    |> IssueReport.build()
+    |> IssueReport.url()
+  end
+
   @spec translate_status(String.t()) :: String.t()
   defp translate_status("Seeding"), do: gettext("Seeding")
   defp translate_status("Connecting"), do: gettext("Connecting")
   defp translate_status("Idle"), do: gettext("Idle")
   defp translate_status("Downloading"), do: gettext("Downloading")
   defp translate_status(status), do: status
+
+  @spec translate_report_category(String.t()) :: String.t()
+  defp translate_report_category("not-downloading"), do: gettext("Torrent is not downloading")
+  defp translate_report_category("stuck"), do: gettext("Torrent is stuck or looping")
+  defp translate_report_category("no-peers"), do: gettext("No peers are found")
+  defp translate_report_category("metadata"), do: gettext("Metadata never arrives")
+  defp translate_report_category("playback"), do: gettext("Play or preview does not work")
+  defp translate_report_category("crash"), do: gettext("App crashed or froze")
+  defp translate_report_category("ui"), do: gettext("UI glitch or wrong translation")
+  defp translate_report_category("other"), do: gettext("Something else")
+  defp translate_report_category(other), do: other
 
   @spec format_speed(number()) :: String.t()
   defp format_speed(kbps) when is_number(kbps) and kbps > 0,

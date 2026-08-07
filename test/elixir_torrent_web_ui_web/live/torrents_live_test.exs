@@ -163,6 +163,116 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLiveTest do
     refute html =~ "Настройки"
   end
 
+  test "top-bar report button opens the report dialog with an empty form", %{conn: conn} do
+    {:ok, view, html} = live(conn, ~p"/")
+    refute html =~ ~s(id="report-dialog")
+    assert html =~ ~s(id="open-report")
+
+    html =
+      view
+      |> element("#open-report")
+      |> render_click()
+
+    assert html =~ ~s(id="report-dialog")
+    assert html =~ "Report a problem"
+    assert html =~ ~s(id="report-category")
+    assert html =~ ~s(id="report-magnet")
+    assert html =~ ~s(id="report-submit")
+    refute html =~ "From this torrent"
+  end
+
+  test "report submit URL updates as the user fills the form", %{conn: conn} do
+    {:ok, view, _html} = live(conn, ~p"/")
+
+    view
+    |> element("#open-report")
+    |> render_click()
+
+    html =
+      view
+      |> form("#report-form", %{
+        "category" => "no-peers",
+        "description" => "Peers stay at zero.",
+        "magnet" => "magnet:?xt=urn:btih:aaaa"
+      })
+      |> render_change()
+
+    assert html =~ "https%3A%2F%2Fgithub.com%2Fdaniboybye%2FElixirTorrentWebUI" or
+             html =~ "https://github.com/daniboybye/ElixirTorrentWebUI/issues/new?"
+
+    assert html =~ URI.encode_www_form("Peers stay at zero.")
+    assert html =~ "no-peers" or html =~ URI.encode_www_form("No peers are found")
+  end
+
+  test "closing the report dialog resets the form", %{conn: conn} do
+    {:ok, view, _html} = live(conn, ~p"/")
+
+    view
+    |> element("#open-report")
+    |> render_click()
+
+    view
+    |> form("#report-form", %{"description" => "abc"})
+    |> render_change()
+
+    view
+    |> element("#report-cancel")
+    |> render_click()
+
+    reopened =
+      view
+      |> element("#open-report")
+      |> render_click()
+
+    refute reopened =~ "abc"
+  end
+
+  test "attaching a .torrent to the report keeps the LiveView alive and shows the summary",
+       %{conn: conn} do
+    {:ok, view, _html} = live(conn, ~p"/")
+
+    view
+    |> element("#open-report")
+    |> render_click()
+
+    upload =
+      file_input(view, "#report-form", :report_torrent, [
+        %{
+          name: "report-me.torrent",
+          content: torrent_bytes("report-me.txt"),
+          type: "application/x-bittorrent"
+        }
+      ])
+
+    html = render_upload(upload, "report-me.torrent")
+
+    assert html =~ "report-me.txt"
+    assert html =~ ~s(id="report-torrent-clear")
+    assert render(view) =~ ~s(id="report-dialog")
+  end
+
+  test "an unreadable .torrent attachment flashes an error instead of crashing", %{conn: conn} do
+    {:ok, view, _html} = live(conn, ~p"/")
+
+    view
+    |> element("#open-report")
+    |> render_click()
+
+    upload =
+      file_input(view, "#report-form", :report_torrent, [
+        %{
+          name: "broken.torrent",
+          content: "not bencoded at all",
+          type: "application/x-bittorrent"
+        }
+      ])
+
+    html = render_upload(upload, "broken.torrent")
+
+    assert html =~ "Could not read that .torrent file"
+    assert render(view) =~ ~s(id="report-dialog")
+  end
+
   test "icon-only top-bar buttons carry a tooltip and share one size", %{conn: conn} do
     html =
       conn
@@ -216,6 +326,18 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLiveTest do
              html =~ "only available on macOS and Windows"
 
     assert Process.alive?(view.pid)
+  end
+
+  defp torrent_bytes(name) do
+    Bento.encode!(%{
+      "announce" => "http://tracker.example/announce",
+      "info" => %{
+        "length" => 4_096,
+        "name" => name,
+        "piece length" => 16_384,
+        "pieces" => :binary.copy(<<0>>, 20)
+      }
+    })
   end
 
   defp file_row(name) do

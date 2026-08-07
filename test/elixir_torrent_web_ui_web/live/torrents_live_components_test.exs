@@ -83,6 +83,26 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLiveComponentsTest do
     assert removal =~ "Remove Torrent + Data"
   end
 
+  test "closed report dialog is absent from the initial render" do
+    empty_form = %{
+      category: nil,
+      description: "",
+      magnet: nil,
+      torrent_summary: nil,
+      torrent_context: nil
+    }
+
+    html =
+      render_component(&TorrentsLive.report_dialog/1,
+        open: false,
+        form: empty_form,
+        uploads: %{report_torrent: %Phoenix.LiveView.UploadConfig{}},
+        issue_url: "https://example/issues/new?title=x"
+      )
+
+    refute html =~ ~s(id="report-dialog")
+  end
+
   describe "default_handler_prompt/1" do
     test "greets a user whose machine points .torrent files somewhere else" do
       html =
