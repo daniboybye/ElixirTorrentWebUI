@@ -73,6 +73,17 @@ jobs:
           MIX_ENV: test
         run: perl -e 'alarm shift; exec @ARGV' 60 mix test
 
+      - name: Run macOS Launch Services integration tests
+        # Excluded from the suite above (test/test_helper.exs) because these
+        # compile and run priv/macos/Launcher.swift for real, mutating the
+        # host's actual default .torrent/magnet: handler as a side effect —
+        # unacceptable on a developer's own Mac, harmless on this ephemeral
+        # runner. Opted back in explicitly here so the "Set as default" flow
+        # gets exercised against real LaunchServices on every macOS release.
+        env:
+          MIX_ENV: test
+        run: perl -e 'alarm shift; exec @ARGV' 60 mix test --only macos_integration
+
       - name: Build DMG (prod release + .app + signed DMG)
         run: mix mac.dmg
 

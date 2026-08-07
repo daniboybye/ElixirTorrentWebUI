@@ -163,6 +163,61 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLiveTest do
     refute html =~ "Настройки"
   end
 
+  test "icon-only top-bar buttons carry a tooltip and share one size", %{conn: conn} do
+    html =
+      conn
+      |> get(~p"/")
+      |> html_response(200)
+
+    for tip <- ["Toggle theme", "Settings", "Report a problem"] do
+      assert html =~ ~s(data-tip="#{tip}")
+    end
+
+    # Theme / Settings / Report are icon-only: their label lives in the tooltip
+    # and the accessible name, never as visible text next to the icon.
+    refute html =~ ~r/>\s*Report a problem\s*</
+    refute html =~ ~r/>\s*Settings\s*</
+
+    for id <- ["toggle-theme", "open-settings", "open-report"] do
+      assert html =~ ~r/id="#{id}"[^>]*class="[^"]*\bsize-9\b/s
+    end
+  end
+
+  test "Paste magnet & Go and Add torrent carry their own visible label, not a tooltip",
+       %{conn: conn} do
+    html =
+      conn
+      |> get(~p"/")
+      |> html_response(200)
+
+    refute html =~ ~s(data-tip="Paste magnet &amp; Go")
+    refute html =~ ~s(data-tip="Add torrent")
+    assert html =~ ~s(id="paste-magnet-go")
+    assert html =~ "Paste magnet &amp; Go"
+    assert html =~ "Add torrent"
+  end
+
+  test "dismissing the default-handler prompt keeps the page alive", %{conn: conn} do
+    {:ok, view, _html} = live(conn, ~p"/")
+
+    html = render_click(view, "dismiss_default_prompt", %{})
+
+    assert html =~ ~s(id="torrents-live")
+    refute html =~ ~s(id="default-handler-prompt")
+  end
+
+  test "clicking Set as default without a packaged launcher surfaces an error, not a crash",
+       %{conn: conn} do
+    {:ok, view, _html} = live(conn, ~p"/")
+
+    html = render_click(view, "request_default_handler", %{})
+
+    assert html =~ "only available in the packaged app" or
+             html =~ "only available on macOS and Windows"
+
+    assert Process.alive?(view.pid)
+  end
+
   defp file_row(name) do
     %ElixirTorrentWebUI.Engine.FileRow{
       index: 7,

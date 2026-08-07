@@ -5,22 +5,22 @@ APP_PATH="${1:-/Applications/ElixirTorrent Web.app}"
 BUNDLE_ID="com.elixirtorrent.webui"
 LSREGISTER="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister"
 
-if [[ ! -d "$APP_PATH" ]]; then
-  echo "error: app not found at $APP_PATH" >&2
+if [[ ! -d "${APP_PATH}" ]]; then
+  echo "error: app not found at ${APP_PATH}" >&2
   exit 1
 fi
 
-echo "==> Registering $APP_PATH with Launch Services…"
-"$LSREGISTER" -f -R -trusted "$APP_PATH"
+echo "==> Registering ${APP_PATH} with Launch Services..."
+"${LSREGISTER}" -f -R -trusted "${APP_PATH}"
 
-echo "==> Setting default handler for magnet: links to $BUNDLE_ID…"
+echo "==> Setting default handler for magnet: links to ${BUNDLE_ID}..."
 swift - <<SWIFT
 import Foundation
 import CoreServices
 
 let status = LSSetDefaultHandlerForURLScheme(
     "magnet" as CFString,
-    "$BUNDLE_ID" as CFString
+    "${BUNDLE_ID}" as CFString
 )
 
 if status != 0 {

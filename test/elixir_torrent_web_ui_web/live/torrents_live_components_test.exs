@@ -44,12 +44,34 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLiveComponentsTest do
         open: true,
         locale: "en",
         download_folder: "/tmp/downloads",
+        default_handler: %{supported: true, torrent: true, magnet: true},
         languages: [hd(ElixirTorrentWebUI.Languages.list())]
       )
 
     assert settings =~ ~s(id="settings-dialog")
     assert settings =~ ~s(id="settings-reset-statistics")
     assert settings =~ "/tmp/downloads"
+    refute settings =~ ~s(id="settings-default-handler-banner")
+
+    banner =
+      render_component(&TorrentsLive.settings_dialog/1,
+        open: true,
+        locale: "en",
+        download_folder: "/tmp/downloads",
+        default_handler: %{supported: true, torrent: false, magnet: false},
+        languages: [hd(ElixirTorrentWebUI.Languages.list())]
+      )
+
+    assert banner =~ ~s(id="settings-default-handler-banner")
+    assert banner =~ ~s(id="settings-default-handler-set")
+    assert banner =~ "Set as default"
+
+    # The section has to stand out from the rest of the dialog, so it carries
+    # the warning accent rather than the dialog's own primary tint.
+    assert banner =~ "border-warning/60"
+    assert banner =~ "bg-warning/15"
+    assert banner =~ "hero-exclamation-triangle"
+    refute banner =~ "bg-primary/10"
 
     removal =
       render_component(&TorrentsLive.remove_torrent_dialog/1,
@@ -59,6 +81,62 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLiveComponentsTest do
     assert removal =~ ~s(id="remove-torrent-dialog")
     assert removal =~ "fixture"
     assert removal =~ "Remove Torrent + Data"
+  end
+
+  describe "default_handler_prompt/1" do
+    test "greets a user whose machine points .torrent files somewhere else" do
+      html =
+        render_component(&TorrentsLive.default_handler_prompt/1,
+          status: %{supported: true, torrent: false, magnet: false},
+          dismissed: false
+        )
+
+      assert html =~ ~s(id="default-handler-prompt")
+      assert html =~ ~s(id="default-handler-prompt-set")
+      assert html =~ ~s(id="default-handler-prompt-dismiss")
+      assert html =~ "Make ElixirTorrent Web your default torrent app"
+      assert html =~ "hero-exclamation-triangle"
+    end
+
+    test "still appears when only one of the two handlers is ours" do
+      html =
+        render_component(&TorrentsLive.default_handler_prompt/1,
+          status: %{supported: true, torrent: true, magnet: false},
+          dismissed: false
+        )
+
+      assert html =~ ~s(id="default-handler-prompt")
+    end
+
+    test "stays out of the way once dismissed for the session" do
+      html =
+        render_component(&TorrentsLive.default_handler_prompt/1,
+          status: %{supported: true, torrent: false, magnet: false},
+          dismissed: true
+        )
+
+      refute html =~ ~s(id="default-handler-prompt")
+    end
+
+    test "never nags a user who is already the default" do
+      html =
+        render_component(&TorrentsLive.default_handler_prompt/1,
+          status: %{supported: true, torrent: true, magnet: true},
+          dismissed: false
+        )
+
+      refute html =~ ~s(id="default-handler-prompt")
+    end
+
+    test "stays hidden where the platform cannot answer the question" do
+      html =
+        render_component(&TorrentsLive.default_handler_prompt/1,
+          status: %{supported: false, torrent: nil, magnet: nil},
+          dismissed: false
+        )
+
+      refute html =~ ~s(id="default-handler-prompt")
+    end
   end
 
   defp torrent_row do

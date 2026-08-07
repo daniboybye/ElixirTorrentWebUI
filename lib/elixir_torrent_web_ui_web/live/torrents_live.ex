@@ -1,7 +1,16 @@
 defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   use ElixirTorrentWebUIWeb, :live_view
 
-  alias ElixirTorrentWebUI.{Engine, Locale, MagnetIngest, StatsStore, TorrentIngest}
+  alias ElixirTorrentWebUI.{
+    DefaultHandler,
+    Engine,
+    Locale,
+    MagnetIngest,
+    StatsStore,
+    TorrentIngest
+  }
+
+  require Logger
 
   @refresh_ms 1_000
 
@@ -21,6 +30,8 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
       |> assign(:settings_locale, locale)
       |> assign(:settings_download_folder, download_folder)
       |> assign(:download_folder, download_folder)
+      |> assign(:default_handler, DefaultHandler.status())
+      |> assign(:default_prompt_dismissed, false)
       |> assign(:player, nil)
       |> assign_torrents(Engine.list_torrents(expanded))
       |> allow_upload(:torrent,
@@ -258,7 +269,8 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
      socket
      |> assign(:settings_open, true)
      |> assign(:settings_locale, socket.assigns.locale)
-     |> assign(:settings_download_folder, socket.assigns.download_folder)}
+     |> assign(:settings_download_folder, socket.assigns.download_folder)
+     |> assign(:default_handler, DefaultHandler.status())}
   end
 
   @impl Phoenix.LiveView
@@ -317,6 +329,61 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   end
 
   @impl Phoenix.LiveView
+  def handle_event("request_default_handler", _params, socket) do
+    case DefaultHandler.request_default() do
+      :ok ->
+        status = DefaultHandler.status()
+
+        socket =
+          socket
+          |> put_flash(
+            :info,
+            gettext(
+              "Confirm ElixirTorrent Web in the system dialog to finish setting the default."
+            )
+          )
+          |> assign(:default_handler, status)
+
+        # `request_default/0` already gave the OS a moment to catch up, so
+        # this usually already reflects the change. When it does not, wait
+        # for the launcher to notify us rather than asking again on a timer
+        # — see `await_default_handler/1` for why this has to be async.
+        socket =
+          if DefaultHandler.both_default?(status) do
+            socket
+          else
+            await_default_handler(socket)
+          end
+
+        {:noreply, socket}
+
+      {:error, :launcher_unavailable} ->
+        {:noreply,
+         put_flash(
+           socket,
+           :error,
+           gettext("Setting the default program is only available in the packaged app.")
+         )}
+
+      {:error, :unsupported_platform} ->
+        {:noreply,
+         put_flash(
+           socket,
+           :error,
+           gettext("Setting the default program is only available on macOS and Windows.")
+         )}
+
+      {:error, _} ->
+        {:noreply, put_flash(socket, :error, gettext("Could not set as default program"))}
+    end
+  end
+
+  @impl Phoenix.LiveView
+  def handle_event("dismiss_default_prompt", _params, socket) do
+    {:noreply, assign(socket, :default_prompt_dismissed, true)}
+  end
+
+  @impl Phoenix.LiveView
   def handle_event("add_magnet", params, socket) do
     case Map.get(params, "error") do
       "clipboard" ->
@@ -352,19 +419,21 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   # flash so the user knows what happened.
   @impl Phoenix.LiveView
   def handle_event("validate", _params, socket) do
-    invalid = Enum.reject(socket.assigns.uploads.torrent.entries, & &1.valid?)
+    {:noreply, prune_invalid_upload(socket, :torrent)}
+  end
+
+  @spec prune_invalid_upload(Phoenix.LiveView.Socket.t(), atom()) :: Phoenix.LiveView.Socket.t()
+  defp prune_invalid_upload(socket, key) do
+    invalid = Enum.reject(socket.assigns.uploads[key].entries, & &1.valid?)
 
     socket =
       Enum.reduce(invalid, socket, fn entry, acc ->
-        cancel_upload(acc, :torrent, entry.ref)
+        cancel_upload(acc, key, entry.ref)
       end)
 
-    socket =
-      if invalid == [],
-        do: socket,
-        else: put_flash(socket, :error, gettext("Only .torrent files are allowed"))
-
-    {:noreply, socket}
+    if invalid == [],
+      do: socket,
+      else: put_flash(socket, :error, gettext("Only .torrent files are allowed"))
   end
 
   # The `progress` callback (idiomatic for `auto_upload: true`) fires once per
@@ -372,9 +441,12 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   # single entry. Using `consume_uploaded_entry/3` (singular) avoids the race
   # that crashes `consume_uploaded_entries/3` (plural) when chunks arrive
   # interleaved with the change event.
-  @spec handle_progress(:torrent, Phoenix.LiveView.UploadEntry.t(), Phoenix.LiveView.Socket.t()) ::
-          {:noreply, Phoenix.LiveView.Socket.t()}
-  defp handle_progress(:torrent, %{done?: false}, socket), do: {:noreply, socket}
+  @spec handle_progress(
+          :torrent,
+          Phoenix.LiveView.UploadEntry.t(),
+          Phoenix.LiveView.Socket.t()
+        ) :: {:noreply, Phoenix.LiveView.Socket.t()}
+  defp handle_progress(_kind, %{done?: false}, socket), do: {:noreply, socket}
 
   defp handle_progress(:torrent, entry, socket) do
     if torrent_file?(entry) do
@@ -431,24 +503,12 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
           <.aggregate_stats_bar stats={@stats} />
 
           <div class="flex flex-wrap items-center gap-2">
-            <.theme_toggle theme={@theme} locale={@locale} />
-
-            <button
-              type="button"
-              id="open-settings"
-              phx-click="open_settings"
-              class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-semibold text-primary-content hover:brightness-110"
-              aria-label={gettext("Settings")}
-            >
-              <.icon name="hero-cog-6-tooth" class="size-4" />
-              {gettext("Settings")}
-            </button>
-
             <button
               type="button"
               id="paste-magnet-go"
               phx-hook=".PasteMagnet"
-              class="inline-flex cursor-pointer items-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-semibold text-primary-content hover:brightness-110"
+              class="inline-flex h-9 cursor-pointer items-center rounded-md border border-transparent bg-primary px-4 text-sm font-semibold text-primary-content hover:brightness-110"
+              aria-label={gettext("Paste magnet & Go")}
             >
               {gettext("Paste magnet & Go")}
             </button>
@@ -457,13 +517,41 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
               <.live_file_input upload={@uploads.torrent} class="sr-only" />
               <label
                 for={@uploads.torrent.ref}
-                class="inline-flex cursor-pointer items-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-semibold text-primary-content hover:brightness-110"
+                class="inline-flex h-9 cursor-pointer items-center rounded-md border border-transparent bg-primary px-4 text-sm font-semibold text-primary-content hover:brightness-110"
               >
                 {gettext("Add torrent")}
               </label>
             </form>
+
+            <.theme_toggle theme={@theme} locale={@locale} />
+
+            <div class="tooltip tooltip-bottom" data-tip={gettext("Settings")}>
+              <button
+                type="button"
+                id="open-settings"
+                phx-click="open_settings"
+                class={top_bar_icon_class()}
+                aria-label={gettext("Settings")}
+              >
+                <.icon name="hero-cog-6-tooth" class="size-5" />
+              </button>
+            </div>
+
+            <div class="tooltip tooltip-bottom" data-tip={gettext("Report a problem")}>
+              <button
+                type="button"
+                id="open-report"
+                phx-click="open_report"
+                class={top_bar_icon_class()}
+                aria-label={gettext("Report a problem")}
+              >
+                <.icon name="hero-flag" class="size-5" />
+              </button>
+            </div>
           </div>
         </div>
+
+        <.default_handler_prompt status={@default_handler} dismissed={@default_prompt_dismissed} />
 
         <div class="space-y-3">
           <.torrent_card
@@ -497,6 +585,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         open={@settings_open}
         locale={@settings_locale}
         download_folder={@settings_download_folder}
+        default_handler={@default_handler}
         languages={ElixirTorrentWebUI.Languages.list()}
       />
       <.media_player_modal player={@player} />
@@ -790,6 +879,18 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
           </p>
         </div>
         <div class="mt-1 flex shrink-0 items-center gap-1">
+          <div class="tooltip tooltip-top" data-tip={gettext("Report a problem")}>
+            <button
+              type="button"
+              id={"torrent-report-#{@torrent.id}"}
+              phx-click="open_report"
+              phx-value-torrent_id={@torrent.id}
+              class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-base-content/70 transition hover:bg-base-300 hover:text-base-content"
+              aria-label={gettext("Report a problem")}
+            >
+              <.icon name="hero-flag" class="size-5" />
+            </button>
+          </div>
           <div class="tooltip tooltip-top" data-tip={gettext("Show Folder")}>
             <button
               type="button"
@@ -1073,6 +1174,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   attr :open, :boolean, default: false
   attr :locale, :string, required: true
   attr :download_folder, :string, required: true
+  attr :default_handler, :map, required: true
   attr :languages, :list, required: true
 
   @doc false
@@ -1112,6 +1214,39 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
           >
             <.icon name="hero-x-mark" class="size-5" />
           </button>
+        </div>
+
+        <div
+          :if={default_handler_banner?(@default_handler)}
+          id="settings-default-handler-banner"
+          class="mt-6 rounded-lg border-2 border-warning/60 bg-warning/15 px-4 py-3"
+        >
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div class="flex min-w-0 flex-1 items-start gap-3">
+              <.icon
+                name="hero-exclamation-triangle"
+                class="mt-0.5 size-5 shrink-0 text-warning"
+              />
+              <div class="min-w-0">
+                <p class="text-sm font-semibold text-base-content">
+                  {gettext("Make ElixirTorrent Web your default torrent app")}
+                </p>
+                <p class="mt-1 text-xs text-base-content/70">
+                  {gettext(
+                    "Set as the default program for .torrent files and magnet links so double-clicking or clicking a link opens them here."
+                  )}
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              id="settings-default-handler-set"
+              phx-click="request_default_handler"
+              class="inline-flex h-9 shrink-0 cursor-pointer items-center rounded-md border border-transparent bg-warning px-4 text-sm font-semibold text-warning-content hover:brightness-110"
+            >
+              {gettext("Set as default")}
+            </button>
+          </div>
         </div>
 
         <div class="mt-6">
@@ -1268,6 +1403,91 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
 
   defp removed_flash(name, false), do: gettext("Removed torrent: %{name}", name: name)
 
+  # `DefaultHandler.request_default/0` can return before the platform's own
+  # default-handler database has caught up — on macOS, LaunchServices can
+  # still report the old handler to a process spawned right after
+  # registration succeeds (see `registerAsDefault()` in
+  # `priv/macos/Launcher.swift`), sometimes for seconds under contention from
+  # other registered torrent clients; on Windows the user has to confirm the
+  # change in a system dialog. Rather than re-invoking `DefaultHandler.status/0`
+  # on a timer and hoping we ask again after it flips, hand the wait to
+  # `DefaultHandler.await_default/0`, which blocks *inside the launcher
+  # process* until the OS actually reflects the change (or gives up after a
+  # generous timeout) — a genuine notification from the platform layer. It
+  # has to run via `start_async/3`: it blocks for however long that takes, and
+  # this is a LiveView event handler, so it must not block the socket itself.
+  @spec await_default_handler(Phoenix.LiveView.Socket.t()) :: Phoenix.LiveView.Socket.t()
+  defp await_default_handler(socket) do
+    start_async(socket, :await_default_handler, fn -> DefaultHandler.await_default() end)
+  end
+
+  @impl Phoenix.LiveView
+  def handle_async(:await_default_handler, {:ok, status}, socket) do
+    {:noreply, assign(socket, :default_handler, status)}
+  end
+
+  def handle_async(:await_default_handler, {:exit, reason}, socket) do
+    Logger.warning("TorrentsLive: await_default_handler task exited reason=#{inspect(reason)}")
+    {:noreply, socket}
+  end
+
+  @spec default_handler_banner?(DefaultHandler.status()) :: boolean()
+  defp default_handler_banner?(status), do: DefaultHandler.needs_prompt?(status)
+
+  # The packaged app also raises a native alert on launch, but that one only
+  # exists in the bundle. This in-page prompt is what the user meets on every
+  # open — including in development — and it stays dismissed for the session.
+  @spec default_handler_prompt?(DefaultHandler.status(), boolean()) :: boolean()
+  defp default_handler_prompt?(_status, true), do: false
+  defp default_handler_prompt?(status, false), do: DefaultHandler.needs_prompt?(status)
+
+  attr :status, :map, required: true
+  attr :dismissed, :boolean, required: true
+
+  @doc false
+  def default_handler_prompt(assigns) do
+    ~H"""
+    <div
+      :if={default_handler_prompt?(@status, @dismissed)}
+      id="default-handler-prompt"
+      class="flex flex-wrap items-start justify-between gap-3 rounded-xl border-2 border-warning/60 bg-warning/15 px-4 py-3"
+    >
+      <div class="flex min-w-0 flex-1 items-start gap-3">
+        <.icon name="hero-exclamation-triangle" class="mt-0.5 size-5 shrink-0 text-warning" />
+        <div class="min-w-0">
+          <p class="text-sm font-semibold text-base-content">
+            {gettext("Make ElixirTorrent Web your default torrent app")}
+          </p>
+          <p class="mt-1 text-xs text-base-content/70">
+            {gettext(
+              "Set as the default program for .torrent files and magnet links so double-clicking or clicking a link opens them here."
+            )}
+          </p>
+        </div>
+      </div>
+      <div class="flex shrink-0 items-center gap-2">
+        <button
+          type="button"
+          id="default-handler-prompt-set"
+          phx-click="request_default_handler"
+          class="inline-flex h-9 cursor-pointer items-center rounded-md border border-transparent bg-warning px-4 text-sm font-semibold text-warning-content hover:brightness-110"
+        >
+          {gettext("Set as default")}
+        </button>
+        <button
+          type="button"
+          id="default-handler-prompt-dismiss"
+          phx-click="dismiss_default_prompt"
+          class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-base-content/60 transition hover:bg-base-300 hover:text-base-content"
+          aria-label={gettext("Cancel")}
+        >
+          <.icon name="hero-x-mark" class="size-5" />
+        </button>
+      </div>
+    </div>
+    """
+  end
+
   @spec translate_status(String.t()) :: String.t()
   defp translate_status("Seeding"), do: gettext("Seeding")
   defp translate_status("Connecting"), do: gettext("Connecting")
@@ -1353,17 +1573,27 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   @spec theme_toggle(map()) :: Phoenix.LiveView.Rendered.t()
   defp theme_toggle(assigns) do
     ~H"""
-    <button
-      type="button"
-      phx-click="toggle_theme"
-      class="inline-flex cursor-pointer items-center gap-2 rounded-md border border-base-300 bg-base-300 px-4 py-2 text-sm font-semibold text-base-content hover:bg-base-100"
-      title={gettext("Toggle theme")}
-      aria-label={gettext("Toggle theme")}
-    >
-      <.icon name="hero-sun-mini" class={["size-4", @theme == "light" && "hidden"]} />
-      <.icon name="hero-moon-mini" class={["size-4", @theme == "dark" && "hidden"]} />
-      <span>{gettext("Theme")}</span>
-    </button>
+    <div class="tooltip tooltip-bottom" data-tip={gettext("Toggle theme")}>
+      <button
+        type="button"
+        id="toggle-theme"
+        phx-click="toggle_theme"
+        class={top_bar_icon_class()}
+        aria-label={gettext("Toggle theme")}
+      >
+        <.icon name="hero-sun-mini" class={["size-5", @theme == "light" && "hidden"]} />
+        <.icon name="hero-moon-mini" class={["size-5", @theme == "dark" && "hidden"]} />
+      </button>
+    </div>
     """
+  end
+
+  # Shared chrome for the icon-only top-bar buttons. `size-9` matches the 36px
+  # height of the labelled `Paste magnet & Go` / `Add torrent` buttons so the
+  # whole row lines up, and every one of them carries its label in a tooltip.
+  @spec top_bar_icon_class() :: String.t()
+  defp top_bar_icon_class do
+    "inline-flex size-9 cursor-pointer items-center justify-center rounded-md " <>
+      "border border-base-300 bg-base-100 text-base-content transition hover:bg-base-300/40"
   end
 end
