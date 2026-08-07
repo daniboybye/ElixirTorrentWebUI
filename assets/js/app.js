@@ -32,11 +32,6 @@ const setTheme = theme => {
   document.documentElement.setAttribute("data-theme", normalized)
 }
 
-const toggleTheme = () => {
-  const current = normalizeTheme(document.documentElement.getAttribute("data-theme"))
-  setTheme(current === "dark" ? "light" : "dark")
-}
-
 if (!document.documentElement.hasAttribute("data-theme")) {
   setTheme(localStorage.getItem("phx:theme") || "dark")
 }
@@ -44,8 +39,6 @@ if (!document.documentElement.hasAttribute("data-theme")) {
 window.addEventListener("storage", event => {
   if (event.key === "phx:theme") setTheme(event.newValue || "dark")
 })
-window.addEventListener("phx:set-theme", event => setTheme(event.target.dataset.phxTheme))
-window.addEventListener("phx:toggle-theme", toggleTheme)
 
 const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 

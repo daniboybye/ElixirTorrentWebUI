@@ -31,6 +31,21 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLiveTest do
     refute html =~ ~r/<script(?![^>]*\bsrc=)[^>]*>\s*\S/s
   end
 
+  test "applies the pushed theme through the LiveView hook payload" do
+    source = File.read!("assets/js/app.js")
+
+    # push_event/3 delivers "set-theme" to the hook callback with the payload as
+    # its argument. The window listener that used to mirror it read
+    # event.target.dataset.phxTheme, which throws because event.target is window,
+    # so server-driven theme sync silently never applied. Keep the hook as the
+    # single consumer, and keep the toggle going through the server, which
+    # answers the "toggle_theme" click with its own "set-theme" push.
+    assert source =~ ~s|handleEvent("set-theme"|
+    refute source =~ "phx:set-theme"
+    refute source =~ "phx:toggle-theme"
+    refute source =~ "dataset.phxTheme"
+  end
+
   test "validates pasted magnet links before starting ingest", %{conn: conn} do
     {:ok, view, _html} = live(conn, ~p"/")
 
