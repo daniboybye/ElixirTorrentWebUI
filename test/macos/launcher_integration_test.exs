@@ -138,7 +138,16 @@ defmodule ElixirTorrentWebUI.MacOS.LauncherIntegrationTest do
     {_, 0} =
       System.cmd(
         "swiftc",
-        ["priv/macos/Launcher.swift", "-o", binary, "-framework", "AppKit", "-O"],
+        [
+          "priv/macos/Launcher.swift",
+          "-o",
+          binary,
+          "-framework",
+          "AppKit",
+          "-swift-version",
+          "6",
+          "-O"
+        ],
         env: CommandEnvironment.scrubbed()
       )
 

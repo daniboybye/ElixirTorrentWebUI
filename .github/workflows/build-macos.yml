@@ -6,8 +6,10 @@ name: Build macOS
 # Runs the full ExUnit suite on macOS (arm64) and produces the signed DMG
 # artifact that release.yml uploads to the GitHub Release.
 #
-# macos-15 = Apple Silicon (M-series). GitHub bills macOS runners 10x vs Linux,
-# so this workflow deliberately does not run on every PR — only on tags or
+# macos-26 = Apple Silicon (M-series), latest Xcode preinstalled (26.6 as of
+# this writing — Launcher.swift needs its toolchain for Swift 6 language mode
+# / strict concurrency checking). GitHub bills macOS runners 10x vs Linux, so
+# this workflow deliberately does not run on every PR — only on tags or
 # on-demand dispatch.
 
 on:
@@ -24,7 +26,7 @@ concurrency:
 jobs:
   build:
     name: Test and package (macOS arm64)
-    runs-on: macos-15
+    runs-on: macos-26
     timeout-minutes: 45
 
     env:

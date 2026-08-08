@@ -254,6 +254,7 @@ fileprivate actor ServerLifecycle {
     }
 }
 
+@MainActor
 final class AppDelegate: NSObject {
     private static let loopbackHost = "127.0.0.1"
     private static let appSupportDirectoryName = "ElixirTorrentWebUI"
@@ -265,8 +266,8 @@ final class AppDelegate: NSObject {
     }()
 
     private let port = Int(ProcessInfo.processInfo.environment["PORT"] ?? "4000") ?? 4000
-    @MainActor private var dockTorrents: [DockTorrent] = []
-    @MainActor private var dockRefreshTask: Task<Void, Never>?
+    private var dockTorrents: [DockTorrent] = []
+    private var dockRefreshTask: Task<Void, Never>?
     private var openedFromURL = false
     private lazy var server = ServerLifecycle(
         dataDirectory: FileManager.default.urls(for: .applicationSupportDirectory,
@@ -299,14 +300,12 @@ final class AppDelegate: NSObject {
     private func bootstrap() async {
         _ = await ensureServerReady()
 
-        await MainActor.run {
-            startDockTorrentRefresh()
-        }
+        startDockTorrentRefresh()
 
         // When launched via magnet/torrent URL, `application(_:open:)` opens the browser.
         try? await Task.sleep(nanoseconds: 200_000_000)
         if !openedFromURL {
-            await MainActor.run { openBrowser() }
+            openBrowser()
         }
     }
 
@@ -314,10 +313,8 @@ final class AppDelegate: NSObject {
     private func ensureServerReady() async -> Bool {
         if await !server.isPortListening(port) {
             guard await server.start(port: port) else {
-                await MainActor.run {
-                    showAlert("Could not start \(appDisplayName).")
-                    NSApp.terminate(nil)
-                }
+                showAlert("Could not start \(appDisplayName).")
+                NSApp.terminate(nil)
                 return false
             }
         }
@@ -455,7 +452,7 @@ extension AppDelegate: NSApplicationDelegate {
             }
 
             if handled {
-                await MainActor.run { openBrowser() }
+                openBrowser()
             }
         }
     }
@@ -468,10 +465,7 @@ extension AppDelegate: NSApplicationDelegate {
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         Task {
             await server.shutdown(port: port)
-
-            await MainActor.run {
-                NSApp.reply(toApplicationShouldTerminate: true)
-            }
+            NSApp.reply(toApplicationShouldTerminate: true)
         }
         return .terminateLater
     }
@@ -479,7 +473,6 @@ extension AppDelegate: NSApplicationDelegate {
 
 // MARK: - UI actions
 
-@MainActor
 private extension AppDelegate {
     func openBrowser() {
         NSWorkspace.shared.open(appURL)
@@ -507,7 +500,6 @@ private struct TorrentsResponse: Decodable, Sendable {
     let torrents: [DockTorrent]
 }
 
-@MainActor
 extension AppDelegate {
     func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
         guard !dockTorrents.isEmpty else { return nil }
@@ -745,8 +737,13 @@ enum DefaultHandlerCoordinator {
     }
 
     private static func handlerForURLScheme(_ scheme: String) -> String? {
-        LSCopyDefaultHandlerForURLScheme(scheme as CFString)?
-            .takeRetainedValue() as String?
+        guard let schemeURL = URL(string: "\(scheme):"),
+            let appURL = NSWorkspace.shared.urlForApplication(toOpen: schemeURL)
+        else {
+            return nil
+        }
+
+        return Bundle(url: appURL)?.bundleIdentifier
     }
 
     private static func matches(_ handler: String?, _ expected: String) -> Bool {
