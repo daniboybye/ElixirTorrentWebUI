@@ -19,7 +19,11 @@ unless System.get_env("ELIXIR_TORRENT_DESKTOP_BUILD") == "1" do
 end
 
 # Do not print debug messages in production
-config :logger, level: :info
+config :logger,
+  level: :info,
+  compile_time_purge_matching: [
+    [level_lower_than: :info]
+  ]
 
 # Runtime production configuration, including reading
 # of environment variables, is done on config/runtime.exs.
