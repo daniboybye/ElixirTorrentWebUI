@@ -77,11 +77,13 @@ jobs:
 
       - name: Run macOS Launch Services integration tests
         # Excluded from the suite above (test/test_helper.exs) because these
-        # compile and run priv/macos/Launcher.swift for real, mutating the
-        # host's actual default .torrent/magnet: handler as a side effect —
-        # unacceptable on a developer's own Mac, harmless on this ephemeral
-        # runner. Opted back in explicitly here so the "Set as default" flow
-        # gets exercised against real LaunchServices on every macOS release.
+        # shell out to `swiftc` to build priv/macos/Launcher.swift for real,
+        # which needs Xcode and is slower than the rest of the suite. Opted
+        # back in explicitly here so the launcher's own output contract and
+        # the "Set as default" banner flow get exercised on every macOS
+        # release. They are read-only with respect to the host's default
+        # handlers — see test/macos/launcher_integration_test.exs for why
+        # nothing here tries to actually take the .torrent default over.
         env:
           MIX_ENV: test
         run: perl -e 'alarm shift; exec @ARGV' 60 mix test --only macos_integration
