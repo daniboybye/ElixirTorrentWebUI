@@ -45,8 +45,25 @@ defmodule ElixirTorrentWebUI.UiState do
 
   @spec default_download_folder() :: Path.t()
   def default_download_folder do
+    default_download_folder(:os.type(), &System.get_env/1)
+  end
+
+  @doc false
+  @spec default_download_folder({atom(), atom()}, (String.t() -> String.t() | nil)) :: Path.t()
+  def default_download_folder({:win32, _}, env) do
+    base =
+      env.("USERPROFILE") ||
+        case {env.("HOMEDRIVE"), env.("HOMEPATH")} do
+          {drive, path} when is_binary(drive) and is_binary(path) -> drive <> path
+          _ -> File.cwd!()
+        end
+
+    Path.expand(Path.join(base, "Downloads"))
+  end
+
+  def default_download_folder(_os_type, env) do
     home =
-      System.get_env("HOME") ||
+      env.("HOME") ||
         raise "HOME is not set; cannot resolve default download folder"
 
     Path.expand(Path.join(home, "Downloads"))

@@ -58,3 +58,8 @@ elixir_torrent_web_ui-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# Windows launcher build outputs (.NET SDK) and generated icon.
+/priv/windows/Launcher/bin/
+/priv/windows/Launcher/obj/
+/priv/windows/Launcher/Assets/AppIcon.ico
+

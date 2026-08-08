@@ -361,14 +361,8 @@ defmodule ElixirTorrentWebUI.Engine do
 
   @spec show_folder(String.t()) :: :ok | {:error, term()}
   def show_folder(torrent_id) when is_binary(torrent_id) do
-    with {:ok, hash} <- hash_from_hex_id(torrent_id),
-         :ok <- ensure_darwin(),
-         paths <- data_paths(hash),
-         {:ok, cmd, args} <- open_command(hash, paths) do
-      case OsIntegration.system_cmd(cmd, args, stderr_to_stdout: true) do
-        {_, 0} -> :ok
-        _ -> {:error, :open_failed}
-      end
+    with {:ok, hash} <- hash_from_hex_id(torrent_id) do
+      OsIntegration.show_folder(data_paths(hash))
     end
   rescue
     ArgumentError -> {:error, :torrent_not_found}
@@ -376,8 +370,7 @@ defmodule ElixirTorrentWebUI.Engine do
 
   @spec choose_download_folder() :: {:ok, Path.t()} | {:error, term()}
   def choose_download_folder do
-    with :ok <- ensure_darwin(),
-         {:ok, path} <- run_folder_picker() do
+    with {:ok, path} <- OsIntegration.pick_download_folder() do
       validate_download_folder(path)
     end
   end
@@ -506,16 +499,6 @@ defmodule ElixirTorrentWebUI.Engine do
     |> PathGuard.safe_join(relative)
   end
 
-  @spec run_folder_picker() :: {:ok, String.t()} | {:error, :cancelled}
-  defp run_folder_picker do
-    script = ~s'POSIX path of (choose folder with prompt "Choose download folder")'
-
-    case OsIntegration.system_cmd("osascript", ["-e", script], stderr_to_stdout: true) do
-      {path, 0} -> {:ok, String.trim(path)}
-      _ -> {:error, :cancelled}
-    end
-  end
-
   @spec validate_download_folder(Path.t()) :: {:ok, Path.t()} | {:error, term()}
   defp validate_download_folder(path) when is_binary(path) do
     folder = Path.expand(String.trim(path))
@@ -552,65 +535,11 @@ defmodule ElixirTorrentWebUI.Engine do
     if File.regular?(path), do: :ok, else: {:error, :missing}
   end
 
-  @spec ensure_darwin() :: :ok | {:error, :unsupported_platform}
-  defp ensure_darwin do
-    case :os.type() do
-      {:unix, :darwin} -> :ok
-      _ -> {:error, :unsupported_platform}
-    end
-  end
-
   @spec data_paths(Torrent.hash()) :: [Path.t()]
   defp data_paths(hash) do
     hash
     |> Torrent.Removal.data_paths()
     |> Enum.map(&Path.expand/1)
-  end
-
-  @spec open_command(Torrent.hash(), [Path.t()]) ::
-          {:ok, String.t(), [String.t()]} | {:error, term()}
-  defp open_command(hash, [path]) when is_binary(path) do
-    if Torrent.file_count(hash) == 1 do
-      reveal_in_finder(path)
-    else
-      open_directory(common_ancestor([path]))
-    end
-  end
-
-  defp open_command(_hash, paths) when is_list(paths) and paths != [] do
-    open_directory(common_ancestor(paths))
-  end
-
-  defp open_command(_hash, []), do: {:error, :missing}
-
-  @spec reveal_in_finder(Path.t()) :: {:ok, String.t(), [String.t()]} | {:error, :missing}
-  defp reveal_in_finder(path) do
-    cond do
-      File.regular?(path) -> {:ok, "open", ["-R", path]}
-      File.dir?(path) -> {:ok, "open", [path]}
-      File.dir?(Path.dirname(path)) -> {:ok, "open", [Path.dirname(path)]}
-      true -> {:error, :missing}
-    end
-  end
-
-  @spec open_directory(Path.t()) :: {:ok, String.t(), [String.t()]} | {:error, :missing}
-  defp open_directory(dir) do
-    if File.dir?(dir), do: {:ok, "open", [dir]}, else: {:error, :missing}
-  end
-
-  @spec common_ancestor([Path.t()]) :: Path.t()
-  defp common_ancestor([first | rest]) do
-    rest
-    |> Enum.reduce(Path.split(first), &common_path_parts/2)
-    |> Path.join()
-  end
-
-  @spec common_path_parts(Path.t(), [String.t()]) :: [String.t()]
-  defp common_path_parts(path, acc) do
-    acc
-    |> Enum.zip(Path.split(path))
-    |> Enum.take_while(fn {left, right} -> left == right end)
-    |> Enum.map(fn {part, _} -> part end)
   end
 
   @spec status_string(Peer.status()) :: String.t()
