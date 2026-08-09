@@ -1,5 +1,5 @@
 # `:macos_integration` tests shell out to `swiftc` to compile and run
-# priv/macos/Launcher.swift for real, so they need Xcode and are slower than
+# priv/macos/src/*.swift for real, so they need Xcode and are slower than
 # the rest of the suite. They are excluded from a routine `mix test` and opted
 # back in explicitly with `mix test --only macos_integration` — wired into the
 # macOS release build in .github/workflows/build-macos.yml.

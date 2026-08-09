@@ -6,13 +6,21 @@ defmodule ElixirTorrentWebUI.MacOS.LauncherTest do
   # `assets/js/app.js` assertions in the LiveView tests — the invariants that
   # are easy to regress are pinned against the source itself.
 
-  @launcher "priv/macos/Launcher.swift"
+  @src_dir "priv/macos/src"
+  @default_handler_coordinator Path.join(@src_dir, "DefaultHandlerCoordinator.swift")
+  @launcher_cli Path.join(@src_dir, "LauncherCLI.swift")
+  @app_delegate Path.join(@src_dir, "AppDelegate.swift")
 
   setup do
-    {:ok, source: File.read!(@launcher)}
+    {:ok,
+     coordinator_source: File.read!(@default_handler_coordinator),
+     cli_source: File.read!(@launcher_cli),
+     app_delegate_source: File.read!(@app_delegate)}
   end
 
-  test "the .torrent status never accepts our own exported UTI as proof", %{source: source} do
+  test "the .torrent status never accepts our own exported UTI as proof", %{
+    coordinator_source: source
+  } do
     # `com.elixirtorrent.webui.torrent` is declared by this bundle alone, so it
     # resolves back to us the moment we are registered. OR-ing it into the
     # check reported "already the default" while another client owned every
@@ -23,7 +31,9 @@ defmodule ElixirTorrentWebUI.MacOS.LauncherTest do
     assert body =~ "torrent: isDefaultForTorrentFiles(target)"
   end
 
-  test "the shared UTI decides, with the exported one only as a fallback", %{source: source} do
+  test "the shared UTI decides, with the exported one only as a fallback", %{
+    coordinator_source: source
+  } do
     body =
       function_body(
         source,
@@ -37,7 +47,9 @@ defmodule ElixirTorrentWebUI.MacOS.LauncherTest do
            "org.bittorrent.torrent must be consulted before the exported type"
   end
 
-  test "registering still claims both content types and the magnet scheme", %{source: source} do
+  test "registering still claims both content types and the magnet scheme", %{
+    coordinator_source: source
+  } do
     assert source =~ "LSSetDefaultRoleHandlerForContentType(\n            torrentType as CFString"
 
     assert source =~
@@ -46,16 +58,21 @@ defmodule ElixirTorrentWebUI.MacOS.LauncherTest do
     assert source =~ "LSSetDefaultHandlerForURLScheme(\n            magnetScheme as CFString"
   end
 
-  test "the launcher still exposes the CLI DefaultHandler shells out to", %{source: source} do
+  test "the launcher still exposes the CLI DefaultHandler shells out to", %{cli_source: source} do
     assert source =~ ~s(case "--check-defaults":)
     assert source =~ ~s(case "--register-defaults":)
     assert source =~ ~s(case "--await-default-status":)
+  end
+
+  test "the status payload shape matches what DefaultHandler.parse_status/1 expects", %{
+    coordinator_source: source
+  } do
     assert source =~ ~s({\\"torrent\\":)
     assert source =~ ~s(\\"magnet\\":)
   end
 
   test "await-default-status blocks in this process instead of a fixed poll interval", %{
-    source: source
+    cli_source: source
   } do
     # This is the notification path DefaultHandler.await_default/0 shells
     # out to — it must loop on its own (inside this one process) until the
@@ -71,7 +88,7 @@ defmodule ElixirTorrentWebUI.MacOS.LauncherTest do
   end
 
   test "registering shares its wait loop with the standalone await subcommand", %{
-    source: source
+    coordinator_source: source
   } do
     body = function_body(source, ~r/func registerAsDefault\(\) -> Bool \{(.+?)\n    \}/s)
 
@@ -79,7 +96,9 @@ defmodule ElixirTorrentWebUI.MacOS.LauncherTest do
     refute body =~ "awaitConvergence("
   end
 
-  test "there is no boot-time alert nagging about the default handler", %{source: source} do
+  test "there is no boot-time alert nagging about the default handler", %{
+    app_delegate_source: source
+  } do
     # The in-page banner (torrents_live.ex's default_handler_prompt/1) is the
     # only "make us default" prompt now — it is what the user sees on every
     # open, including in development, and it does not require macOS's

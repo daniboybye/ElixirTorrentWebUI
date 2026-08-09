@@ -7,7 +7,7 @@ name: Build macOS
 # artifact that release.yml uploads to the GitHub Release.
 #
 # macos-26 = Apple Silicon (M-series), latest Xcode preinstalled (26.6 as of
-# this writing — Launcher.swift needs its toolchain for Swift 6 language mode
+# this writing — priv/macos/src/*.swift needs its toolchain for Swift 6 language mode
 # / strict concurrency checking). GitHub bills macOS runners 10x vs Linux, so
 # this workflow deliberately does not run on every PR — only on tags or
 # on-demand dispatch.
@@ -77,7 +77,7 @@ jobs:
 
       - name: Run macOS Launch Services integration tests
         # Excluded from the suite above (test/test_helper.exs) because these
-        # shell out to `swiftc` to build priv/macos/Launcher.swift for real,
+        # shell out to `swiftc` to build priv/macos/src/*.swift for real,
         # which needs Xcode and is slower than the rest of the suite. Opted
         # back in explicitly here so the launcher's own output contract and
         # the "Set as default" banner flow get exercised on every macOS

@@ -7,7 +7,7 @@ set -euo pipefail
 # Mirrors set-magnet-default-handler.sh, but also targets the real shared
 # `org.bittorrent.torrent` UTI — that one, not our own exported UTI, is what
 # real `.torrent` files on disk carry (see DefaultHandlerCoordinator in
-# priv/macos/Launcher.swift).
+# priv/macos/src/DefaultHandlerCoordinator.swift).
 
 APP_PATH="${1:-/Applications/uTorrent Web.app}"
 BUNDLE_ID="com.bitTorrent.utweb"
@@ -46,7 +46,7 @@ if magnetStatus != noErr {
 
 // LSSetDefaultRoleHandlerForContentType can report success before
 // LaunchServices has actually persisted the change (see awaitStatus() in
-// Launcher.swift) — poll our own read-back for a few seconds rather than
+// DefaultHandlerCoordinator.swift) — poll our own read-back for a few seconds rather than
 // trusting the return code alone. Call it exactly ONCE: this API prompts
 // the user for confirmation on modern macOS, and calling it again on every
 // retry — as an earlier version of this script did — fired that prompt

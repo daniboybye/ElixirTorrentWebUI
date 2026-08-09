@@ -3,7 +3,7 @@ defmodule ElixirTorrentWebUI.MacOS.LauncherIntegrationTest do
 
   alias ElixirTorrentWebUI.{CommandEnvironment, DefaultHandler}
 
-  # Compiles priv/macos/Launcher.swift for real and runs it, so the one thing
+  # Compiles priv/macos/src/*.swift for real and runs it, so the one thing
   # no source-level assertion can cover stays honest: that the bytes the real
   # binary prints are the bytes `DefaultHandler.parse_status/1` can read. Every
   # check here is read-only.
@@ -47,7 +47,7 @@ defmodule ElixirTorrentWebUI.MacOS.LauncherIntegrationTest do
     if match?({:unix, :darwin}, :os.type()) do
       :ok
     else
-      {:skip, "macOS-only: compiles and runs priv/macos/Launcher.swift"}
+      {:skip, "macOS-only: compiles and runs priv/macos/src/*.swift"}
     end
   end
 
@@ -68,19 +68,21 @@ defmodule ElixirTorrentWebUI.MacOS.LauncherIntegrationTest do
         "elixir_torrent_launcher_test_#{System.unique_integer([:positive])}"
       )
 
+    sources = Path.wildcard("priv/macos/src/*.swift")
+
     {_, 0} =
       System.cmd(
         "swiftc",
-        [
-          "priv/macos/Launcher.swift",
-          "-o",
-          binary,
-          "-framework",
-          "AppKit",
-          "-swift-version",
-          "6",
-          "-O"
-        ],
+        sources ++
+          [
+            "-o",
+            binary,
+            "-framework",
+            "AppKit",
+            "-swift-version",
+            "6",
+            "-O"
+          ],
         env: CommandEnvironment.scrubbed()
       )
 

@@ -1734,7 +1734,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   # default-handler database has caught up — on macOS, LaunchServices can
   # still report the old handler to a process spawned right after
   # registration succeeds (see `registerAsDefault()` in
-  # `priv/macos/Launcher.swift`), sometimes for seconds under contention from
+  # `priv/macos/src/DefaultHandlerCoordinator.swift`), sometimes for seconds under contention from
   # other registered torrent clients; on Windows the user has to confirm the
   # change in a system dialog. Rather than re-invoking `DefaultHandler.status/0`
   # on a timer and hoping we ask again after it flips, hand the wait to

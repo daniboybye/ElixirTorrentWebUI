@@ -55,7 +55,7 @@ cp "$ROOT/priv/macos/Info.plist" "$APP/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${VERSION}" "$APP/Contents/Info.plist"
 
 echo "==> Compiling native Dock launcher…"
-swiftc "$ROOT/priv/macos/Launcher.swift" \
+swiftc "$ROOT"/priv/macos/src/*.swift \
   -o "$APP/Contents/MacOS/${EXECUTABLE_NAME}" \
   -framework AppKit \
   -swift-version 6 \
