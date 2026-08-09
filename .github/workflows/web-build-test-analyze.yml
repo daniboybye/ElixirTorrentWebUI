@@ -1,9 +1,14 @@
 name: Build WebUI, Test and Analyze
 
+# Runs on every PR and every push to main. Kept intentionally on the cheapest
+# GitHub-hosted image (ubuntu-24.04, 1x billing) — no macOS/Windows packaging
+# happens here. Platform artifacts are produced by .github/workflows/release.yml.
+
 on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
