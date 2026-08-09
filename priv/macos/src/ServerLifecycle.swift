@@ -22,8 +22,10 @@ actor ServerLifecycle {
         }
 
         do {
-            try FileManager.default.createDirectory(at: dataDirectory,
-                                                    withIntermediateDirectories: true)
+            try FileManager.default.createDirectory(
+                at: dataDirectory,
+                withIntermediateDirectories: true
+            )
         } catch {
             launcherLog("Server start failed: could not create data directory \(dataDirectory.path): \(error)")
             return false

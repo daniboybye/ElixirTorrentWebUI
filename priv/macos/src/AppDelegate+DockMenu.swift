@@ -3,6 +3,10 @@ import Foundation
 
 // MARK: - Dock Menu (Active Torrents)
 
+private struct TorrentsResponse: Decodable, Sendable {
+    let torrents: [DockTorrent]
+}
+
 struct DockTorrent: Decodable, Sendable {
     let name: String
     let status: String
@@ -10,12 +14,24 @@ struct DockTorrent: Decodable, Sendable {
     let upKbps: Double
 }
 
-private struct TorrentsResponse: Decodable, Sendable {
-    let torrents: [DockTorrent]
-}
-
 extension AppDelegate {
-    func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
+    nonisolated private static func refreshDockTorrents(endpoint: URL) async -> [DockTorrent]? {
+        var request = URLRequest(url: endpoint)
+        request.timeoutInterval = 2
+
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            guard let http = response as? HTTPURLResponse, http.statusCode == 200 else { return nil }
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let decoded = try decoder.decode(TorrentsResponse.self, from: data)
+            return decoded.torrents
+        } catch {
+            return nil
+        }
+    }
+
+    func applicationDockMenu(_: NSApplication) -> NSMenu? {
         guard !dockTorrents.isEmpty else { return nil }
 
         let menu = NSMenu()
@@ -49,22 +65,6 @@ extension AppDelegate {
                 }
                 try? await Task.sleep(nanoseconds: 2_000_000_000)
             }
-        }
-    }
-
-    nonisolated fileprivate static func refreshDockTorrents(endpoint: URL) async -> [DockTorrent]? {
-        var request = URLRequest(url: endpoint)
-        request.timeoutInterval = 2
-
-        do {
-            let (data, response) = try await URLSession.shared.data(for: request)
-            guard let http = response as? HTTPURLResponse, http.statusCode == 200 else { return nil }
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            let decoded = try decoder.decode(TorrentsResponse.self, from: data)
-            return decoded.torrents
-        } catch {
-            return nil
         }
     }
 

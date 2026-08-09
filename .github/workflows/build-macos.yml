@@ -36,6 +36,17 @@ jobs:
       - name: Check out WebUI
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
+      - name: Install SwiftLint
+        run: brew install swiftlint
+
+      - name: Lint Swift launcher source (priv/macos/src)
+        # Static analysis for the one piece of this repo that isn't
+        # Elixir/Phoenix and so isn't covered by `mix format`/`mix quality`.
+        # Runs before the Elixir toolchain is even set up so a style
+        # regression fails fast without burning macOS-runner minutes (billed
+        # 10x vs Linux) on a compile that was never going to matter.
+        run: swiftlint lint --strict
+
       - name: Install Erlang and Elixir
         uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
         with:

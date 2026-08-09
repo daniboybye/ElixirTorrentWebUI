@@ -5,6 +5,13 @@ enum BitTorrentDocument: Sendable {
     static let exportedType = UTType("com.elixirtorrent.webui.torrent")
     static let legacyType = UTType(importedAs: "org.bittorrent.torrent")
 
+    static let defaultFilename = {
+        let ext = exportedType?.preferredFilenameExtension
+            ?? legacyType.preferredFilenameExtension
+            ?? "torrent"
+        return "download.\(ext)"
+    }()
+
     static func matches(_ url: URL) -> Bool {
         guard url.isFileURL else { return false }
 
@@ -32,11 +39,4 @@ enum BitTorrentDocument: Sendable {
 
         return false
     }
-
-    static let defaultFilename = {
-        let ext = exportedType?.preferredFilenameExtension
-            ?? legacyType.preferredFilenameExtension
-            ?? "torrent"
-        return "download.\(ext)"
-    }()
 }

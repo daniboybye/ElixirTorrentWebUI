@@ -28,11 +28,10 @@ final class AppDelegate: NSObject {
 
     private lazy var magnetsEndpoint = appURL.appendingPathComponent("api/magnets")
 
-    private lazy var dataDirectory =
-        FileManager.default.urls(for: .applicationSupportDirectory,
-                                 in: .userDomainMask).first!
-            .appendingPathComponent(Self.appSupportDirectoryName,
-                                    isDirectory: true)
+    private lazy var dataDirectory = {
+        let root = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        return root.appendingPathComponent(Self.appSupportDirectoryName, isDirectory: true)
+    }()
 
     private func bootstrap() async {
         _ = await ensureServerReady()
@@ -74,8 +73,10 @@ final class AppDelegate: NSObject {
         let inbox = dataDirectory.appendingPathComponent("inbox", isDirectory: true)
 
         do {
-            try FileManager.default.createDirectory(at: inbox,
-                                                    withIntermediateDirectories: true)
+            try FileManager.default.createDirectory(
+                at: inbox,
+                withIntermediateDirectories: true
+            )
 
             let baseName = url.lastPathComponent.isEmpty ? BitTorrentDocument.defaultFilename : url.lastPathComponent
             let dest = inbox.appendingPathComponent("\(UUID().uuidString)-\(baseName)")
@@ -166,13 +167,13 @@ final class AppDelegate: NSObject {
 // MARK: - NSApplicationDelegate
 
 extension AppDelegate: NSApplicationDelegate {
-    func applicationDidFinishLaunching(_ notification: Notification) {
+    func applicationDidFinishLaunching(_: Notification) {
         NSApp.setActivationPolicy(.regular)
         ProcessInfo.processInfo.disableSuddenTermination()
         Task { await bootstrap() }
     }
 
-    func application(_ application: NSApplication, open urls: [URL]) {
+    func application(_: NSApplication, open urls: [URL]) {
         openedFromURL = true
 
         Task {
@@ -194,12 +195,12 @@ extension AppDelegate: NSApplicationDelegate {
         }
     }
 
-    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+    func applicationShouldHandleReopen(_: NSApplication, hasVisibleWindows _: Bool) -> Bool {
         openBrowser()
         return true
     }
 
-    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+    func applicationShouldTerminate(_: NSApplication) -> NSApplication.TerminateReply {
         Task {
             await server.shutdown(port: port)
             NSApp.reply(toApplicationShouldTerminate: true)

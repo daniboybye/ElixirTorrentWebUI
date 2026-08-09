@@ -1,0 +1,135 @@
+# Lints priv/macos/src/*.swift (the native Dock launcher). That is the only
+# Swift code in this repo — everything else is Elixir/Phoenix.
+included:
+  - priv/macos/src
+
+opt_in_rules:
+  # Catches exactly the kind of `let x: URL = URL(...)` noise removed from
+  # AppDelegate/BitTorrentDocument — the type is already obvious from the
+  # right-hand side.
+  - redundant_type_annotation
+  - sorted_imports
+  - empty_count
+  - empty_string
+  - empty_collection_literal
+  - first_where
+  - last_where
+  - sorted_first_last
+  - contains_over_first_not_nil
+  - contains_over_filter_count
+  - contains_over_filter_is_empty
+  - contains_over_range_nil_comparison
+  - flatmap_over_map_reduce
+  - reduce_into
+  - array_init
+  - explicit_init
+  - convenience_type
+  - direct_return
+  - fatal_error_message
+  - closure_spacing
+  - closure_body_length
+  - closure_end_indentation
+  - collection_alignment
+  - toggle_bool
+  - identical_operands
+  - yoda_condition
+  - superfluous_else
+  - implicit_return
+  - implicitly_unwrapped_optional
+  - redundant_self
+  - redundant_final
+  - redundant_nil_coalescing
+  - non_overridable_class_declaration
+  - modifier_order
+  - strict_fileprivate
+  - lower_acl_than_parent
+  - prefer_self_in_static_references
+  - prefer_self_type_over_type_of_self
+  - prefer_zero_over_explicit_init
+  - prefer_key_path
+  - pattern_matching_keywords
+  - self_binding
+  - shorthand_argument
+  - shorthand_optional_binding
+  - variable_shadowing
+  - static_operator
+  - switch_case_on_newline
+  - sorted_enum_cases
+  - optional_enum_case_matching
+  - overridden_super_call
+  - override_in_extension
+  - prohibited_super_call
+  - unneeded_parentheses_in_closure_argument
+  - unneeded_escaping
+  - unneeded_throws_rethrows
+  - unowned_variable_capture
+  - untyped_error_in_catch
+  - unused_parameter
+  - return_value_from_void_function
+  - no_empty_block
+  - async_without_await
+  - anonymous_argument_in_multiline_closure
+  - fallthrough
+  - joined_default_parameter
+  - function_default_parameter_at_end
+  - attributes
+  - file_name
+  - file_types_order
+  - type_contents_order
+  - number_separator
+  - operator_usage_whitespace
+  - period_spacing
+  - local_doc_comment
+  - literal_expression_end_indentation
+  - indentation_width
+  - multiline_arguments
+  - multiline_arguments_brackets
+  - multiline_call_arguments
+  - multiline_function_chains
+  - multiline_literal_brackets
+  - multiline_parameters
+  - multiline_parameters_brackets
+  - vertical_whitespace_closing_braces
+  - vertical_whitespace_opening_braces
+  - vertical_whitespace_between_cases
+  - vertical_parameter_alignment_on_call
+
+number_separator:
+  # 1024-style byte-math constants (see AppDelegate+DockMenu.swift's
+  # formatDockSpeed) read better bare; the rule still catches the nanosecond/
+  # microsecond magnitudes elsewhere that actually benefit from `_` grouping.
+  minimum_length: 5
+
+# Deliberately left out of opt_in_rules:
+#
+# - force_unwrapping: the launcher force-unwraps bundle resources and a
+#   hardcoded loopback URL that are guaranteed present in a signed app
+#   bundle — flagging every instance would be noise, not signal.
+# - no_magic_numbers: almost every hit is a single-use timing/retry constant
+#   (sleep intervals, HTTP status codes, timeout thresholds) that reads fine
+#   inline; extracting 30+ one-off named constants would hurt readability
+#   more than it helps.
+# - discouraged_optional_collection: refreshDockTorrents's `[DockTorrent]?`
+#   uses `nil` to mean "fetch failed", distinct from "fetched, zero
+#   torrents" — collapsing that to an empty array would lose real
+#   information, not just violate a style preference.
+# - one_declaration_per_file / no_grouping_extension: conflict with the
+#   deliberate file layout (group by responsibility, e.g.
+#   AppDelegate+DockMenu.swift bundles DockTorrent + TorrentsResponse + the
+#   dock-menu AppDelegate extension; AppDelegate.swift separates
+#   NSApplicationDelegate conformance and UI actions into same-file
+#   extensions) — see the split rationale in the commit that introduced
+#   priv/macos/src/.
+# - required_deinit: AppDelegate is a process-lifetime singleton delegate
+#   that is never deallocated; an empty deinit would be pure ceremony.
+# - prefixed_toplevel_constant: the `k`-prefix convention predates Swift's
+#   naming guidelines and would look out of place here.
+# - let_var_whitespace: would force blank lines around routine
+#   `let x = ...; x.field = ...` configuration sequences (Process, URLRequest)
+#   used throughout this codebase.
+# - explicit_type_interface / explicit_acl / explicit_top_level_acl /
+#   missing_docs / file_header: verbosity-for-its-own-sake rules that cut
+#   against inferring obvious types/access levels and CLAUDE.md's
+#   no-comments-unless-non-obvious default.
+# - discouraged_default_parameter: this codebase uses default parameter
+#   values deliberately and correctly (e.g. truncateDockName, awaitStatus).

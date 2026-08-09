@@ -17,8 +17,8 @@ enum LauncherCLI: Sendable {
             return 0
 
         case "--register-defaults":
-            let ok = DefaultHandlerCoordinator.registerAsDefault()
-            return ok ? 0 : 2
+            let succeeded = DefaultHandlerCoordinator.registerAsDefault()
+            return succeeded ? 0 : 2
 
         case "--await-default-status":
             // Elixir spawns this in the background (not blocking the click
@@ -28,11 +28,11 @@ enum LauncherCLI: Sendable {
             // the change — the caller is notified by this process exiting
             // with fresh status, rather than re-invoking `--check-defaults`
             // on a fixed timer.
-            let payload = DefaultHandlerCoordinator.awaitStatus(
+            let status = DefaultHandlerCoordinator.awaitStatus(
                 timeoutSeconds: 15,
                 until: { $0.bothDefault }
-            ).jsonPayload()
-            print(payload)
+            )
+            print(status.jsonPayload())
             return 0
 
         default:

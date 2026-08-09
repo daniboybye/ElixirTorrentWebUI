@@ -9,10 +9,6 @@ import Foundation
 /// such. The heavy lifting is inside a single actor so callers can rely on
 /// serialised access from any thread.
 enum DefaultHandlerCoordinator: Sendable {
-    static let torrentType = "com.elixirtorrent.webui.torrent"
-    static let legacyTorrentType = "org.bittorrent.torrent"
-    static let magnetScheme = "magnet"
-
     struct Status: Sendable {
         let torrent: Bool
         let magnet: Bool
@@ -23,6 +19,10 @@ enum DefaultHandlerCoordinator: Sendable {
             "{\"torrent\":\(torrent ? "true" : "false"),\"magnet\":\(magnet ? "true" : "false")}"
         }
     }
+
+    static let torrentType = "com.elixirtorrent.webui.torrent"
+    static let legacyTorrentType = "org.bittorrent.torrent"
+    static let magnetScheme = "magnet"
 
     static var bundleIdentifier: String {
         Bundle.main.bundleIdentifier ?? "com.elixirtorrent.webui"
@@ -59,7 +59,8 @@ enum DefaultHandlerCoordinator: Sendable {
         let torrentStatus = LSSetDefaultRoleHandlerForContentType(
             torrentType as CFString,
             .viewer,
-            target)
+            target
+        )
 
         if torrentStatus != noErr {
             launcherLog("LSSetDefaultRoleHandlerForContentType(torrent) returned \(torrentStatus)")
@@ -68,7 +69,8 @@ enum DefaultHandlerCoordinator: Sendable {
         let legacyTorrentStatus = LSSetDefaultRoleHandlerForContentType(
             legacyTorrentType as CFString,
             .viewer,
-            target)
+            target
+        )
 
         if legacyTorrentStatus != noErr {
             launcherLog("LSSetDefaultRoleHandlerForContentType(legacy torrent) returned \(legacyTorrentStatus)")
@@ -89,7 +91,8 @@ enum DefaultHandlerCoordinator: Sendable {
 
         let magnetStatus = LSSetDefaultHandlerForURLScheme(
             magnetScheme as CFString,
-            target)
+            target
+        )
 
         if magnetStatus != noErr {
             launcherLog("LSSetDefaultHandlerForURLScheme(magnet) returned \(magnetStatus)")
