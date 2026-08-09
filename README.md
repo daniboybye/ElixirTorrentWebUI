@@ -13,13 +13,21 @@ The engine lives in a separate project and this repo is the **UI + desktop produ
 ## Features
 
 - **Torrent dashboard** — list with progress, speeds, peers, ETA, expandable file rows
-- **Add & remove torrents** — `.torrent` upload via LiveView; optional delete downloaded data
+- **Lifetime statistics** — persisted downloaded/uploaded totals and current aggregate speeds,
+  with an atomic Reset Statistics action in Settings
+- **Add & remove torrents** — `.torrent` upload, clipboard magnet ingestion, persisted pending
+  magnets, and optional downloaded-data removal
+- **Download settings** — persistent default download directory with a native macOS picker
+- **Media actions** — range-streamed video playback plus lazy previews for completed images;
+  image clicks open in the operating system's default application
+- **International UI** — all user-facing strings are maintained across 64 Gettext locales
 - **macOS desktop app** — `mix mac.dmg` bundles a Swift launcher + release into
-  `ElixirTorrent Web.app` (browser UI on loopback)
+  `ElixirTorrent Web.app` (browser UI on loopback), registers `.torrent`/`magnet:` handlers,
+  rotates logs, and shows active torrents in the Dock menu
 
 ## Architecture
 
-- **Engine**: [`elixir_torrent` ~> 0.2.0](https://hex.pm/packages/elixir_torrent)
+- **Engine**: [`elixir_torrent`](https://hex.pm/packages/elixir_torrent)
   ([Hex docs](https://hexdocs.pm/elixir_torrent/readme.html) ·
   [GitHub](https://github.com/daniboybye/ElixirTorrent))
   — session persistence, graceful shutdown (`stop_and_serialize/1`), peer disconnect
@@ -37,7 +45,7 @@ UI code talks to the engine through `ElixirTorrentWebUI.Engine` — not `ElixirT
 
 - **Elixir**: 1.20.x
 - **Phoenix**: 1.8.x
-- **Phoenix LiveView**: 1.1.x
+- **Phoenix LiveView**: 1.2.x
 - **Bandit**: HTTP server
 - **Tailwind + ESBuild**: assets pipeline
 
@@ -86,40 +94,40 @@ Icon generation (`mix mac.icon`, also part of `mix setup`):
 
 ## Engine dependency
 
-The canonical, committed dependency is the published Hex package:
-
-```elixir
-{:elixir_torrent, "~> 0.2.0"}
-```
-
-Requires **elixir_torrent 0.2.0+** for session persistence APIs used by the desktop app
-(`stop_and_serialize/1`, `stop_all_and_serialize/0`, `list/0`).
-
-`mix.exs` resolves this dynamically. By default the Hex version is used, so a
-fresh clone just needs `mix deps.get`.
-
-### Local development against the engine
-
-When iterating on both this UI and the engine in tandem, override the source with
-`ELIXIR_TORRENT_PATH`:
+The committed dependency remains the published Hex package. While both projects
+evolve together, validate the WebUI against a local Engine checkout by setting:
 
 ```bash
 export ELIXIR_TORRENT_PATH=../ElixirTorrent
 mix deps.get
-mix phx.server
 ```
 
-Notes:
+The local path and Engine revision are development inputs, not committed pins.
+Do not commit lock-file changes caused only by switching dependency sources.
 
-- `mix.lock` only stores the Hex version. The path override does not write to
-  the lockfile, so you can switch back to Hex any time with
-  `unset ELIXIR_TORRENT_PATH && mix deps.compile elixir_torrent --force`.
-- The Hex version is what gets shipped and what CI uses. Always release a new
-  Hex version of `elixir_torrent` before bumping the requirement here.
-- Don't commit changes that only work against an unreleased local engine.
+## Tests and quality
+
+The deterministic ExUnit/ConnTest/LiveViewTest suite has a 60-second ceiling.
+ExCoveralls currently enforces the first 55% project gate (57.2% at introduction);
+the roadmap raises this to 70% and then above 80%.
+
+```bash
+export ELIXIR_TORRENT_PATH=../ElixirTorrent
+mix format --check-formatted
+mix quality
+perl -e 'alarm shift; exec @ARGV' 60 mix coveralls
+```
+
+GitHub Actions currently validates only Elixir: locked dependencies, Hex audit,
+formatting, warnings-as-errors compilation in dev/test, Credo, Dialyzer, and
+coverage. Native packaging remains a separate future workflow.
 
 ## Security notes (local UI)
 
 - The endpoint is bound to loopback (`127.0.0.1`) in dev config.
+- Media routes accept only torrent id/file index, resolve server-side Engine state,
+  and reject traversal, absolute, drive, UNC, and NUL paths.
+- Completed image previews are allow-listed, private-cache responses with
+  `X-Content-Type-Options: nosniff`; paths are never accepted from HTTP clients.
 - Before exposing anything beyond localhost, add auth (token/cookie) and review endpoints
   that control downloads or read files.
