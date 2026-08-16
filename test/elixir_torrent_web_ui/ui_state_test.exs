@@ -28,8 +28,13 @@ defmodule ElixirTorrentWebUI.UiStateTest do
     test "resolves $HOME/Downloads on Unix hosts" do
       env = %{"HOME" => "/Users/daniel"}
 
-      assert UiState.default_download_folder({:unix, :darwin}, &Map.get(env, &1)) ==
-               "/Users/daniel/Downloads"
+      # Suffix, not equality: the implementation normalizes through
+      # `Path.expand/1`, which is host-dependent — on a Windows host it prefixes
+      # the current drive, yielding "c:/Users/daniel/Downloads". Asserting the
+      # suffix keeps this case meaningful on every host instead of only where
+      # the os_type argument happens to match the machine running the suite.
+      assert UiState.default_download_folder({:unix, :darwin}, &Map.get(env, &1))
+             |> String.ends_with?("/Users/daniel/Downloads")
     end
 
     test "raises on Unix hosts when HOME is not set" do

@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "Launcher": {
+      "commandName": "Project"
+    },
+    "PickFolder": {
+      "commandName": "Project",
+      "commandLineArgs": "--pick-folder"
+    },
+    "Register": {
+      "commandName": "Project",
+      "commandLineArgs": "--register"
+    }
+  }
+}

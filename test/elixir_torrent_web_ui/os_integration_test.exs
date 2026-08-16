@@ -47,19 +47,52 @@ defmodule ElixirTorrentWebUI.OsIntegrationTest do
                {:ok, "open", ["/x"]}
     end
 
-    test "selects the file inside Explorer on Windows" do
-      assert OsIntegration.reveal_command({:win32, :nt}, "D:\\x\\photo.jpg", :file, empty_env()) ==
-               {:ok, "explorer.exe", ["/select,", "D:\\x\\photo.jpg"]}
+    test "delegates a file reveal to the launcher on Windows" do
+      # The launcher builds explorer's raw /select,"path" command line, which
+      # System.cmd/3 cannot express.
+      env = %{"ELIXIR_TORRENT_LAUNCHER" => "C:\\Apps\\Launcher.exe"}
+
+      assert OsIntegration.reveal_command(
+               {:win32, :nt},
+               "D:\\x\\photo.jpg",
+               :file,
+               &Map.get(env, &1)
+             ) ==
+               {:ok, "C:\\Apps\\Launcher.exe", ["--reveal", "D:\\x\\photo.jpg"]}
     end
 
-    test "opens the directory in Explorer on Windows" do
+    test "delegates a directory reveal to the launcher on Windows" do
+      env = %{"ELIXIR_TORRENT_LAUNCHER" => "C:\\Apps\\Launcher.exe"}
+
+      assert OsIntegration.reveal_command({:win32, :nt}, "D:\\x", :dir, &Map.get(env, &1)) ==
+               {:ok, "C:\\Apps\\Launcher.exe", ["--reveal", "D:\\x"]}
+    end
+
+    test "falls back to explorer.exe when the launcher is not registered" do
       assert OsIntegration.reveal_command({:win32, :nt}, "D:\\x", :dir, empty_env()) ==
                {:ok, "explorer.exe", ["D:\\x"]}
+
+      assert OsIntegration.reveal_command({:win32, :nt}, "D:\\x\\photo.jpg", :file, empty_env()) ==
+               {:ok, "explorer.exe", ["/select,D:\\x\\photo.jpg"]}
     end
 
     test "rejects unknown platforms" do
       assert OsIntegration.reveal_command({:unix, :linux}, "/x", :dir, empty_env()) ==
                {:error, :unsupported_platform}
+    end
+  end
+
+  describe "reveal_result/2" do
+    test "treats any explorer.exe exit status as success on Windows" do
+      # explorer.exe exits 1 even when it opened the window, so its status
+      # carries no information about whether the reveal worked.
+      assert OsIntegration.reveal_result({:win32, :nt}, 1) == :ok
+      assert OsIntegration.reveal_result({:win32, :nt}, 0) == :ok
+    end
+
+    test "still honours the exit status elsewhere" do
+      assert OsIntegration.reveal_result({:unix, :darwin}, 0) == :ok
+      assert OsIntegration.reveal_result({:unix, :darwin}, 1) == {:error, :open_failed}
     end
   end
 
@@ -98,18 +131,38 @@ defmodule ElixirTorrentWebUI.OsIntegrationTest do
   describe "system_cmd/3" do
     test "strips sensitive env vars from the spawned process's environment" do
       System.put_env("SECRET_KEY_BASE", "super-secret-value")
-      on_exit(fn -> System.delete_env("SECRET_KEY_BASE") end)
+      System.put_env("OS_INTEGRATION_SENTINEL", "present")
 
-      {output, 0} = OsIntegration.system_cmd("env", [], [])
+      on_exit(fn ->
+        System.delete_env("SECRET_KEY_BASE")
+        System.delete_env("OS_INTEGRATION_SENTINEL")
+      end)
+
+      {command, args} = env_dump_command()
+      {output, 0} = OsIntegration.system_cmd(command, args, [])
 
       refute output =~ "SECRET_KEY_BASE"
-      assert output =~ "PATH="
+      # Proves the dump actually ran, without depending on `PATH` casing —
+      # Windows spells it `Path`.
+      assert output =~ "OS_INTEGRATION_SENTINEL=present"
     end
 
     test "still merges in env vars the caller explicitly passes" do
-      {output, 0} = OsIntegration.system_cmd("env", [], env: [{"OS_INTEGRATION_TEST_VAR", "hi"}])
+      {command, args} = env_dump_command()
+
+      {output, 0} =
+        OsIntegration.system_cmd(command, args, env: [{"OS_INTEGRATION_TEST_VAR", "hi"}])
 
       assert output =~ "OS_INTEGRATION_TEST_VAR=hi"
+    end
+
+    # `env` does not exist on Windows; `cmd /c set` is the equivalent dump and
+    # emits the same NAME=value lines these assertions match on.
+    defp env_dump_command do
+      case :os.type() do
+        {:win32, _} -> {"cmd", ["/c", "set"]}
+        _ -> {"env", []}
+      end
     end
   end
 end

@@ -5,12 +5,11 @@ name: Release
 # optionally with dry_run=true to skip the GitHub Release step and only
 # produce workflow artifacts.
 #
-# Add Windows support later by:
-#   1. adding .github/workflows/build-windows.yml (same shape as build-macos.yml
-#      but runs-on: windows-2022, invokes priv/scripts/windows/build-windows-zip.ps1),
-#   2. adding a `windows:` job below that `uses:` it,
-#   3. listing it under `needs:` on `publish` and adding *.zip* to the release
-#      files glob.
+# Platform builds are reusable workflows, one per target:
+#   macOS arm64 -> build-macos.yml   (DMG + checksum)
+#   Windows x64 -> build-windows.yml (portable ZIP + checksum)
+# Both are gated on `publish` via `needs:`, so a failing platform build blocks
+# the release rather than shipping a half-populated one.
 
 on:
   push:
@@ -38,15 +37,15 @@ jobs:
     permissions:
       contents: read
 
-  # windows:
-  #   name: Windows x64
-  #   uses: ./.github/workflows/build-windows.yml
-  #   permissions:
-  #     contents: read
+  windows:
+    name: Windows x64
+    uses: ./.github/workflows/build-windows.yml
+    permissions:
+      contents: read
 
   publish:
     name: Publish GitHub Release
-    needs: [macos]
+    needs: [macos, windows]
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     if: >-
@@ -75,3 +74,5 @@ jobs:
           files: |
             artifacts/**/*.dmg
             artifacts/**/*.dmg.sha256
+            artifacts/**/*.zip
+            artifacts/**/*.zip.sha256

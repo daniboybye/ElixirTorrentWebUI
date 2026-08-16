@@ -1,0 +1,121 @@
+name: Build Windows
+
+# Reusable Windows build:
+#   - called from release.yml on tag push,
+#   - or triggered manually from the Actions UI (workflow_dispatch).
+# Runs the full ExUnit suite on Windows 11 x64 and produces the portable ZIP
+# artifact that release.yml uploads to the GitHub Release.
+#
+# GitHub bills Windows runners 2x vs Linux, so this workflow deliberately does
+# not run on every PR — only on tags or on-demand dispatch.
+#
+# Desktop mode (WinUI 3 window, tray, browser hand-off) is not gated here: the
+# runners are a non-interactive service session, so a failure there would
+# describe the runner rather than the launcher. It is validated by hand.
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-windows-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Test and package (Windows x64)
+    runs-on: windows-2022
+    timeout-minutes: 45
+
+    defaults:
+      run:
+        shell: pwsh
+
+    env:
+      MIX_ENV: dev
+
+    steps:
+      - name: Check out WebUI
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install .NET 10 SDK
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Build the C# launcher
+        # Static analysis for the one piece of this repo that isn't
+        # Elixir/Phoenix, mirroring the macOS job's SwiftLint step: runs before
+        # the Elixir toolchain is even set up so a compile error fails fast
+        # without burning runner minutes. No -warnaserror — WinUI/WinRT codegen
+        # is not ours to keep warning-clean.
+        run: >-
+          dotnet build priv/windows/Launcher/ElixirTorrentWebUI.Launcher.csproj
+          --configuration Release --runtime win-x64
+
+      - name: Install Erlang and Elixir
+        uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
+        with:
+          version-file: .tool-versions
+          version-type: strict
+
+      - name: Restore Mix cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.mix
+            ~/.cache/rebar3
+            deps
+            _build
+          key: mix-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('.tool-versions', 'mix.lock') }}
+          restore-keys: |
+            mix-${{ runner.os }}-${{ runner.arch }}-
+
+      - name: Install Hex and Rebar
+        run: |
+          mix local.hex --force
+          mix local.rebar --force
+
+      - name: Fetch dependencies
+        # No ELIXIR_TORRENT_PATH on CI: mix.exs falls back to the published
+        # :elixir_torrent package, never a local sibling checkout.
+        run: mix deps.get
+
+      - name: Compile (dev)
+        run: mix compile --warnings-as-errors
+
+      - name: Compile (test)
+        env:
+          MIX_ENV: test
+        run: mix compile --warnings-as-errors
+
+      - name: Run Windows test suite
+        # 60s hard watchdog; PowerShell has no timeout(1).
+        env:
+          MIX_ENV: test
+        run: |
+          $proc = Start-Process -FilePath 'cmd.exe' -ArgumentList '/C', 'mix test' -NoNewWindow -PassThru
+          if (-not $proc.WaitForExit(60000)) {
+            $proc.Kill($true)
+            throw 'mix test exceeded the 60s watchdog'
+          }
+          if ($proc.ExitCode -ne 0) { throw "mix test failed with exit code $($proc.ExitCode)" }
+
+      - name: Build portable ZIP (prod release + launcher + SHA-256)
+        run: pwsh ./priv/scripts/windows/build-windows-zip.ps1
+
+      - name: Smoke-test launcher CLI, launch, HTTP 200 and shutdown
+        run: pwsh ./priv/scripts/windows/smoke-test.ps1
+
+      - name: Upload Windows artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: windows-x64
+          path: |
+            dist/windows/*.zip
+            dist/windows/*.zip.sha256
+          if-no-files-found: error
+          retention-days: 30

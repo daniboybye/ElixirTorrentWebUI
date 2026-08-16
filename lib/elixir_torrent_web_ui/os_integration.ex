@@ -66,25 +66,48 @@ defmodule ElixirTorrentWebUI.OsIntegration do
   def reveal(path) when is_binary(path) do
     with {:ok, target, kind} <- classify(path),
          {:ok, cmd, args} <- reveal_command(:os.type(), target, kind, &System.get_env/1) do
-      case System.cmd(cmd, args,
-             env: CommandEnvironment.scrubbed(),
-             stderr_to_stdout: true
-           ) do
-        {_, 0} -> :ok
-        _ -> {:error, :open_failed}
-      end
+      {_, status} =
+        System.cmd(cmd, args,
+          env: CommandEnvironment.scrubbed(),
+          stderr_to_stdout: true
+        )
+
+      reveal_result(:os.type(), status)
     end
   end
+
+  # explorer.exe exits 1 even when it successfully opened the window, so its
+  # status says nothing about whether the reveal worked. Treating non-zero as
+  # failure there reports an error for every successful reveal.
+  @doc false
+  @spec reveal_result(os_type(), non_neg_integer()) :: :ok | {:error, :open_failed}
+  def reveal_result({:win32, _}, _status), do: :ok
+  def reveal_result(_os_type, 0), do: :ok
+  def reveal_result(_os_type, _status), do: {:error, :open_failed}
 
   @doc false
   @spec reveal_command(os_type(), Path.t(), :file | :dir, env_fun()) :: command()
   def reveal_command({:unix, :darwin}, path, :file, _env), do: {:ok, "open", ["-R", path]}
   def reveal_command({:unix, :darwin}, path, :dir, _env), do: {:ok, "open", [path]}
 
-  def reveal_command({:win32, _}, path, :file, _env),
-    do: {:ok, "explorer.exe", ["/select,", path]}
+  # Prefer the launcher, exactly as open_file/1 does. explorer.exe needs the
+  # literal command line /select,"C:\dir\file" — quotes around the path only —
+  # and System.cmd/3 cannot produce that: it quotes each argument as a whole, so
+  # explorer receives "/select,C:\..." and never sees the switch. The launcher
+  # builds the raw command line itself. explorer.exe stays as the fallback for
+  # a directory, where no switch is involved and argv is fine.
+  def reveal_command({:win32, _}, path, kind, env) do
+    case env.(@launcher_env) do
+      launcher when is_binary(launcher) and launcher != "" ->
+        {:ok, launcher, ["--reveal", path]}
 
-  def reveal_command({:win32, _}, path, :dir, _env), do: {:ok, "explorer.exe", [path]}
+      _ when kind == :dir ->
+        {:ok, "explorer.exe", [path]}
+
+      _ ->
+        {:ok, "explorer.exe", ["/select," <> path]}
+    end
+  end
 
   def reveal_command(_os_type, _path, _kind, _env), do: {:error, :unsupported_platform}
 
@@ -121,13 +144,13 @@ defmodule ElixirTorrentWebUI.OsIntegration do
   defp reveal_from_target(target, kind) do
     case reveal_command(:os.type(), target, kind, &System.get_env/1) do
       {:ok, cmd, args} ->
-        case System.cmd(cmd, args,
-               env: CommandEnvironment.scrubbed(),
-               stderr_to_stdout: true
-             ) do
-          {_, 0} -> :ok
-          _ -> {:error, :open_failed}
-        end
+        {_, status} =
+          System.cmd(cmd, args,
+            env: CommandEnvironment.scrubbed(),
+            stderr_to_stdout: true
+          )
+
+        reveal_result(:os.type(), status)
 
       {:error, _} = err ->
         err
