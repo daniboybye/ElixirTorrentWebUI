@@ -1,6 +1,6 @@
 # ElixirTorrent Web
 
-[![GitHub release](https://img.shields.io/github/v/release/daniboybye/ElixirTorrentWebUI?label=release&logo=github&color=181717)](https://github.com/daniboybye/ElixirTorrentWebUI/releases/latest) [![GitHub](https://img.shields.io/badge/source-ElixirTorrentWebUI-181717?logo=github)](https://github.com/daniboybye/ElixirTorrentWebUI) [![CI](https://img.shields.io/github/actions/workflow/status/daniboybye/ElixirTorrentWebUI/web-build-test-analyze.yml?branch=main&label=CI&logo=github)](https://github.com/daniboybye/ElixirTorrentWebUI/actions/workflows/web-build-test-analyze.yml) [![codecov](https://codecov.io/gh/daniboybye/ElixirTorrentWebUI/branch/main/graph/badge.svg)](https://codecov.io/gh/daniboybye/ElixirTorrentWebUI) [![Last commit](https://img.shields.io/github/last-commit/daniboybye/ElixirTorrentWebUI/main)](https://github.com/daniboybye/ElixirTorrentWebUI/commits/main) [![Engine](https://img.shields.io/badge/Engine-ElixirTorrent-181717?logo=github)](https://github.com/daniboybye/ElixirTorrent) [![macOS](https://img.shields.io/badge/macOS-releases-silver?logo=apple)](https://github.com/daniboybye/ElixirTorrentWebUI/releases) [![Platforms](https://img.shields.io/badge/platforms-macOS%20arm64%20%7C%20Windows%2011%20x64-lightgrey)](https://github.com/daniboybye/ElixirTorrentWebUI/releases/latest)
+[![GitHub release](https://img.shields.io/github/v/release/daniboybye/ElixirTorrentWebUI?label=release&logo=github&color=181717)](https://github.com/daniboybye/ElixirTorrentWebUI/releases/latest) [![GitHub](https://img.shields.io/badge/source-ElixirTorrentWebUI-181717?logo=github)](https://github.com/daniboybye/ElixirTorrentWebUI) [![CI](https://img.shields.io/github/actions/workflow/status/daniboybye/ElixirTorrentWebUI/web-build-test-analyze.yml?branch=main&label=CI&logo=github)](https://github.com/daniboybye/ElixirTorrentWebUI/actions/workflows/web-build-test-analyze.yml) [![codecov](https://codecov.io/gh/daniboybye/ElixirTorrentWebUI/branch/main/graph/badge.svg)](https://codecov.io/gh/daniboybye/ElixirTorrentWebUI) [![Last commit](https://img.shields.io/github/last-commit/daniboybye/ElixirTorrentWebUI/main)](https://github.com/daniboybye/ElixirTorrentWebUI/commits/main) [![Engine](https://img.shields.io/badge/Engine-ElixirTorrent-181717?logo=github)](https://github.com/daniboybye/ElixirTorrent) [![macOS](https://img.shields.io/badge/macOS-releases-silver?logo=apple)](https://github.com/daniboybye/ElixirTorrentWebUI/releases) [![Platforms](https://img.shields.io/badge/platforms-macOS%20arm64%20%7C%20Windows%2011%20x64%20%28preview%29-lightgrey)](https://github.com/daniboybye/ElixirTorrentWebUI/releases/latest) [![License](https://img.shields.io/github/license/daniboybye/ElixirTorrentWebUI?label=license&color=blue)](LICENSE)
 
 [![Elixir](https://img.shields.io/badge/elixir-%7E%3E%201.20-4B275F?logo=elixir)](https://elixir-lang.org) [![OTP](https://img.shields.io/badge/OTP-29-A90533?logo=erlang)](https://www.erlang.org) [![Swift](https://img.shields.io/badge/swift-6-F05138?logo=swift&logoColor=white)](https://www.swift.org) [![.NET](https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet&logoColor=white)](https://dotnet.microsoft.com)
 
@@ -26,6 +26,9 @@ The engine lives in a separate project and this repo is the **UI + desktop produ
 - **macOS desktop app** — `mix mac.dmg` bundles a Swift launcher + release into
   `ElixirTorrent Web.app` (browser UI on loopback), registers `.torrent`/`magnet:` handlers,
   rotates logs, and shows active torrents in the Dock menu
+- **Windows 11 desktop app (preview)** — a C#/WinUI 3 launcher and a portable ZIP build
+  path exist with the same handler registration and loopback hand-off, but they have not
+  been validated on a Windows host yet and are not part of a release
 
 ## Architecture
 
@@ -35,6 +38,8 @@ The engine lives in a separate project and this repo is the **UI + desktop produ
   — session persistence, graceful shutdown (`stop_and_serialize/1`), peer disconnect
 - **UI server**: Phoenix + LiveView (local HTTP + WebSocket)
 - **Desktop (macOS)**: Swift launcher starts the release, opens the browser, graceful shutdown on Quit
+- **Desktop (Windows 11, preview)**: C#/WinUI 3 launcher (`priv/windows/Launcher/`) with the
+  same responsibilities, shipped as a self-contained portable ZIP
 
 ### Process model
 
@@ -120,9 +125,21 @@ mix quality
 perl -e 'alarm shift; exec @ARGV' 60 mix coveralls
 ```
 
-GitHub Actions currently validates only Elixir: locked dependencies, Hex audit,
-formatting, warnings-as-errors compilation in dev/test, Credo, Dialyzer, and
-coverage. Native packaging remains a separate future workflow.
+GitHub Actions runs four workflows:
+
+- **Build WebUI, Test and Analyze** — every pull request and every push to `main`,
+  on Linux: Trivy dependency and secret scan, locked dependencies, Hex audit,
+  formatting, warnings-as-errors compilation in dev and test, Credo, Sobelow,
+  Dialyzer, and the coverage run uploaded to Codecov.
+- **Build macOS** — SwiftLint (`--strict`) over `priv/macos/src`, the full suite on
+  Apple Silicon, then the DMG and its SHA-256 checksum.
+- **Build Windows** — the C# launcher build, the suite on Windows x64, the portable
+  ZIP with its checksum, and a launcher CLI/HTTP smoke test.
+- **Release** — on a semver tag: calls both platform workflows and publishes their
+  artifacts to the GitHub Release, with a `dry_run` dispatch option.
+
+The two platform workflows are reusable and deliberately do not run per pull request
+— macOS runners bill 10x and Windows 2x — so they fire on tags or manual dispatch.
 
 ## Security notes (local UI)
 
@@ -138,3 +155,5 @@ coverage. Native packaging remains a separate future workflow.
 
 Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). Security reports
 go through [SECURITY.md](SECURITY.md), not public issues.
+
+Released under the [MIT License](LICENSE).
