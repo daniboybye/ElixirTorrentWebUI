@@ -60,7 +60,7 @@ defmodule ElixirTorrentWebUI.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 1.2"},
       {:lazy_html, ">= 0.1.0", only: :test},
-      {:phoenix_live_dashboard, "~> 0.8.3"},
+      {:phoenix_live_dashboard, "~> 0.9.0"},
       {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.3", runtime: Mix.env() == :dev},
       {:heroicons,
@@ -86,7 +86,7 @@ defmodule ElixirTorrentWebUI.MixProject do
   #     ELIXIR_TORRENT_PATH=../ElixirTorrent mix phx.server
   defp elixir_torrent_dep do
     case System.get_env("ELIXIR_TORRENT_PATH") do
-      nil -> {:elixir_torrent, "~> 0.6.0"}
+      nil -> {:elixir_torrent, "~> 0.6.5"}
       path -> {:elixir_torrent, path: path}
     end
   end
