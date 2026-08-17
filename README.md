@@ -133,3 +133,8 @@ coverage. Native packaging remains a separate future workflow.
   `X-Content-Type-Options: nosniff`; paths are never accepted from HTTP clients.
 - Before exposing anything beyond localhost, add auth (token/cookie) and review endpoints
   that control downloads or read files.
+
+## Contributing
+
+Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). Security reports
+go through [SECURITY.md](SECURITY.md), not public issues.

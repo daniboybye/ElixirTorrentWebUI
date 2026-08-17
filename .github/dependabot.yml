@@ -1,0 +1,72 @@
+version: 2
+
+updates:
+  # Hex / Mix dependencies (mix.exs + mix.lock)
+  - package-ecosystem: "mix"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Europe/Sofia"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    # This is an application, not a published library — nothing downstream
+    # depends on our requirement ranges, so let the mix updater widen mix.exs
+    # when it has to. ("increase-if-necessary" isn't implemented for mix;
+    # GitHub's schema only accepts auto/lockfile-only here.)
+    versioning-strategy: "auto"
+    groups:
+      # Dev/test tooling never ships to users — batch it into one low-risk PR.
+      dev-and-test-tooling:
+        dependency-type: "development"
+      # Phoenix and LiveView move together; a split PR usually can't compile.
+      phoenix:
+        patterns:
+          - "phoenix*"
+    ignore:
+      # Asset dependency pinned to an upstream tag by the Phoenix generator and
+      # consumed as raw SVG (`compile: false`) — bumps are a design decision,
+      # not a dependency update.
+      - dependency-name: "heroicons"
+
+  # NuGet packages for the Windows 11 WinUI 3 launcher
+  - package-ecosystem: "nuget"
+    directory: "/priv/windows/Launcher"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Europe/Sofia"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    groups:
+      # Windows App SDK and the SDK build tools are versioned in lockstep with
+      # the target framework — reviewing them together is the only way that works.
+      windows-app-sdk:
+        patterns:
+          - "Microsoft.WindowsAppSDK"
+          - "Microsoft.Windows.SDK.*"
+
+  # GitHub Actions used by .github/workflows/*
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Europe/Sofia"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    groups:
+      # All actions are pinned CI infrastructure — one PR per week is enough.
+      github-actions:
+        patterns:
+          - "*"
