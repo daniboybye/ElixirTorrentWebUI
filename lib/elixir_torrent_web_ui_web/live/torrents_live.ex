@@ -1245,7 +1245,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         class="absolute inset-0 cursor-default bg-black/80"
         aria-label={gettext("Close player")}
       />
-      <div class="relative z-10 w-full max-w-5xl rounded-2xl border border-base-300 bg-base-100 p-4 shadow-2xl sm:p-6">
+      <div class="relative z-10 max-h-[calc(100dvh-2rem)] overflow-y-auto w-full max-w-5xl rounded-2xl border border-base-300 bg-base-100 p-4 shadow-2xl sm:p-6">
         <div class="mb-4 flex items-start justify-between gap-4">
           <h2
             id="media-player-title"
@@ -1309,7 +1309,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         id="settings-form"
         phx-submit="apply_settings"
         phx-change="settings_locale_changed"
-        class="relative z-10 w-full max-w-lg rounded-2xl border border-base-300 bg-base-100 p-6 shadow-2xl"
+        class="relative z-10 max-h-[calc(100dvh-2rem)] overflow-y-auto w-full max-w-lg rounded-2xl border border-base-300 bg-base-100 p-6 shadow-2xl"
       >
         <div class="flex items-start justify-between gap-4">
           <h2 id="settings-dialog-title" class="text-xl font-semibold text-base-content">
@@ -1678,7 +1678,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         class="absolute inset-0 cursor-default bg-black/50"
         aria-label={gettext("Close dialog")}
       />
-      <div class="relative z-10 w-full max-w-lg rounded-2xl border border-base-300 bg-base-100 p-6 shadow-2xl">
+      <div class="relative z-10 max-h-[calc(100dvh-2rem)] overflow-y-auto w-full max-w-lg rounded-2xl border border-base-300 bg-base-100 p-6 shadow-2xl">
         <div class="flex items-start justify-between gap-4">
           <h2 id="remove-torrent-dialog-title" class="text-xl font-semibold text-[#d15555]">
             {gettext("Remove Torrent?")}
