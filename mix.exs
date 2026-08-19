@@ -4,7 +4,7 @@ defmodule ElixirTorrentWebUI.MixProject do
   def project do
     [
       app: :elixir_torrent_web_ui,
-      version: "0.3.0",
+      version: "0.4.0",
       elixir: "~> 1.20",
       elixirc_paths: elixirc_paths(Mix.env()),
       elixirc_options: elixirc_options(),

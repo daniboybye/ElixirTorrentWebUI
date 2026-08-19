@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
   <!-- Keep in lockstep with mix.exs and the .csproj version properties. -->
-  <assemblyIdentity version="0.3.0.0" name="ElixirTorrentWebUI.Launcher" />
+  <assemblyIdentity version="0.4.0.0" name="ElixirTorrentWebUI.Launcher" />
 
   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
     <security>
