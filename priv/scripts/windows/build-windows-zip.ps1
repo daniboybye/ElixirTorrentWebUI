@@ -4,7 +4,12 @@
   Build the ElixirTorrentWebUI portable Windows ZIP.
 
 .DESCRIPTION
-  Deterministic build pipeline for the signed portable Windows 11 x64 artifact.
+  Build pipeline for the portable Windows 11 x64 artifact.
+
+  The assemblies are deterministic (<Deterministic> in the .csproj), but the ZIP
+  is not byte-reproducible: Compress-Archive records file timestamps, so two runs
+  over identical sources yield different SHA-256 values. The checksum identifies
+  one artifact; it does not attest to the source it came from.
 
   Stages:
     1. `mix deps.get` (respecting ELIXIR_TORRENT_PATH if set).
@@ -105,8 +110,19 @@ $Staging = Join-Path $DistRoot 'ElixirTorrentWebUI'
 $ZipPath = Join-Path $DistRoot ("ElixirTorrentWebUI-$Version-windows-x64.zip")
 $ChecksumPath = "$ZipPath.sha256"
 
-# Fresh staging every run so we never ship stale bits.
+# Fresh staging every run so we never ship stale bits. A previous smoke test
+# leaves epmd.exe running out of the staged tree, and Windows will not delete a
+# running image — the wipe then fails with an opaque access-denied on a path
+# nobody would connect to the last test run. Stop those first.
 if (Test-Path $DistRoot) {
+    Get-Process -ErrorAction SilentlyContinue |
+        Where-Object { $_.Path -and $_.Path.StartsWith($DistRoot, [System.StringComparison]::OrdinalIgnoreCase) } |
+        ForEach-Object {
+            Write-Host "    stopping $($_.ProcessName) (pid $($_.Id)) — it holds a file under dist\windows"
+            $_.Kill($true)
+            $_.WaitForExit(5000) | Out-Null
+        }
+
     Remove-Item -Recurse -Force $DistRoot
 }
 New-Item -ItemType Directory -Path $Staging | Out-Null
@@ -139,9 +155,11 @@ if (-not $SkipRelease) {
 else {
     Write-Host '==> Skipping mix release (SkipRelease)' -ForegroundColor Yellow
     $ReleaseSource = Join-Path $RepoRoot '_build\prod\rel\elixir_torrent_web_ui'
-    if (Test-Path $ReleaseSource) {
-        Copy-Item -Recurse -Force -Path $ReleaseSource -Destination (Join-Path $Staging 'rel')
+    if (-not (Test-Path $ReleaseSource)) {
+        Fail "SkipRelease was given but no previous release exists at $ReleaseSource. Run without -SkipRelease first."
     }
+
+    Copy-Item -Recurse -Force -Path $ReleaseSource -Destination (Join-Path $Staging 'rel')
 }
 
 # ------------------------------------------------------------------ .NET
@@ -182,19 +200,15 @@ else {
 
 # ---------------------------------------------------------------- Ancillary
 
-# Test fixtures for manual validation: a real torrent that carries both video
-# and images, plus its magnet. Staged on every build so a rebuild does not
-# silently remove what the manual checklist tells you to open.
-# Placed in BOTH dist\windows (next to the ZIP, easy to reach) and inside the
-# staged app folder (so they travel with an unpacked copy). The build wipes
-# dist\windows first, so anything dropped there by hand does not survive —
-# staging them here is what makes them persist across rebuilds.
-$FixtureDir = Join-Path $RepoRoot 'priv\windows\testfiles'
+# Manual-test fixtures land next to the ZIP, never inside it. They live outside
+# priv/ on purpose: mix release packages priv/ wholesale, so a fixture left
+# there shipped inside the release itself — copying or not copying it here made
+# no difference at all.
+$FixtureDir = Join-Path $RepoRoot 'testfiles'
 if (Test-Path $FixtureDir) {
     Get-ChildItem $FixtureDir -File | ForEach-Object {
-        Copy-Item -Force -Path $_.FullName -Destination $Staging
         Copy-Item -Force -Path $_.FullName -Destination $DistRoot
-        Write-Host "    staged fixture $($_.Name)"
+        Write-Host "    copied local fixture $($_.Name) (not in the ZIP)"
     }
 }
 
@@ -209,6 +223,13 @@ if (Test-Path $RootReadme) {
 }
 
 # ---------------------------------------------------------------- Pack
+
+# The launcher resolves exactly this path at runtime; a ZIP without it is a ZIP
+# that cannot start, and nothing else in the pipeline would have noticed.
+$StagedRelease = Join-Path $Staging 'rel\bin\elixir_torrent_web_ui.bat'
+if (-not (Test-Path $StagedRelease)) {
+    Fail "Staging is missing $StagedRelease — the artifact would ship without the server."
+}
 
 Write-Host "==> Compressing $Staging -> $ZipPath" -ForegroundColor Cyan
 if (Test-Path $ZipPath) {

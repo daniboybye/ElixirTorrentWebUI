@@ -61,3 +61,8 @@ npm-debug.log
 # Windows launcher build outputs (.NET SDK).
 /priv/windows/Launcher/bin/
 /priv/windows/Launcher/obj/
+
+# Local manual-test torrents. Deliberately not committed, and deliberately NOT
+# under priv/ — mix release packages priv/ wholesale, so anything left there
+# ships inside the release and reaches users.
+/testfiles/
