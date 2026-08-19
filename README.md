@@ -1,34 +1,29 @@
 # ElixirTorrent Web
 
-[![GitHub release](https://img.shields.io/github/v/release/daniboybye/ElixirTorrentWebUI?label=release&logo=github&color=181717)](https://github.com/daniboybye/ElixirTorrentWebUI/releases/latest) [![GitHub](https://img.shields.io/badge/source-ElixirTorrentWebUI-181717?logo=github)](https://github.com/daniboybye/ElixirTorrentWebUI) [![CI](https://img.shields.io/github/actions/workflow/status/daniboybye/ElixirTorrentWebUI/web-build-test-analyze.yml?branch=main&label=CI&logo=github)](https://github.com/daniboybye/ElixirTorrentWebUI/actions/workflows/web-build-test-analyze.yml) [![codecov](https://codecov.io/gh/daniboybye/ElixirTorrentWebUI/branch/main/graph/badge.svg)](https://codecov.io/gh/daniboybye/ElixirTorrentWebUI) [![Last commit](https://img.shields.io/github/last-commit/daniboybye/ElixirTorrentWebUI/main)](https://github.com/daniboybye/ElixirTorrentWebUI/commits/main) [![Engine](https://img.shields.io/badge/Engine-ElixirTorrent-181717?logo=github)](https://github.com/daniboybye/ElixirTorrent) [![macOS](https://img.shields.io/badge/macOS-releases-silver?logo=apple)](https://github.com/daniboybye/ElixirTorrentWebUI/releases) [![Platforms](https://img.shields.io/badge/platforms-macOS%20arm64%20%7C%20Windows%2011%20x64%20%28preview%29-lightgrey)](https://github.com/daniboybye/ElixirTorrentWebUI/releases/latest) [![License](https://img.shields.io/github/license/daniboybye/ElixirTorrentWebUI?label=license&color=blue)](LICENSE)
+[![GitHub release](https://img.shields.io/github/v/release/daniboybye/ElixirTorrentWebUI?label=release&logo=github&color=181717)](https://github.com/daniboybye/ElixirTorrentWebUI/releases/latest) [![GitHub](https://img.shields.io/badge/source-ElixirTorrentWebUI-181717?logo=github)](https://github.com/daniboybye/ElixirTorrentWebUI) [![CI](https://img.shields.io/github/actions/workflow/status/daniboybye/ElixirTorrentWebUI/web-build-test-analyze.yml?branch=main&label=CI&logo=github)](https://github.com/daniboybye/ElixirTorrentWebUI/actions/workflows/web-build-test-analyze.yml) [![codecov](https://codecov.io/gh/daniboybye/ElixirTorrentWebUI/branch/main/graph/badge.svg)](https://codecov.io/gh/daniboybye/ElixirTorrentWebUI) [![Last commit](https://img.shields.io/github/last-commit/daniboybye/ElixirTorrentWebUI/main)](https://github.com/daniboybye/ElixirTorrentWebUI/commits/main) [![Engine](https://img.shields.io/badge/Engine-ElixirTorrent-181717?logo=github)](https://github.com/daniboybye/ElixirTorrent) [![Platforms](https://img.shields.io/badge/platforms-macOS%20%7C%20Windows-lightgrey)](https://github.com/daniboybye/ElixirTorrentWebUI/releases/latest) [![License](https://img.shields.io/github/license/daniboybye/ElixirTorrentWebUI?label=license&color=blue)](LICENSE)
 
-[![Elixir](https://img.shields.io/badge/elixir-%7E%3E%201.20-4B275F?logo=elixir)](https://elixir-lang.org) [![OTP](https://img.shields.io/badge/OTP-29-A90533?logo=erlang)](https://www.erlang.org) [![Swift](https://img.shields.io/badge/swift-6-F05138?logo=swift&logoColor=white)](https://www.swift.org) [![.NET](https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet&logoColor=white)](https://dotnet.microsoft.com)
+[![Elixir](https://img.shields.io/badge/elixir-%7E%3E%201.20-4B275F?logo=elixir)](https://elixir-lang.org) [![OTP](https://img.shields.io/badge/OTP-29-A90533?logo=erlang)](https://www.erlang.org) [![Swift](https://img.shields.io/badge/swift-6.3-F05138?logo=swift&logoColor=white)](https://www.swift.org) [![.NET](https://img.shields.io/badge/10-512BD4?logo=dotnet&logoColor=white)](https://dotnet.microsoft.com)
 
-Phoenix (LiveView) Web UI for the [`elixir_torrent`](https://hex.pm/packages/elixir_torrent)
-BitTorrent engine.
-
-## Goal
-
-Build a **stable, correct, long-running BitTorrent client UI** on top of an Elixir/OTP engine.
-The engine lives in a separate project and this repo is the **UI + desktop product shell**.
+Phoenix (LiveView) Web UI and desktop shell for the
+[`elixir_torrent`](https://hex.pm/packages/elixir_torrent) BitTorrent engine.
+The goal is a **stable, correct, long-running BitTorrent client UI** on top of
+an Elixir/OTP engine; the engine lives in its own project and this repo is the
+**UI + desktop product**.
 
 ## Features
 
-- **Torrent dashboard** — list with progress, speeds, peers, ETA, expandable file rows
-- **Lifetime statistics** — persisted downloaded/uploaded totals and current aggregate speeds,
-  with an atomic Reset Statistics action in Settings
-- **Add & remove torrents** — `.torrent` upload, clipboard magnet ingestion, persisted pending
-  magnets, and optional downloaded-data removal
-- **Download settings** — persistent default download directory with a native macOS picker
-- **Media actions** — range-streamed video playback plus lazy previews for completed images;
-  image clicks open in the operating system's default application
-- **International UI** — all user-facing strings are maintained across 64 Gettext locales
-- **macOS desktop app** — `mix mac.dmg` bundles a Swift launcher + release into
-  `ElixirTorrent Web.app` (browser UI on loopback), registers `.torrent`/`magnet:` handlers,
-  rotates logs, and shows active torrents in the Dock menu
-- **Windows 11 desktop app (preview)** — a C#/WinUI 3 launcher and a portable ZIP build
-  path exist with the same handler registration and loopback hand-off, but they have not
-  been validated on a Windows host yet and are not part of a release
+- **Torrent dashboard** — progress, speeds, peers, ETA, expandable file rows
+- **Add & remove torrents** — `.torrent` upload, magnet links, persisted pending
+  magnets, and optional removal of the downloaded data
+- **Lifetime statistics** — persisted downloaded/uploaded totals and current
+  aggregate speeds, with a reset action
+- **Settings** — default download directory and app preferences, persisted
+  across restarts
+- **Localized UI** — every user-facing string is maintained in 64 Gettext locales
+- **Desktop apps** — macOS `.app`/DMG and a Windows 11 portable ZIP, each with a
+  native launcher that runs the release, serves the UI on loopback, registers
+  `.torrent`/`magnet:` handlers, rotates logs, and shuts the engine down
+  gracefully
 
 ## Architecture
 
@@ -37,9 +32,9 @@ The engine lives in a separate project and this repo is the **UI + desktop produ
   [GitHub](https://github.com/daniboybye/ElixirTorrent))
   — session persistence, graceful shutdown (`stop_and_serialize/1`), peer disconnect
 - **UI server**: Phoenix + LiveView (local HTTP + WebSocket)
-- **Desktop (macOS)**: Swift launcher starts the release, opens the browser, graceful shutdown on Quit
-- **Desktop (Windows 11, preview)**: C#/WinUI 3 launcher (`priv/windows/Launcher/`) with the
-  same responsibilities, shipped as a self-contained portable ZIP
+- **Desktop (macOS)**: Swift/AppKit launcher (`priv/macos/src/`)
+- **Desktop (Windows 11)**: self-contained .NET 10 Win32 launcher
+  (`priv/windows/Launcher/`)
 
 ### Process model
 
@@ -69,13 +64,12 @@ Open `http://127.0.0.1:4000`.
 
 `mix phx.server` and the macOS `.app` share **catalog, UI state, and `.torrent` files**
 via `~/Library/Application Support/ElixirTorrentWebUI/` (see `ElixirTorrentWebUI.DataDir`).
+Override the data root with `ELIXIR_TORRENT_DATA_DIR` if needed.
 
 In **dev**, the process working directory stays in the project root so Phoenix code
 reloading works; engine session files and downloads land under the repo unless you
 symlink `.elixir_torrent` to Application Support. The **desktop app** uses that
 folder as its cwd, so torrent data and the catalog stay in sync there.
-
-Override the data root with `ELIXIR_TORRENT_DATA_DIR` if needed.
 
 `mix setup` also runs `mix mac.icon` to generate app icons. That step needs
 **Python 3** and **Pillow** (`pip install Pillow`).
@@ -89,15 +83,27 @@ mix mac.dmg
 ```
 
 Output lands in `dist/` (e.g. `ElixirTorrent Web.app`,
-`ElixirTorrent Web-0.1.0-macos-arm64.dmg` on Apple Silicon, or `…-macos-x64.dmg`
+`ElixirTorrent Web-0.4.0-macos-arm64.dmg` on Apple Silicon, or `…-macos-x64.dmg`
 on Intel).
 
-Icon generation (`mix mac.icon`, also part of `mix setup`):
+The **Liquid Glass** icon (`Assets.car`, macOS 26+) requires **Xcode 26+**
+(`xcrun actool`). Without it the build still produces a classic `.icns` fallback.
 
-- **Liquid Glass** (`Assets.car` for macOS 26+): requires **Xcode 26+**
-  (`xcrun actool`). Without it, the build still produces a classic `.icns`
-  fallback icon.
-- **Python 3 + Pillow** for `priv/scripts/macos/generate-app-icon.py`.
+## Windows 11 desktop app
+
+Build the portable ZIP on Windows — the release embeds the Windows ERTS, so it
+cannot be cross-built. Only the **.NET 10 SDK** is required; Visual Studio is not.
+
+```powershell
+pwsh .\priv\scripts\windows\build-windows-zip.ps1
+```
+
+Output lands in `dist\windows\` as
+`ElixirTorrentWebUI-<version>-windows-x64.zip` plus its SHA-256 file. Extract
+and run `ElixirTorrentWebUI.Launcher.exe`; mutable state lives under
+`%LOCALAPPDATA%\ElixirTorrentWebUI`. See
+[`priv/windows/README.md`](priv/windows/README.md) for the launcher CLI and
+handler registration.
 
 ## Engine dependency
 
@@ -133,7 +139,7 @@ GitHub Actions runs four workflows:
   Dialyzer, and the coverage run uploaded to Codecov.
 - **Build macOS** — SwiftLint (`--strict`) over `priv/macos/src`, the full suite on
   Apple Silicon, then the DMG and its SHA-256 checksum.
-- **Build Windows** — the C# launcher build, the suite on Windows x64, the portable
+- **Build Windows** — the launcher build, the suite on Windows x64, the portable
   ZIP with its checksum, and a launcher CLI/HTTP smoke test.
 - **Release** — on a semver tag: calls both platform workflows and publishes their
   artifacts to the GitHub Release, with a `dry_run` dispatch option.
