@@ -3,13 +3,18 @@ name: Build Windows
 # Reusable Windows build:
 #   - called from release.yml on tag push,
 #   - or triggered manually from the Actions UI (workflow_dispatch).
-# Runs the full ExUnit suite on Windows 11 x64 and produces the portable ZIP
-# artifact that release.yml uploads to the GitHub Release.
+# Runs the full ExUnit suite and produces the portable ZIP artifact that
+# release.yml uploads to the GitHub Release.
+#
+# windows-2025 (Server 2025, build 26100) rather than windows-2022 (Server 2022,
+# build 20348): the launcher declares a Windows 11 floor of 10.0.22000, and the
+# older image sits below it. This is still Server, not client Windows 11 — see
+# .claude/WINDOWS-TESTING.md for what only a real Windows 11 box can confirm.
 #
 # GitHub bills Windows runners 2x vs Linux, so this workflow deliberately does
 # not run on every PR — only on tags or on-demand dispatch.
 #
-# Desktop mode (WinUI 3 window, tray, browser hand-off) is not gated here: the
+# Desktop mode (the window, the tray, the browser hand-off) is not gated here: the
 # runners are a non-interactive service session, so a failure there would
 # describe the runner rather than the launcher. It is validated by hand.
 
@@ -27,7 +32,7 @@ concurrency:
 jobs:
   build:
     name: Test and package (Windows x64)
-    runs-on: windows-2022
+    runs-on: windows-2025
     timeout-minutes: 45
 
     defaults:
@@ -50,11 +55,12 @@ jobs:
         # Static analysis for the one piece of this repo that isn't
         # Elixir/Phoenix, mirroring the macOS job's SwiftLint step: runs before
         # the Elixir toolchain is even set up so a compile error fails fast
-        # without burning runner minutes. No -warnaserror — WinUI/WinRT codegen
-        # is not ours to keep warning-clean.
+        # without burning runner minutes. -warnaserror matches the Elixir side's
+        # elixirc_options. It was off while a XAML toolchain generated code we
+        # did not own; that is gone.
         run: >-
           dotnet build priv/windows/Launcher/ElixirTorrentWebUI.Launcher.csproj
-          --configuration Release --runtime win-x64
+          --configuration Release --runtime win-x64 -warnaserror
 
       - name: Install Erlang and Elixir
         uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
@@ -66,8 +72,9 @@ jobs:
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: |
-            ~/.mix
-            ~/.cache/rebar3
+            ~\.hex
+            ~\.mix
+            ~\AppData\Local\rebar3
             deps
             _build
           key: mix-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('.tool-versions', 'mix.lock') }}
