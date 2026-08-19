@@ -6,11 +6,12 @@
 
 .DESCRIPTION
   Runs against the output of build-windows-zip.ps1. Safe to run on a dev box:
-  the only persistent state it touches is the HKCU handler registration, which
-  it registers and then unregisters again.
+  every piece of persistent state it touches is restored — the HKCU handler
+  registration is registered and unregistered again, and the prompt's dismissal
+  flag is put back the way it was found.
 
-  Desktop mode (WinUI 3 window, tray, browser hand-off) is out of scope here —
-  it needs an interactive session and is validated by hand.
+  Desktop mode (the window, the tray, the browser hand-off) is out of scope
+  here — it needs an interactive session and is validated by hand.
 
 .PARAMETER StagingRoot
   Staged build directory. Defaults to dist\windows\ElixirTorrentWebUI.
@@ -60,8 +61,16 @@ function Invoke-Launcher([string[]]$LauncherArgs) {
     # reproduces the pipe-and-wait semantics the release's System.cmd/3 uses.
     $out = [System.IO.Path]::GetTempFileName()
     $err = [System.IO.Path]::GetTempFileName()
+
+    # Start-Process joins -ArgumentList with spaces and quotes nothing, so an
+    # argument containing a space reaches the launcher split across several argv
+    # entries. Quote them here; the release's System.cmd/3 does the equivalent.
+    $quoted = $LauncherArgs | ForEach-Object {
+        if ($_ -match '\s') { '"' + $_ + '"' } else { $_ }
+    }
+
     try {
-        $proc = Start-Process -FilePath $LauncherExe -ArgumentList $LauncherArgs `
+        $proc = Start-Process -FilePath $LauncherExe -ArgumentList $quoted `
             -NoNewWindow -PassThru -RedirectStandardOutput $out -RedirectStandardError $err
         if (-not $proc.WaitForExit(30000)) {
             $proc.Kill($true)
@@ -137,6 +146,8 @@ if ($openCommand -notmatch '--submit-torrent') {
 # Unregister must drop the ProgIDs and Capabilities but keep the prompt's
 # dismissal flag, which lives directly under the app's own HKCU root.
 $appRoot = 'HKCU:\Software\ElixirTorrentWebUI'
+$hadDismissFlag = $null -ne (Get-ItemProperty -Path $appRoot `
+        -Name 'DefaultHandlerPromptDismissed' -ErrorAction SilentlyContinue)
 New-Item -Path $appRoot -Force | Out-Null
 New-ItemProperty -Path $appRoot -Name 'DefaultHandlerPromptDismissed' `
     -Value 1 -PropertyType DWord -Force | Out-Null
@@ -155,7 +166,42 @@ if ($dismissed -ne 1) {
     throw '--unregister wiped DefaultHandlerPromptDismissed; a dismissed nag would come back'
 }
 
+# Put the machine back. Leaving this set silences the default-handler prompt for
+# good on whatever box ran the test, which the docstring above promises it does
+# not do.
+if (-not $hadDismissFlag) {
+    Remove-ItemProperty -Path $appRoot -Name 'DefaultHandlerPromptDismissed' `
+        -ErrorAction SilentlyContinue
+}
+
 Write-Host '    registration round trip OK'
+
+# ------------------------------------------------------------------- Reveal
+
+Write-Host '==> Reveal, with a space in the path' -ForegroundColor Cyan
+
+# Half of what this launcher had to be fixed for, and previously untested. A
+# space is the case argv-shaped APIs cannot express, and the separator is what
+# explorer silently rejects.
+$revealDir = Join-Path ([System.IO.Path]::GetTempPath()) 'ETWUI smoke dir'
+New-Item -ItemType Directory -Force -Path $revealDir | Out-Null
+$revealFile = Join-Path $revealDir 'a file.torrent'
+Set-Content -Path $revealFile -Value 'd4:teste' -Encoding ascii
+
+Invoke-Launcher @('--reveal', $revealFile) | Out-Null
+
+$launcherLog = Join-Path $env:LOCALAPPDATA 'ElixirTorrentWebUI\launcher.log'
+$logged = Get-Content $launcherLog -Tail 40 -ErrorAction SilentlyContinue |
+    Select-String -Pattern 'Reveal: explorer.exe' | Select-Object -Last 1
+
+if (-not $logged) { throw '--reveal logged no explorer command line' }
+
+if ($logged.Line -notmatch '/select,"[A-Za-z]:\\') {
+    throw "Reveal built the wrong command line: $($logged.Line)"
+}
+
+Write-Host '    /select, command line is well-formed'
+Remove-Item -Recurse -Force $revealDir -ErrorAction SilentlyContinue
 
 # ------------------------------------------------- Release launch / 200 / stop
 
