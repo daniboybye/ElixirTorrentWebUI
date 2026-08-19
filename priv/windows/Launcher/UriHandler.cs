@@ -185,8 +185,39 @@ internal static class UriHandler
     public static DefaultsStatus ReadStatus()
     {
         return new DefaultsStatus(
-            Torrent: MatchesProgId(TorrentUserChoicePath, ProgIdTorrent),
+            Torrent: TorrentIsDefault(),
             Magnet: MagnetIsDefault());
+    }
+
+    /// <summary>
+    /// Whether we are the effective <c>.torrent</c> handler.
+    ///
+    /// Same caveat as <see cref="MagnetIsDefault"/>: Windows writes
+    /// <c>FileExts\.torrent\UserChoice</c> when the user picks between
+    /// candidates, and on a machine where nothing else claims the extension it
+    /// may never be written at all — while `Register` has set the extension's
+    /// own default and the shell opens through us. Requiring UserChoice there
+    /// left the banner and the boot prompt asking forever.
+    /// </summary>
+    private static bool TorrentIsDefault()
+    {
+        if (MatchesProgId(TorrentUserChoicePath, ProgIdTorrent))
+        {
+            return true;
+        }
+
+        using (var userChoice = Registry.CurrentUser.OpenSubKey(TorrentUserChoicePath))
+        {
+            if (userChoice?.GetValue("ProgId") is string other && other.Length > 0)
+            {
+                return false;
+            }
+        }
+
+        using var ext = Registry.CurrentUser.OpenSubKey($@"{ClassesRoot}\{TorrentExtension}");
+
+        return ext?.GetValue(null) is string progId
+            && string.Equals(progId, ProgIdTorrent, StringComparison.OrdinalIgnoreCase);
     }
 
     /// <summary>
@@ -271,15 +302,20 @@ internal static class UriHandler
                     // whatever the user chose after we registered.
                     ext?.DeleteValue(string.Empty, throwOnMissingValue: false);
                 }
+
+                // Register writes this; without removing it we stay in the
+                // shell's "Open with" list after an uninstall.
+                using var openWith = ext?.OpenSubKey("OpenWithProgIds", writable: true);
+                openWith?.DeleteValue(ProgIdTorrent, throwOnMissingValue: false);
             }
 
-            using (var scheme = classes?.OpenSubKey(MagnetScheme, writable: true))
+            // Only if the command is ours. "URL:Magnet Protocol" is the string
+            // every magnet client writes into this key, so keying off it deleted
+            // whatever qBittorrent/Deluge/Transmission had registered. The
+            // .torrent branch above already got this right.
+            if (SchemeCommandIsOurs(MagnetScheme))
             {
-                var current = scheme?.GetValue(null) as string;
-                if (string.Equals(current, "URL:Magnet Protocol", StringComparison.OrdinalIgnoreCase))
-                {
-                    classes?.DeleteSubKeyTree(MagnetScheme, throwOnMissingSubKey: false);
-                }
+                classes?.DeleteSubKeyTree(MagnetScheme, throwOnMissingSubKey: false);
             }
 
             using (var registered = Registry.CurrentUser.OpenSubKey(RegisteredAppsRoot, writable: true))
