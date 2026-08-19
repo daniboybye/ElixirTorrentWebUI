@@ -58,8 +58,36 @@ Outputs land under `dist\windows\`:
 - `ElixirTorrentWebUI-<version>-windows-x64.zip`
 - `ElixirTorrentWebUI-<version>-windows-x64.zip.sha256`
 
-Sign `ElixirTorrentWebUI.Launcher.exe` with your Authenticode pipeline before
-packing if you sign locally.
+### Signing
+
+The signature has to be inside the ZIP, so `build-windows-zip.ps1` signs the
+launcher itself, between staging and packing — the same place the macOS build
+runs `codesign` before assembling the DMG. Authenticode has no ad-hoc mode, so
+by default nothing is signed at all:
+
+```powershell
+# Unsigned, as before.
+pwsh .\priv\scripts\windows\build-windows-zip.ps1
+
+# Real signature from a throwaway certificate created and destroyed by the run.
+# Proves the signing path works; SmartScreen still warns, because nothing
+# trusts the certificate.
+pwsh .\priv\scripts\windows\build-windows-zip.ps1 -SelfSignedSignature
+
+# A certificate you actually hold, by thumbprint. Also read from
+# $env:WINDOWS_SIGN_THUMBPRINT.
+pwsh .\priv\scripts\windows\build-windows-zip.ps1 -SignThumbprint <40 hex chars>
+```
+
+Only the two binaries we build are signed — the rest of the staged tree is the
+.NET runtime, already signed by Microsoft. The private key is never exported: it
+is used where it lives, which since June 2023 is the only form a publicly-trusted
+code-signing key is allowed to exist in. A cloud/HSM signing service drives
+signtool through `/dlib` rather than a store lookup and is not wired up.
+
+Signatures are verified after they are applied: a signature has to be present and
+belong to the certificate that was asked for, and a configured (non-throwaway)
+certificate additionally has to chain to a trusted root or the build fails.
 
 To verify a staged build — CLI verbs, the HKCU registration round trip, then
 launch / HTTP 200 / graceful shutdown of the release:

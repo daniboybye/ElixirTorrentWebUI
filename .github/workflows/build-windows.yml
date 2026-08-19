@@ -111,8 +111,15 @@ jobs:
           }
           if ($proc.ExitCode -ne 0) { throw "mix test failed with exit code $($proc.ExitCode)" }
 
-      - name: Build portable ZIP (prod release + launcher + SHA-256)
-        run: pwsh ./priv/scripts/windows/build-windows-zip.ps1
+      - name: Build portable ZIP (prod release + signed launcher + SHA-256)
+        # The signature lives inside the ZIP, so the build script owns signing —
+        # same division as the macOS job, where `mix mac.dmg` runs codesign.
+        # A throwaway certificate: it exercises the signing path on every build
+        # without a secret, and the result is honestly untrusted rather than
+        # unsigned. A real certificate needs its private key on the machine
+        # doing the signing, which a hosted runner does not have — set
+        # WINDOWS_SIGN_THUMBPRINT on a self-hosted runner, or sign locally.
+        run: pwsh ./priv/scripts/windows/build-windows-zip.ps1 -SelfSignedSignature
 
       - name: Smoke-test launcher CLI, launch, HTTP 200 and shutdown
         run: pwsh ./priv/scripts/windows/smoke-test.ps1

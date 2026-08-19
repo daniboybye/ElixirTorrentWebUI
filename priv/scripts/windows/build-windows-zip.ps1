@@ -19,12 +19,12 @@
        self-contained. Requires the .NET 10 SDK; Visual Studio is not needed.
     5. Stage everything under dist\windows\ElixirTorrentWebUI\ with the layout
        Launcher.exe consumes at runtime.
-    6. Pack into a versioned ZIP + emit SHA-256 checksum.
+    6. Sign the launcher (see SignThumbprint / SelfSignedSignature).
+    7. Pack into a versioned ZIP + emit SHA-256 checksum.
 
-  Signing (Authenticode) is intentionally out of scope for this script;
-  invoke your signing pipeline against
-    dist\windows\ElixirTorrentWebUI\ElixirTorrentWebUI.Launcher.exe
-  before packing if you sign on the local host.
+  Authenticode signing happens here, between staging and packing, because the
+  signature has to be inside the ZIP. Mirrors the macOS build, which signs the
+  .app before it goes into the DMG.
 
 .PARAMETER Version
   Optional override for the artifact version tag; defaults to the version in
@@ -40,6 +40,22 @@
 
 .PARAMETER SkipRelease
   Skip the mix release stage — useful when iterating on the launcher only.
+
+.PARAMETER SignThumbprint
+  Thumbprint of a code-signing certificate in the current user's store to sign
+  the launcher with. Defaults to $env:WINDOWS_SIGN_THUMBPRINT. The private key
+  never leaves the store or token, which since June 2023 is the only form a
+  publicly-trusted code-signing key is allowed to exist in — so this is the
+  parameter a real certificate plugs into, on a machine that holds it.
+
+.PARAMETER SelfSignedSignature
+  Sign with a throwaway self-signed certificate created and destroyed by this
+  run. Exercises the whole signing path without a certificate and without
+  touching any trust store — the signature is real but trusted by nobody, so
+  SmartScreen still warns. Ignored when a thumbprint is available.
+
+.PARAMETER TimestampUrl
+  RFC 3161 timestamp authority. Empty string skips timestamping.
 #>
 
 [CmdletBinding()]
@@ -48,7 +64,10 @@ param(
     [ValidateSet('Release', 'Debug')]
     [string]$Configuration = 'Release',
     [switch]$SkipDotnetPublish,
-    [switch]$SkipRelease
+    [switch]$SkipRelease,
+    [string]$SignThumbprint,
+    [switch]$SelfSignedSignature,
+    [string]$TimestampUrl = 'http://timestamp.digicert.com'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -224,6 +243,209 @@ if (Test-Path $LauncherReadme) {
 $RootReadme = Join-Path $RepoRoot 'README.md'
 if (Test-Path $RootReadme) {
     Copy-Item -Force -Path $RootReadme -Destination (Join-Path $Staging 'ElixirTorrentWebUI-README.md')
+}
+
+# ---------------------------------------------------------------- Signing
+
+# Authenticode has no ad-hoc mode, so with nothing configured the launcher ships
+# unsigned rather than carrying a signature nobody asked for. A cloud/HSM signing
+# service (Azure Trusted Signing and friends) drives signtool through /dlib
+# instead of a store lookup and would need its own branch here.
+
+$ThrowawayCommonName = 'ElixirTorrentWebUI build (self-signed, untrusted)'
+$ThrowawaySubject = "CN=$ThrowawayCommonName"
+$UserStore = 'Cert:\CurrentUser\My'
+$MachineStore = 'Cert:\LocalMachine\My'
+
+function Find-SignTool {
+    $roots = @(
+        "${env:ProgramFiles(x86)}\Windows Kits\10\bin",
+        "$env:ProgramFiles\Windows Kits\10\bin"
+    ) | Where-Object { $_ -and (Test-Path $_) }
+
+    $found = foreach ($root in $roots) {
+        Get-ChildItem -Path $root -Filter 'signtool.exe' -Recurse -File -ErrorAction SilentlyContinue |
+            Where-Object { $_.DirectoryName -match '\\x64$' }
+    }
+
+    # Newest SDK wins. The version is the directory above x64, except in older
+    # layouts that put signtool straight into bin\x64 — those sort last rather
+    # than crashing the cast.
+    $found |
+        Sort-Object -Descending -Property @{
+            Expression = {
+                $name = $_.Directory.Parent.Name
+                if ($name -match '^\d+(\.\d+){1,3}$') { [version]$name } else { [version]'0.0.0.0' }
+            }
+        } |
+        Select-Object -First 1 -ExpandProperty FullName
+}
+
+function Remove-ThrowawayCertificate([string]$Thumbprint) {
+    foreach ($store in $UserStore, $MachineStore) {
+        Get-ChildItem $store -ErrorAction SilentlyContinue |
+            Where-Object {
+                if ($Thumbprint) {
+                    $_.Thumbprint -eq $Thumbprint
+                }
+                else {
+                    # Substring, not equality: Windows stores a CN containing
+                    # spaces or parentheses quoted, so the subject that comes back
+                    # never equals the one it was created with.
+                    $_.Subject -like "*$ThrowawayCommonName*"
+                }
+            } |
+            ForEach-Object { Remove-Item $_.PSPath -Force -ErrorAction SilentlyContinue }
+    }
+}
+
+# signtool searches the user store unless told otherwise, so a certificate in the
+# machine store is invisible to it without /sm. Resolving the store here also
+# turns "signtool: cannot find the certificate" into a message that says which
+# stores were actually looked in.
+function Resolve-CertificateStore([string]$Thumbprint) {
+    foreach ($pair in @(@($UserStore, $false), @($MachineStore, $true))) {
+        $hit = Get-ChildItem $pair[0] -ErrorAction SilentlyContinue |
+            Where-Object { $_.Thumbprint -eq $Thumbprint }
+        if ($hit) { return @{ Store = $pair[0]; MachineStore = $pair[1] } }
+    }
+
+    return $null
+}
+
+if (-not $SignThumbprint) {
+    $SignThumbprint = $env:WINDOWS_SIGN_THUMBPRINT
+}
+
+$configuredThumbprint = [bool]$SignThumbprint
+$ephemeralCert = $null
+
+try {
+    if (-not $SignThumbprint -and $SelfSignedSignature) {
+        Write-Host '==> Creating a throwaway self-signed certificate' -ForegroundColor Cyan
+
+        # Nothing is added to a trust store: the point is to prove the signing
+        # path works, not to make the result look trusted.
+        #
+        # The user store comes first because it needs no elevation. It fails
+        # outright in a session with no user crypto profile — an SSH or service
+        # logon, where %APPDATA%\Microsoft\Crypto\Keys does not even exist and
+        # CertEnroll returns NTE_PERM — and there the machine store is the only
+        # one that will hold a key.
+        #
+        # Swept first: a run killed between signing and cleanup leaves one behind.
+        Remove-ThrowawayCertificate
+
+        foreach ($store in $UserStore, $MachineStore) {
+            try {
+                $ephemeralCert = New-SelfSignedCertificate `
+                    -Type CodeSigningCert `
+                    -Subject $ThrowawaySubject `
+                    -CertStoreLocation $store `
+                    -NotAfter (Get-Date).AddDays(1)
+
+                Write-Host "    created in $store"
+                break
+            }
+            catch {
+                Write-Host "    $store unavailable: $(($_.Exception.Message -split "`n")[0])" -ForegroundColor Yellow
+            }
+        }
+
+        if (-not $ephemeralCert) {
+            Fail 'Could not create a throwaway signing certificate in either the user or the machine store.'
+        }
+
+        $SignThumbprint = $ephemeralCert.Thumbprint
+    }
+
+    if (-not $SignThumbprint) {
+        Write-Host '==> Not signing (no certificate configured)' -ForegroundColor Yellow
+    }
+    else {
+        $signtool = Find-SignTool
+        if (-not $signtool) {
+            Fail 'signtool.exe was not found. Install the Windows SDK, or pass neither -SignThumbprint nor -SelfSignedSignature to build unsigned.'
+        }
+
+        $location = Resolve-CertificateStore $SignThumbprint
+        if (-not $location) {
+            Fail "No certificate with thumbprint $SignThumbprint in $UserStore or $MachineStore."
+        }
+
+        Write-Host "==> Signing the launcher (certificate from $($location.Store))" -ForegroundColor Cyan
+
+        # Our own two binaries. Everything else under the staging root is the
+        # .NET runtime, already signed by Microsoft.
+        $signTargets = @(
+            (Join-Path $Staging 'ElixirTorrentWebUI.Launcher.exe'),
+            (Join-Path $Staging 'ElixirTorrentWebUI.Launcher.dll')
+        ) | Where-Object { Test-Path $_ }
+
+        if (-not $signTargets) {
+            Fail "Nothing to sign under $Staging — the launcher was not staged."
+        }
+
+        foreach ($target in $signTargets) {
+            $signArgs = @('sign', '/sha1', $SignThumbprint, '/fd', 'SHA256')
+            if ($location.MachineStore) { $signArgs += '/sm' }
+            if ($TimestampUrl) { $signArgs += @('/tr', $TimestampUrl, '/td', 'SHA256') }
+            $signArgs += $target
+
+            # The timestamp authority is the only network dependency in the whole
+            # build; one hiccup should not fail a release.
+            $signed = $false
+            foreach ($attempt in 1..3) {
+                & $signtool @signArgs | Out-Null
+                if ($LASTEXITCODE -eq 0) { $signed = $true; break }
+                Write-Host "    signtool attempt $attempt failed (exit $LASTEXITCODE)" -ForegroundColor Yellow
+            }
+
+            if (-not $signed) { Fail "signtool could not sign $target" }
+        }
+
+        # Verify what was produced, the way the macOS build verifies its codesign.
+        foreach ($target in $signTargets) {
+            $signature = Get-AuthenticodeSignature -FilePath $target
+            $leaf = Split-Path -Leaf $target
+
+            if (-not $signature.SignerCertificate) {
+                Fail "No signature landed on $leaf."
+            }
+
+            if ($signature.SignerCertificate.Thumbprint -ne $SignThumbprint) {
+                Fail "$leaf was signed by $($signature.SignerCertificate.Thumbprint), expected $SignThumbprint."
+            }
+
+            # A real certificate has to chain to a trusted root. A throwaway one
+            # cannot, and saying so beats printing a status the reader has to
+            # interpret.
+            if ($configuredThumbprint -and $signature.Status -ne 'Valid') {
+                Fail "$leaf signature does not validate: $($signature.Status) — $($signature.StatusMessage)"
+            }
+
+            $verdict = if ($configuredThumbprint) {
+                "$($signature.Status)"
+            }
+            else {
+                "$($signature.Status) — expected: self-signed, trusted by nobody"
+            }
+
+            Write-Host "    $leaf <- $($signature.SignerCertificate.Subject) [$verdict]"
+        }
+    }
+}
+finally {
+    if ($ephemeralCert) {
+        Remove-ThrowawayCertificate $ephemeralCert.Thumbprint
+
+        # Checked rather than assumed: this cleanup silently did nothing once, and
+        # a build that leaves a signing certificate behind on every run is worse
+        # than one that says it could not remove it.
+        if (Resolve-CertificateStore $ephemeralCert.Thumbprint) {
+            Write-Host "warning: throwaway certificate $($ephemeralCert.Thumbprint) is still in the store — remove it by hand" -ForegroundColor Yellow
+        }
+    }
 }
 
 # ---------------------------------------------------------------- Pack
