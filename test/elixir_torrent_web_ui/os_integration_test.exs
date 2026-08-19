@@ -83,16 +83,24 @@ defmodule ElixirTorrentWebUI.OsIntegrationTest do
   end
 
   describe "reveal_result/2" do
-    test "treats any explorer.exe exit status as success on Windows" do
-      # explorer.exe exits 1 even when it opened the window, so its status
-      # carries no information about whether the reveal worked.
-      assert OsIntegration.reveal_result({:win32, :nt}, 1) == :ok
-      assert OsIntegration.reveal_result({:win32, :nt}, 0) == :ok
+    test "ignores explorer.exe's exit status, which is 1 even on success" do
+      assert OsIntegration.reveal_result("explorer.exe", 1) == :ok
+      assert OsIntegration.reveal_result("explorer.exe", 0) == :ok
     end
 
-    test "still honours the exit status elsewhere" do
-      assert OsIntegration.reveal_result({:unix, :darwin}, 0) == :ok
-      assert OsIntegration.reveal_result({:unix, :darwin}, 1) == {:error, :open_failed}
+    test "honours the launcher's exit status, which is meaningful" do
+      # 1 = target missing, 2 = the call failed. Folding these into :ok told the
+      # UI a reveal had worked when nothing opened.
+      launcher = "C:\\Apps\\Launcher.exe"
+
+      assert OsIntegration.reveal_result(launcher, 0) == :ok
+      assert OsIntegration.reveal_result(launcher, 1) == {:error, :open_failed}
+      assert OsIntegration.reveal_result(launcher, 2) == {:error, :open_failed}
+    end
+
+    test "honours the exit status on other platforms" do
+      assert OsIntegration.reveal_result("open", 0) == :ok
+      assert OsIntegration.reveal_result("open", 1) == {:error, :open_failed}
     end
   end
 

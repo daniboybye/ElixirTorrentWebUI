@@ -62,28 +62,15 @@ defmodule ElixirTorrentWebUI.OsIntegration do
 
   # -- reveal (single file or directory) --------------------------------------
 
-  @spec reveal(Path.t()) :: :ok | {:error, term()}
-  def reveal(path) when is_binary(path) do
-    with {:ok, target, kind} <- classify(path),
-         {:ok, cmd, args} <- reveal_command(:os.type(), target, kind, &System.get_env/1) do
-      {_, status} =
-        System.cmd(cmd, args,
-          env: CommandEnvironment.scrubbed(),
-          stderr_to_stdout: true
-        )
-
-      reveal_result(:os.type(), status)
-    end
-  end
-
-  # explorer.exe exits 1 even when it successfully opened the window, so its
-  # status says nothing about whether the reveal worked. Treating non-zero as
-  # failure there reports an error for every successful reveal.
+  # Judged by the command, not by the platform. explorer.exe exits 1 even when it
+  # opened the window, so its status carries no information — but the launcher
+  # returns meaningful codes (1 missing target, 2 failed), and folding those into
+  # :ok reported success for reveals that did nothing at all.
   @doc false
-  @spec reveal_result(os_type(), non_neg_integer()) :: :ok | {:error, :open_failed}
-  def reveal_result({:win32, _}, _status), do: :ok
-  def reveal_result(_os_type, 0), do: :ok
-  def reveal_result(_os_type, _status), do: {:error, :open_failed}
+  @spec reveal_result(String.t(), non_neg_integer()) :: :ok | {:error, :open_failed}
+  def reveal_result("explorer.exe", _status), do: :ok
+  def reveal_result(_command, 0), do: :ok
+  def reveal_result(_command, _status), do: {:error, :open_failed}
 
   @doc false
   @spec reveal_command(os_type(), Path.t(), :file | :dir, env_fun()) :: command()
@@ -91,11 +78,12 @@ defmodule ElixirTorrentWebUI.OsIntegration do
   def reveal_command({:unix, :darwin}, path, :dir, _env), do: {:ok, "open", [path]}
 
   # Prefer the launcher, exactly as open_file/1 does. explorer.exe needs the
-  # literal command line /select,"C:\dir\file" — quotes around the path only —
-  # and System.cmd/3 cannot produce that: it quotes each argument as a whole, so
-  # explorer receives "/select,C:\..." and never sees the switch. The launcher
-  # builds the raw command line itself. explorer.exe stays as the fallback for
-  # a directory, where no switch is involved and argv is fine.
+  # literal command line /select,"C:\dir\file", and System.cmd/3 cannot produce
+  # it: ["/select,", path] reaches explorer as two separate operands, while
+  # ["/select," <> path] is one token that Erlang wraps in quotes as soon as the
+  # path contains a space. Neither is the required form; only a raw command line
+  # is, which the launcher builds. explorer.exe stays as the fallback for a
+  # directory, where there is no switch and argv is fine.
   def reveal_command({:win32, _}, path, kind, env) do
     case env.(@launcher_env) do
       launcher when is_binary(launcher) and launcher != "" ->
@@ -150,7 +138,7 @@ defmodule ElixirTorrentWebUI.OsIntegration do
             stderr_to_stdout: true
           )
 
-        reveal_result(:os.type(), status)
+        reveal_result(cmd, status)
 
       {:error, _} = err ->
         err
@@ -197,15 +185,6 @@ defmodule ElixirTorrentWebUI.OsIntegration do
   def pick_folder_command(_os_type, _env), do: {:error, :unsupported_platform}
 
   # -- helpers ----------------------------------------------------------------
-
-  @spec classify(Path.t()) :: {:ok, Path.t(), :file | :dir} | {:error, :missing}
-  defp classify(path) do
-    cond do
-      File.regular?(path) -> {:ok, path, :file}
-      File.dir?(path) -> {:ok, path, :dir}
-      true -> {:error, :missing}
-    end
-  end
 
   @spec common_ancestor([Path.t()]) :: Path.t()
   defp common_ancestor([first | rest]) do
