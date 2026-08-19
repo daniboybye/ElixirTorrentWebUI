@@ -140,10 +140,14 @@ if (-not $SkipRelease) {
 
     Write-Host '==> mix release --overwrite (prod)' -ForegroundColor Cyan
     $env:MIX_ENV = 'prod'
+    $ReleaseSource = Join-Path $RepoRoot '_build\prod\rel\elixir_torrent_web_ui'
+
+    if (Test-Path $ReleaseSource) {
+        Remove-Item -Recurse -Force $ReleaseSource
+    }
+
     & mix release --overwrite
     if ($LASTEXITCODE -ne 0) { Fail 'mix release failed' }
-
-    $ReleaseSource = Join-Path $RepoRoot '_build\prod\rel\elixir_torrent_web_ui'
     if (-not (Test-Path $ReleaseSource)) {
         Fail "Expected release output at $ReleaseSource but it was not produced."
     }

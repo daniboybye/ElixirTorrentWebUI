@@ -42,9 +42,11 @@ mix deps.get --only prod --check-locked
 MIX_ENV=prod mix compile
 mix phx.digest.clean --all
 mix assets.deploy
-mix release --overwrite
 
 RELEASE="$ROOT/_build/prod/rel/elixir_torrent_web_ui"
+
+rm -rf "$RELEASE"
+mix release --overwrite
 
 echo "==> Assembling ${APP_DISPLAY_NAME}.app…"
 rm -rf "$DIST"
