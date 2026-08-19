@@ -3,9 +3,14 @@ defmodule ElixirTorrentWebUI.TorrentCatalogTest do
 
   alias ElixirTorrentWebUI.{TorrentCatalog, UiState}
 
-  test "default download folder is ~/Downloads not application data dir" do
-    home = System.get_env("HOME") || File.cwd!()
-    expected = Path.expand(Path.join(home, "Downloads"))
+  test "default download folder is the user's Downloads, not the application data dir" do
+    # Which environment variable names the home directory is per-platform, and
+    # `default_download_folder/2` is pinned for each of them in UiStateTest.
+    # What belongs here is only that the zero-arity wrapper routes through the
+    # host it is actually running on: it used to be checked against a hardcoded
+    # $HOME, which is unset on Windows, so the assertion compared %USERPROFILE%
+    # \Downloads against a Downloads folder under the checkout.
+    expected = UiState.default_download_folder(:os.type(), &System.get_env/1)
 
     assert UiState.default_download_folder() == expected
     refute UiState.default_download_folder() == TorrentCatalog.data_dir()

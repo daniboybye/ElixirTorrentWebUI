@@ -1,0 +1,20 @@
+# Every text file is stored and checked out with LF, on every platform.
+#
+# Without this, Git for Windows' default `core.autocrlf=true` rewrites the
+# working tree to CRLF on checkout. The suite pins Swift and JavaScript
+# invariants by matching against the source text itself (test/macos/
+# launcher_test.exs), so a checkout that silently changes the bytes turns
+# multi-line patterns into failures that reproduce nowhere else.
+* text=auto eol=lf
+
+# Batch files are the exception: cmd.exe is the one interpreter here that is
+# not reliably LF-tolerant, and CRLF is what the Windows checkout already
+# produced for them.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary assets: never touch, never diff as text.
+*.png binary
+*.ico binary
+*.icns binary
+*.torrent binary

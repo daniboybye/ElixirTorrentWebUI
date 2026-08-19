@@ -13,9 +13,9 @@ defmodule ElixirTorrentWebUI.MacOS.LauncherTest do
 
   setup do
     {:ok,
-     coordinator_source: File.read!(@default_handler_coordinator),
-     cli_source: File.read!(@launcher_cli),
-     app_delegate_source: File.read!(@app_delegate)}
+     coordinator_source: read_source(@default_handler_coordinator),
+     cli_source: read_source(@launcher_cli),
+     app_delegate_source: read_source(@app_delegate)}
   end
 
   test "the .torrent status never accepts our own exported UTI as proof", %{
@@ -110,6 +110,16 @@ defmodule ElixirTorrentWebUI.MacOS.LauncherTest do
 
     body = function_body(source, ~r/private func bootstrap\(\) async \{(.+?)\n    \}/s)
     refute body =~ "Prompt"
+  end
+
+  # What these tests pin is the Swift source's content, never its line endings.
+  # A Windows checkout hands back CRLF, which broke every pattern spanning a
+  # line break — the repository normalises to LF via .gitattributes, and
+  # reading through here keeps the assertions true of any working tree.
+  defp read_source(path) do
+    path
+    |> File.read!()
+    |> String.replace("\r\n", "\n")
   end
 
   defp function_body(source, regex) do
