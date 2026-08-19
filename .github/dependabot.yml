@@ -33,26 +33,6 @@ updates:
       # not a dependency update.
       - dependency-name: "heroicons"
 
-  # NuGet packages for the Windows 11 WinUI 3 launcher
-  - package-ecosystem: "nuget"
-    directory: "/priv/windows/Launcher"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "08:00"
-      timezone: "Europe/Sofia"
-    open-pull-requests-limit: 3
-    commit-message:
-      prefix: "chore"
-      include: "scope"
-    groups:
-      # Windows App SDK and the SDK build tools are versioned in lockstep with
-      # the target framework — reviewing them together is the only way that works.
-      windows-app-sdk:
-        patterns:
-          - "Microsoft.WindowsAppSDK"
-          - "Microsoft.Windows.SDK.*"
-
   # GitHub Actions used by .github/workflows/*
   - package-ecosystem: "github-actions"
     directory: "/"
