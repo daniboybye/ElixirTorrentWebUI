@@ -13,7 +13,6 @@ internal sealed class Paths
     public const string ReleaseBinaryName = "elixir_torrent_web_ui.bat";
 
     public string LauncherExe { get; }
-    public string LauncherDirectory { get; }
     public string ReleaseRoot { get; }
     public string ReleaseBinary { get; }
     public string DataDirectory { get; }
@@ -23,13 +22,11 @@ internal sealed class Paths
 
     private Paths(
         string launcherExe,
-        string launcherDirectory,
         string releaseRoot,
         string releaseBinary,
         string dataDirectory)
     {
         LauncherExe = launcherExe;
-        LauncherDirectory = launcherDirectory;
         ReleaseRoot = releaseRoot;
         ReleaseBinary = releaseBinary;
         DataDirectory = dataDirectory;
@@ -52,7 +49,7 @@ internal sealed class Paths
 
         var dataDirectory = ResolveDataDirectory();
 
-        return new Paths(launcherExe, launcherDirectory, releaseRoot, releaseBinary, dataDirectory);
+        return new Paths(launcherExe, releaseRoot, releaseBinary, dataDirectory);
     }
 
     private static string ResolveLauncherExe()

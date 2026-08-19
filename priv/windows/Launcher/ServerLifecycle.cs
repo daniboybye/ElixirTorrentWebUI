@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.Net.Http;
-using System.Text.Json;
 
 namespace ElixirTorrentWebUI.Launcher;
 
@@ -322,6 +321,4 @@ internal sealed class ServerLifecycle : IDisposable
         _job.Dispose();
     }
 
-    // Helper kept internal for potential future JSON POSTs from the lifecycle.
-    internal static string ToJson<T>(T value) => JsonSerializer.Serialize(value);
 }

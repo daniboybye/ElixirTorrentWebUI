@@ -7,10 +7,7 @@ namespace ElixirTorrentWebUI.Launcher;
 /// <summary>
 /// Blocking shell helpers exposed as one-shot CLI subcommands. No WinForms —
 /// the folder picker talks directly to the Vista+ IFileOpenDialog COM API,
-/// which is the same interface every modern Windows folder picker (Explorer
-/// itself, WinUI 3's Windows.Storage.Pickers.FolderPicker, WinForms'
-/// FolderBrowserDialog) is built on. Standalone so `--pick-folder` never
-/// pays the WinUI 3 boot cost.
+/// which is the same interface every modern Windows folder picker is built on.
 /// </summary>
 [SupportedOSPlatform("windows10.0.22000.0")]
 internal static class ShellHelpers

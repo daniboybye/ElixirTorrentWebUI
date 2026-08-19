@@ -3,7 +3,7 @@ using System.Runtime.Versioning;
 namespace ElixirTorrentWebUI.Launcher;
 
 /// <summary>
-/// Owns the launcher runtime once the WinUI 3 dispatcher is running:
+/// Owns the launcher runtime once the message loop is running:
 /// single-instance guard, port selection, release lifecycle, IPC handler,
 /// pending submit, browser open, tray, quit signal, and orderly shutdown.
 /// </summary>
@@ -64,8 +64,9 @@ internal sealed class DesktopLifetime
             return;
         }
 
-        using var readyCts = new CancellationTokenSource();
-        var isReady = await _server.WaitUntilReadyAsync(readyCts.Token).ConfigureAwait(true);
+        // ServerLifecycle owns the deadline (ReadyTimeout); a token here would
+        // only duplicate it.
+        var isReady = await _server.WaitUntilReadyAsync(CancellationToken.None).ConfigureAwait(true);
 
         if (!isReady)
         {

@@ -19,9 +19,6 @@ internal static partial class UserPrompt
     public static void Warn(string message) =>
         _ = MessageBoxW(IntPtr.Zero, message, Caption, MB_OK | MB_ICONWARNING | MB_TOPMOST);
 
-    public static void Info(string message) =>
-        _ = MessageBoxW(IntPtr.Zero, message, Caption, MB_OK | MB_ICONINFORMATION | MB_TOPMOST);
-
     /// <summary>
     /// Yes / No / Cancel prompt. Returns 6 for Yes, 7 for No, 2 for Cancel —
     /// same integers Win32 documents for MessageBox return values.
@@ -41,7 +38,6 @@ internal static partial class UserPrompt
     private const uint MB_ICONERROR = 0x00000010;
     private const uint MB_ICONQUESTION = 0x00000020;
     private const uint MB_ICONWARNING = 0x00000030;
-    private const uint MB_ICONINFORMATION = 0x00000040;
     private const uint MB_TOPMOST = 0x00040000;
 
     [LibraryImport("user32.dll", EntryPoint = "MessageBoxW", StringMarshalling = StringMarshalling.Utf16, SetLastError = true)]
