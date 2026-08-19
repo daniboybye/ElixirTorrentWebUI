@@ -31,12 +31,21 @@ internal sealed class LauncherLog : IDisposable
     /// Rotates the current log (if any) and any previously rotated files.
     /// Call once during launcher startup, before opening the writer.
     /// </summary>
-    public void Rotate()
+    public void Rotate(bool includeServerLog = false)
     {
         lock (_sync)
         {
             RotateFileFamily(_path);
-            RotateFileFamily(Paths.Current.ServerLogPath);
+
+            // Only the launcher verb owns server.log. Rotating it from a
+            // one-shot verb (--reveal, --check-defaults, …) renames the file the
+            // running instance still has open: FileShare.Delete lets the rename
+            // through, so the release keeps writing into server.log.1 while a
+            // new server.log never appears.
+            if (includeServerLog)
+            {
+                RotateFileFamily(Paths.Current.ServerLogPath);
+            }
         }
     }
 

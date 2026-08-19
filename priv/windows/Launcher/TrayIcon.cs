@@ -5,9 +5,8 @@ namespace ElixirTorrentWebUI.Launcher;
 
 /// <summary>
 /// System tray icon backed entirely by Shell_NotifyIcon P/Invoke — no
-/// WinForms, no external NuGet. The icon lives on a dedicated message-only
-/// HWND so it survives WinUI 3 window closes and never interferes with the
-/// XAML dispatcher's message pump.
+/// WinForms, no external NuGet. The icon lives on its own message-only HWND
+/// so its lifetime is independent of anything else the launcher creates.
 ///
 /// Actions:
 ///   * Left double-click → Open (opens the browser).
@@ -26,6 +25,7 @@ internal sealed partial class TrayIcon : IDisposable
     private readonly LauncherLog _log;
 
     private readonly IntPtr _hIcon;
+    private readonly bool _ownsIcon;
     private readonly IntPtr _hwnd;
     private readonly WndProcDelegate _wndProc;
     private readonly GCHandle _wndProcHandle;
@@ -40,7 +40,7 @@ internal sealed partial class TrayIcon : IDisposable
         _onQuit = onQuit;
         _log = log;
 
-        _hIcon = LoadOwnIcon();
+        (_hIcon, _ownsIcon) = LoadOwnIcon();
         _wndProc = TrayWndProc;
         _wndProcHandle = GCHandle.Alloc(_wndProc);
 
@@ -100,7 +100,7 @@ internal sealed partial class TrayIcon : IDisposable
             _ = UnregisterClassW(new IntPtr(_classAtom), GetModuleHandleW(null));
         }
 
-        if (_hIcon != IntPtr.Zero)
+        if (_ownsIcon && _hIcon != IntPtr.Zero)
         {
             _ = DestroyIcon(_hIcon);
         }
@@ -247,7 +247,7 @@ internal sealed partial class TrayIcon : IDisposable
 
     // -- Icon --------------------------------------------------------------------
 
-    private static IntPtr LoadOwnIcon()
+    private static (IntPtr Handle, bool Owned) LoadOwnIcon()
     {
         // Prefer the icon embedded in the launcher exe (ApplicationIcon).
         // Fallback to the system application icon so tray always shows something.
@@ -256,18 +256,23 @@ internal sealed partial class TrayIcon : IDisposable
 
         try
         {
+            // ExtractIconEx fills both out-params, so returning one without
+            // destroying the other leaked an icon handle for the process's
+            // lifetime.
             var extracted = ExtractIconExW(Paths.Current.LauncherExe, 0, out large, out small, 1);
-            if (extracted > 0)
+            if (extracted > 0 && large != IntPtr.Zero)
             {
-                if (large != IntPtr.Zero)
-                {
-                    return large;
-                }
-
                 if (small != IntPtr.Zero)
                 {
-                    return small;
+                    _ = DestroyIcon(small);
                 }
+
+                return (large, true);
+            }
+
+            if (extracted > 0 && small != IntPtr.Zero)
+            {
+                return (small, true);
             }
         }
         catch
@@ -285,8 +290,9 @@ internal sealed partial class TrayIcon : IDisposable
             _ = DestroyIcon(small);
         }
 
-        // IDI_APPLICATION = 32512
-        return LoadIconW(IntPtr.Zero, new IntPtr(32512));
+        // IDI_APPLICATION = 32512. Shared system icon: it must never be passed
+        // to DestroyIcon, which is why Dispose tracks ownership separately.
+        return (LoadIconW(IntPtr.Zero, new IntPtr(32512)), false);
     }
 
     private static string TruncateTooltip(string tooltip)
@@ -301,7 +307,6 @@ internal sealed partial class TrayIcon : IDisposable
     private delegate IntPtr WndProcDelegate(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
     private const uint NIM_ADD = 0x00000000;
-    private const uint NIM_MODIFY = 0x00000001;
     private const uint NIM_DELETE = 0x00000002;
     private const uint NIM_SETVERSION = 0x00000004;
 

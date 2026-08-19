@@ -151,6 +151,19 @@ internal sealed class AppInstance : IDisposable
             catch (Exception ex)
             {
                 _log.Warn($"IPC accept failed: {ex.Message}");
+
+                // Back off. The mutex is Local\ (per session) while the pipe
+                // name is not, so a second session of the same account acquires
+                // the mutex and then cannot create the pipe — without this the
+                // retry is a 100% CPU spin that also floods the log.
+                try
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(1), ct).ConfigureAwait(false);
+                }
+                catch (OperationCanceledException)
+                {
+                    break;
+                }
             }
             finally
             {

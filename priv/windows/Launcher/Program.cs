@@ -17,7 +17,7 @@ internal static class Program
         var command = Cli.Parse(args);
 
         var log = new LauncherLog(Paths.Current.LauncherLogPath);
-        log.Rotate();
+        log.Rotate(includeServerLog: command.Verb is CliVerb.Launcher or CliVerb.SubmitMagnet or CliVerb.SubmitTorrent);
 
         try
         {
@@ -87,7 +87,7 @@ internal static class Program
     {
         log.Info("BootDesktop: starting message loop");
 
-        using var loop = new MessageLoop();
+        using var loop = new MessageLoop(log);
         var lifetime = new DesktopLifetime(new LaunchContext(log, pendingSubmit), loop);
 
         // Queued rather than called directly: RunAsync must observe the loop's
@@ -95,7 +95,18 @@ internal static class Program
         loop.Post(() =>
         {
             _ = lifetime.RunAsync().ContinueWith(
-                t => log.Error("DesktopLifetime.RunAsync faulted", t.Exception),
+                t =>
+                {
+                    log.Error("DesktopLifetime.RunAsync faulted", t.Exception);
+
+                    // Quit, do not just log. Everything between EnsureDirectories
+                    // and `new TrayIcon` runs before there is any UI at all, so a
+                    // throw in PortManager.Choose or the JobObject constructor
+                    // otherwise leaves the pump running with no window, no tray
+                    // icon and no way to exit short of Task Manager.
+                    Environment.ExitCode = 3;
+                    loop.Quit();
+                },
                 TaskContinuationOptions.OnlyOnFaulted);
         });
 

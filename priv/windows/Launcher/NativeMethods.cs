@@ -55,10 +55,10 @@ internal static partial class NativeMethods
 
     internal const int JobObjectExtendedLimitInformationClass = 9;
 
-    [LibraryImport("kernel32.dll", EntryPoint = "CreateJobObjectW", StringMarshalling = StringMarshalling.Utf16)]
+    [LibraryImport("kernel32.dll", EntryPoint = "CreateJobObjectW", StringMarshalling = StringMarshalling.Utf16, SetLastError = true)]
     internal static partial IntPtr CreateJobObject(IntPtr lpJobAttributes, string? lpName);
 
-    [LibraryImport("kernel32.dll")]
+    [LibraryImport("kernel32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool SetInformationJobObject(
         IntPtr hJob,
@@ -66,11 +66,11 @@ internal static partial class NativeMethods
         ref JobObjectExtendedLimitInformation lpJobObjectInformation,
         int cbJobObjectInformationLength);
 
-    [LibraryImport("kernel32.dll")]
+    [LibraryImport("kernel32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool AssignProcessToJobObject(IntPtr hJob, IntPtr hProcess);
 
-    [LibraryImport("kernel32.dll")]
+    [LibraryImport("kernel32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool CloseHandle(IntPtr hObject);
 }

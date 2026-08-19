@@ -23,12 +23,14 @@ internal sealed partial class MessageLoop : IDisposable
     private const uint WM_QUIT = 0x0012;
 
     private readonly ConcurrentQueue<Action> _pending = new();
+    private readonly LauncherLog _log;
     private readonly WndProcDelegate _wndProc;
     private readonly IntPtr _hwnd;
     private readonly uint _threadId;
 
-    public MessageLoop()
+    public MessageLoop(LauncherLog log)
     {
+        _log = log;
         _threadId = GetCurrentThreadId();
         _wndProc = WndProc;
 
@@ -58,11 +60,18 @@ internal sealed partial class MessageLoop : IDisposable
     public void Post(Action action)
     {
         _pending.Enqueue(action);
-        _ = PostMessageW(_hwnd, WM_RUN_ACTION, IntPtr.Zero, IntPtr.Zero);
+
+        if (!PostMessageW(_hwnd, WM_RUN_ACTION, IntPtr.Zero, IntPtr.Zero))
+        {
+            // The action stays queued and will run on the next message that
+            // does get through, but a silent failure here would look like work
+            // that simply never happened.
+            _log.Warn($"MessageLoop: PostMessage failed: {Marshal.GetLastPInvokeErrorMessage()}");
+        }
     }
 
-    /// <summary>Runs until <see cref="Quit"/>; returns the quit exit code.</summary>
-    public int Run()
+    /// <summary>Runs until <see cref="Quit"/>.</summary>
+    public void Run()
     {
         SynchronizationContext.SetSynchronizationContext(new LoopSynchronizationContext(this));
 
@@ -71,12 +80,16 @@ internal sealed partial class MessageLoop : IDisposable
             _ = TranslateMessage(ref msg);
             _ = DispatchMessageW(ref msg);
         }
-
-        return 0;
     }
 
     /// <summary>Ends <see cref="Run"/>. Safe to call from any thread.</summary>
-    public void Quit() => _ = PostThreadMessageW(_threadId, WM_QUIT, IntPtr.Zero, IntPtr.Zero);
+    public void Quit()
+    {
+        if (!PostThreadMessageW(_threadId, WM_QUIT, IntPtr.Zero, IntPtr.Zero))
+        {
+            _log.Warn($"MessageLoop: PostThreadMessage(WM_QUIT) failed: {Marshal.GetLastPInvokeErrorMessage()}");
+        }
+    }
 
     private IntPtr WndProc(IntPtr hwnd, uint msg, IntPtr wParam, IntPtr lParam)
     {
@@ -112,6 +125,15 @@ internal sealed partial class MessageLoop : IDisposable
 
         public override void Send(SendOrPostCallback d, object? state)
         {
+            // Inline when we are already the loop thread: posting and then
+            // waiting for ourselves is a guaranteed deadlock, and the
+            // SynchronizationContext contract requires synchronous execution.
+            if (GetCurrentThreadId() == loop._threadId)
+            {
+                d(state);
+                return;
+            }
+
             using var done = new ManualResetEventSlim(false);
             loop.Post(() =>
             {
