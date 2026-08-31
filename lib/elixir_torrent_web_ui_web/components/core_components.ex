@@ -69,7 +69,7 @@ defmodule ElixirTorrentWebUIWeb.CoreComponents do
       ]}>
         <.icon :if={@kind == :info} name="hero-information-circle" class="size-5 shrink-0" />
         <.icon :if={@kind == :error} name="hero-exclamation-circle" class="size-5 shrink-0" />
-        <div>
+        <div id={"#{@id}-message"} class="min-w-0 wrap-anywhere">
           <p :if={@title} class="font-semibold">{@title}</p>
           <p>{msg}</p>
         </div>
