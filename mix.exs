@@ -74,7 +74,7 @@ defmodule ElixirTorrentWebUI.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 1.0"},
       {:jason, "~> 1.2"},
-      {:dns_cluster, "~> 0.2.0"},
+      {:dns_cluster, "~> 0.3.0"},
       {:bandit, "~> 1.5"}
     ]
   end
@@ -86,7 +86,7 @@ defmodule ElixirTorrentWebUI.MixProject do
   #     ELIXIR_TORRENT_PATH=../ElixirTorrent mix phx.server
   defp elixir_torrent_dep do
     case System.get_env("ELIXIR_TORRENT_PATH") do
-      nil -> {:elixir_torrent, "~> 0.6.5"}
+      nil -> {:elixir_torrent, "~> 0.6.6"}
       path -> {:elixir_torrent, path: path}
     end
   end
