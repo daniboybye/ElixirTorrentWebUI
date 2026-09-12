@@ -13,10 +13,10 @@ defmodule ElixirTorrentWebUIWeb.EndpointLogLevelTest do
     :ok
   end
 
-  test "the launcher's Dock poll is demoted below the production log level" do
+  test "the launcher's Dock poll is not logged at any level" do
     conn = %Plug.Conn{method: "GET", path_info: ["api", "torrents"]}
 
-    assert Endpoint.request_log_level(conn) == :debug
+    assert Endpoint.request_log_level(conn) == false
   end
 
   test "requests that are not the Dock poll keep the default level" do
@@ -40,11 +40,11 @@ defmodule ElixirTorrentWebUIWeb.EndpointLogLevelTest do
     refute logs =~ "Sent 200"
   end
 
-  test "the same poll is still visible when debugging", %{conn: conn} do
+  test "the same poll stays silent in a debug build", %{conn: conn} do
     logs = capture_log([level: :debug], fn -> get(conn, ~p"/api/torrents") end)
 
-    assert logs =~ "GET /api/torrents"
-    assert logs =~ "Sent 200"
+    refute logs =~ "GET /api/torrents"
+    refute logs =~ "Sent 200"
   end
 
   test "ordinary requests still log at the production level", %{conn: conn} do
