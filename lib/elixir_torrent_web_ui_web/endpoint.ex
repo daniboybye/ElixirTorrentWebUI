@@ -44,7 +44,7 @@ defmodule ElixirTorrentWebUIWeb.Endpoint do
   # The macOS launcher polls `GET /api/torrents` every two seconds to keep the
   # Dock menu current. At the default `:info` that is two lines per poll —
   # tens of megabytes of chatter in the packaged app's `server.log`. Routine
-  # polls log at `:debug`; every other request keeps `:info`.
+  # polls are not logged at all; every other request keeps `:info`.
   plug Plug.Telemetry,
     event_prefix: [:phoenix, :endpoint],
     log: {__MODULE__, :request_log_level, []}
@@ -62,10 +62,10 @@ defmodule ElixirTorrentWebUIWeb.Endpoint do
   @doc """
   Per-request log level for `Plug.Telemetry`.
 
-  Only the launcher's Dock poll is demoted — `POST /api/torrents` adds a
+  Only the launcher's Dock poll is silenced — `POST /api/torrents` adds a
   torrent and stays at `:info`, as does everything else.
   """
-  @spec request_log_level(Plug.Conn.t()) :: Logger.level()
-  def request_log_level(%Plug.Conn{method: "GET", path_info: ["api", "torrents"]}), do: :debug
+  @spec request_log_level(Plug.Conn.t()) :: Logger.level() | false
+  def request_log_level(%Plug.Conn{method: "GET", path_info: ["api", "torrents"]}), do: false
   def request_log_level(%Plug.Conn{}), do: :info
 end
