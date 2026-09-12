@@ -18,12 +18,20 @@ unless System.get_env("ELIXIR_TORRENT_DESKTOP_BUILD") == "1" do
     ]
 end
 
-# Do not print debug messages in production
-config :logger,
-  level: :info,
-  compile_time_purge_matching: [
-    [level_lower_than: :info]
-  ]
+# Do not print debug messages in production.
+#
+# A diagnostic build (`ELIXIR_TORRENT_DEBUG_BUILD=1 mix mac.dmg`) keeps the
+# `Logger.debug` call sites instead of purging them at compile time, so the
+# level can still be raised back to `:info` over RPC without a rebuild.
+if System.get_env("ELIXIR_TORRENT_DEBUG_BUILD") == "1" do
+  config :logger, level: :debug
+else
+  config :logger,
+    level: :info,
+    compile_time_purge_matching: [
+      [level_lower_than: :info]
+    ]
+end
 
 # Runtime production configuration, including reading
 # of environment variables, is done on config/runtime.exs.
