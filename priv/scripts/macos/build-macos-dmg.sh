@@ -60,6 +60,7 @@ echo "==> Compiling native Dock launcher…"
 swiftc "$ROOT"/priv/macos/src/*.swift \
   -o "$APP/Contents/MacOS/${EXECUTABLE_NAME}" \
   -framework AppKit \
+  -framework IOKit \
   -swift-version 6 \
   -O
 chmod +x "$APP/Contents/MacOS/${EXECUTABLE_NAME}"

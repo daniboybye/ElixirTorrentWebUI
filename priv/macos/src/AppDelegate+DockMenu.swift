@@ -62,6 +62,7 @@ extension AppDelegate {
             while !Task.isCancelled {
                 if let torrents = await Self.refreshDockTorrents(endpoint: torrentsEndpoint) {
                     dockTorrents = torrents
+                    sleepPreventer.update(torrents: torrents)
                 }
                 try? await Task.sleep(nanoseconds: 2_000_000_000)
             }
