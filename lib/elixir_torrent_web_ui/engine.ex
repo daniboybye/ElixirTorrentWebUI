@@ -449,6 +449,20 @@ defmodule ElixirTorrentWebUI.Engine do
     end)
   end
 
+  # Past this horizon an ETA is noise, and `format_eta/1` renders a concrete figure
+  # for it — reported from the UI as a day count of order 1e39 on a torrent whose
+  # rate had decayed to ~1e-39 KB/s, since `left / (kbps * 1024)` has no upper
+  # bound. qBittorrent caps its own ETA at the same 100 days and shows ∞ beyond,
+  # for the same reason. The rate source was fixed separately (engine `PLAN.md`
+  # #53b); this is the guard that keeps *any* near-zero rate from printing a
+  # nonsense number.
+  @max_eta_seconds 8_640_000
+
+  @doc false
+  @spec compute_eta_for_test(String.t(), non_neg_integer(), number(), non_neg_integer()) ::
+          nil | :infinity | float()
+  def compute_eta_for_test(status, left, kbps, peers), do: compute_eta(status, left, kbps, peers)
+
   @spec compute_eta(String.t(), non_neg_integer(), number(), non_neg_integer()) ::
           nil | :infinity | float()
   defp compute_eta("Seeding", _left, _kbps, _peers), do: nil
@@ -457,7 +471,10 @@ defmodule ElixirTorrentWebUI.Engine do
   defp compute_eta(_status, _left, kbps, _peers) when kbps <= 0, do: :infinity
 
   defp compute_eta(_status, left, kbps, _peers) do
-    left / (kbps * 1024)
+    case left / (kbps * 1024) do
+      seconds when seconds > @max_eta_seconds -> :infinity
+      seconds -> seconds
+    end
   end
 
   @spec hash_from_hex_id(String.t()) :: {:ok, Torrent.hash()} | {:error, :invalid_torrent}
