@@ -2,6 +2,8 @@ import Darwin
 import Foundation
 
 actor ServerLifecycle {
+    private static let maxServerLogBytes: UInt64 = 20 * 1024 * 1024
+
     private var ownedProcess: Process?
     private let dataDirectory: URL
     private let releaseBinary: URL
@@ -170,6 +172,8 @@ actor ServerLifecycle {
     private func openServerLog() -> FileHandle? {
         let logURL = dataDirectory.appendingPathComponent("server.log")
 
+        rotateServerLogIfNeeded(at: logURL)
+
         do {
             if !FileManager.default.fileExists(atPath: logURL.path) {
                 FileManager.default.createFile(atPath: logURL.path, contents: nil)
@@ -181,6 +185,35 @@ actor ServerLifecycle {
         } catch {
             launcherLog("Could not open server log at \(logURL.path): \(error)")
             return nil
+        }
+    }
+
+    /// The release appends to `server.log` for the life of the install, so
+    /// without this the file grows without bound. Rotating only at launch is
+    /// enough: the running server holds the descriptor, and renaming a file
+    /// out from under an open descriptor would leave the new one empty.
+    private func rotateServerLogIfNeeded(at logURL: URL) {
+        let manager = FileManager.default
+
+        guard
+            let attributes = try? manager.attributesOfItem(atPath: logURL.path),
+            let size = attributes[.size] as? UInt64,
+            size >= Self.maxServerLogBytes
+        else {
+            return
+        }
+
+        let rotatedURL = logURL.appendingPathExtension("1")
+
+        do {
+            if manager.fileExists(atPath: rotatedURL.path) {
+                try manager.removeItem(at: rotatedURL)
+            }
+
+            try manager.moveItem(at: logURL, to: rotatedURL)
+            launcherLog("Rotated server log at \(size) bytes to \(rotatedURL.lastPathComponent)")
+        } catch {
+            launcherLog("Could not rotate server log at \(logURL.path): \(error)")
         }
     }
 
