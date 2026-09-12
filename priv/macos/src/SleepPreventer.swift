@@ -24,14 +24,22 @@ final class SleepPreventer {
     private var assertionID: IOPMAssertionID = 0
     private var isHeld = false
 
+    /// Anything that is not seeding still needs the machine awake, which is why
+    /// this is `!= "Seeding"` rather than `== "Downloading"`. The engine derives
+    /// the status from the piece currently being fetched, so an incomplete
+    /// torrent reports `"Connecting"` or `"Idle"` whenever no piece is assigned
+    /// — and behind CGNAT, where a torrent runs on one to three peers, that is a
+    /// state it passes through constantly while hunting for somewhere to ask.
+    /// Letting the Mac sleep there would strand it exactly when re-dialling is
+    /// the only thing that can rescue it. This also matches the Dock menu, which
+    /// files every non-seeding torrent under "Downloading:".
+    ///
     /// `downKbps` cannot be the trigger even though it reads like the natural
     /// one: the API reports `0.0` for torrents that are demonstrably
     /// progressing, because the underlying counter is piece-granular and the
     /// sample window is shorter than one piece (engine `PLAN.md` open bug #53b).
-    /// Gating on it would release the assertion exactly when a slow torrent
-    /// needs the machine awake most. `status` is authoritative.
     private static func hasIncompleteTorrent(_ torrents: [DockTorrent]) -> Bool {
-        torrents.contains { $0.status == "Downloading" }
+        torrents.contains { $0.status != "Seeding" }
     }
 
     /// A machine with no battery (desktop) reports AC, which is what we want.
