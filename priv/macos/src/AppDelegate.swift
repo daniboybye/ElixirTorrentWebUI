@@ -15,6 +15,7 @@ final class AppDelegate: NSObject {
     private let port = Int(ProcessInfo.processInfo.environment["PORT"] ?? "4000") ?? 4000
     var dockTorrents: [DockTorrent] = []
     var dockRefreshTask: Task<Void, Never>?
+    let sleepPreventer = SleepPreventer()
     private var openedFromURL = false
     private lazy var server = ServerLifecycle(
         dataDirectory: dataDirectory,
@@ -201,6 +202,9 @@ extension AppDelegate: NSApplicationDelegate {
     }
 
     func applicationShouldTerminate(_: NSApplication) -> NSApplication.TerminateReply {
+        dockRefreshTask?.cancel()
+        sleepPreventer.releaseForShutdown()
+
         Task {
             await server.shutdown(port: port)
             NSApp.reply(toApplicationShouldTerminate: true)

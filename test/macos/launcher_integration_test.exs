@@ -79,6 +79,8 @@ defmodule ElixirTorrentWebUI.MacOS.LauncherIntegrationTest do
             binary,
             "-framework",
             "AppKit",
+            "-framework",
+            "IOKit",
             "-swift-version",
             "6",
             "-O"
