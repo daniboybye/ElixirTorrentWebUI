@@ -28,7 +28,7 @@ Requires Elixir 1.20+ on OTP 29 (see `.tool-versions` for the exact toolchain CI
 ELIXIR_TORRENT_PATH=../ElixirTorrent mix deps.get
 ```
 
-The native launchers are optional for most work and only build on their own platform: the Swift shell (`priv/macos/src/`) needs Xcode with the Swift 6 toolchain, and the C# WinUI 3 shell (`priv/windows/Launcher/`) needs the .NET 10 SDK on Windows 11 x64.
+The native launchers are optional for most work and only build on their own platform: the Swift shell (`priv/macos/src/`) needs Xcode 27 with the Swift 6.4 toolchain, and the C# WinUI 3 shell (`priv/windows/Launcher/`) needs the .NET 10 SDK on Windows 11 x64.
 
 ## Before opening a pull request
 
