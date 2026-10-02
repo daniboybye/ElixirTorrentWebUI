@@ -46,7 +46,7 @@ jobs:
   publish:
     name: Publish GitHub Release
     needs: [macos, windows]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 10
     if: >-
       startsWith(github.ref, 'refs/tags/') &&

@@ -1,7 +1,7 @@
 name: Build WebUI, Test and Analyze
 
 # Runs on every PR and every push to main. Kept intentionally on the cheapest
-# GitHub-hosted image (ubuntu-24.04, 1x billing) — no macOS/Windows packaging
+# GitHub-hosted image (ubuntu-26.04, 1x billing) — no macOS/Windows packaging
 # happens here. Platform artifacts are produced by .github/workflows/release.yml.
 
 on:
@@ -21,7 +21,7 @@ concurrency:
 jobs:
   quality:
     name: Quality and tests
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 20
 
     env:
@@ -40,7 +40,7 @@ jobs:
           version: latest
 
       - name: Install Erlang and Elixir
-        uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1
+        uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1.24.1
         with:
           version-file: .tool-versions
           version-type: strict
