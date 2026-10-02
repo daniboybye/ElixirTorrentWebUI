@@ -90,6 +90,53 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLiveTest do
     assert ElixirTorrentWebUI.StatsStore.get() == %{total_downloaded: 0, total_uploaded: 0}
   end
 
+  test "hides the Delete log files button outside Debug", %{conn: conn} do
+    {:ok, view, _html} = live(conn, ~p"/")
+
+    render_click(element(view, "#open-settings"))
+
+    refute has_element?(view, "#settings-delete-log-files")
+    assert render_click(view, "delete_log_files", %{}) =~ "Settings"
+  end
+
+  describe "in Debug" do
+    setup do
+      previous = Application.get_env(:elixir_torrent_web_ui, :debug_tools)
+      Application.put_env(:elixir_torrent_web_ui, :debug_tools, true)
+
+      on_exit(fn ->
+        if is_nil(previous),
+          do: Application.delete_env(:elixir_torrent_web_ui, :debug_tools),
+          else: Application.put_env(:elixir_torrent_web_ui, :debug_tools, previous)
+      end)
+    end
+
+    test "deletes log files from Settings", %{conn: conn} do
+      root = ElixirTorrentWebUI.DataDir.root()
+      File.mkdir_p!(root)
+      log = Path.join(root, "server.log")
+      rotated = log <> ".1"
+      File.write!(log, "line\n")
+      File.write!(rotated, "old\n")
+
+      on_exit(fn ->
+        File.rm(log)
+        File.rm(rotated)
+      end)
+
+      {:ok, view, _html} = live(conn, ~p"/")
+      render_click(element(view, "#open-settings"))
+
+      assert has_element?(view, "#settings-delete-log-files", "Delete log files")
+
+      html = render_click(element(view, "#settings-delete-log-files"))
+
+      assert html =~ "Log files deleted"
+      assert File.read!(log) == ""
+      refute File.exists?(rotated)
+    end
+  end
+
   test "renders lazy image thumbnails and an OS-open fallback" do
     torrent_id = String.duplicate("A", 40)
 

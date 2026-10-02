@@ -25,6 +25,7 @@ end
 # level can still be raised back to `:info` over RPC without a rebuild.
 if System.get_env("ELIXIR_TORRENT_DEBUG_BUILD") == "1" do
   config :logger, level: :debug
+  config :elixir_torrent_web_ui, :debug_tools, true
 else
   config :logger,
     level: :info,

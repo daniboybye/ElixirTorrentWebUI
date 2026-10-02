@@ -181,6 +181,10 @@ actor ServerLifecycle {
 
             let handle = try FileHandle(forWritingTo: logURL)
             handle.seekToEndOfFile()
+            // The child shares this open file description. O_APPEND keeps its
+            // writes at the end of the file, so truncating `server.log` in place
+            // (Settings > Delete log files) does not leave a NUL-filled gap.
+            _ = fcntl(handle.fileDescriptor, F_SETFL, O_APPEND)
             return handle
         } catch {
             launcherLog("Could not open server log at \(logURL.path): \(error)")

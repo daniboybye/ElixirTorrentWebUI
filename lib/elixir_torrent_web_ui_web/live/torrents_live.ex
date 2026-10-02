@@ -6,6 +6,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
     Engine,
     IssueReport,
     Locale,
+    LogFiles,
     MagnetIngest,
     StatsStore,
     TorrentIngest,
@@ -32,6 +33,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
       |> assign(:settings_locale, locale)
       |> assign(:settings_download_folder, download_folder)
       |> assign(:download_folder, download_folder)
+      |> assign(:debug_tools?, LogFiles.enabled?())
       |> assign(:default_handler, DefaultHandler.status())
       |> assign(:default_prompt_dismissed, false)
       |> assign(:report_open, false)
@@ -338,6 +340,20 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
      |> put_flash(:info, gettext("Transfer statistics reset"))
      |> assign_torrents(Engine.list_torrents(socket.assigns.expanded))}
   end
+
+  @impl Phoenix.LiveView
+  def handle_event("delete_log_files", _params, %{assigns: %{debug_tools?: true}} = socket) do
+    case LogFiles.delete_all() do
+      {:ok, _count} ->
+        {:noreply, put_flash(socket, :info, gettext("Log files deleted"))}
+
+      {:error, failures} ->
+        Logger.warning("TorrentsLive: delete_log_files failed reasons=#{inspect(failures)}")
+        {:noreply, put_flash(socket, :error, gettext("Could not delete log files"))}
+    end
+  end
+
+  def handle_event("delete_log_files", _params, socket), do: {:noreply, socket}
 
   @impl Phoenix.LiveView
   def handle_event("request_default_handler", _params, socket) do
@@ -689,6 +705,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
         open={@settings_open}
         locale={@settings_locale}
         download_folder={@settings_download_folder}
+        debug_tools={@debug_tools?}
         default_handler={@default_handler}
         languages={ElixirTorrentWebUI.Languages.list()}
       />
@@ -1286,6 +1303,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
   attr :download_folder, :string, required: true
   attr :default_handler, :map, required: true
   attr :languages, :list, required: true
+  attr :debug_tools, :boolean, default: false
 
   @doc false
   def settings_dialog(assigns) do
@@ -1416,6 +1434,26 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLive do
             class="mt-3 inline-flex cursor-pointer items-center rounded-md border border-error/50 bg-base-100 px-4 py-2 text-sm font-semibold text-error transition hover:bg-error hover:text-error-content"
           >
             {gettext("Reset Statistics")}
+          </button>
+        </div>
+
+        <div
+          :if={@debug_tools}
+          id="settings-debug"
+          class="mt-6 rounded-lg border border-base-300 bg-base-200/40 px-3 py-3"
+        >
+          <p class="text-sm font-medium text-base-content">{gettext("Debug")}</p>
+          <p class="mt-1 text-xs text-base-content/60">
+            {gettext("Remove the log files written while ElixirTorrent runs.")}
+          </p>
+          <button
+            type="button"
+            id="settings-delete-log-files"
+            phx-click="delete_log_files"
+            data-confirm={gettext("Delete all log files?")}
+            class="mt-3 inline-flex cursor-pointer items-center rounded-md border border-error/50 bg-base-100 px-4 py-2 text-sm font-semibold text-error transition hover:bg-error hover:text-error-content"
+          >
+            {gettext("Delete log files")}
           </button>
         </div>
 
