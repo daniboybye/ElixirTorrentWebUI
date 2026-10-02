@@ -48,8 +48,10 @@ final class SleepPreventer {
     /// versus a download queue that silently never finishes, which is the bug
     /// this class exists to fix.
     private static func isOnACPower() -> Bool {
-        guard let snapshot = IOPSCopyPowerSourcesInfo()?.takeRetainedValue(),
-              let source = IOPSGetProvidingPowerSourceType(snapshot)?.takeUnretainedValue()
+        // IOPSCopy… is +1 retained (retained value); IOPSGet… follows the get
+        // rule and is borrowed from `snapshot` (unretained value).
+        guard let snapshot = unsafe IOPSCopyPowerSourcesInfo()?.takeRetainedValue(),
+              let source = unsafe IOPSGetProvidingPowerSourceType(snapshot)?.takeUnretainedValue()
         else {
             return true
         }
@@ -78,7 +80,7 @@ final class SleepPreventer {
         guard !isHeld else { return }
 
         var id: IOPMAssertionID = 0
-        let result = IOPMAssertionCreateWithName(
+        let result = unsafe IOPMAssertionCreateWithName(
             kIOPMAssertPreventUserIdleSystemSleep as CFString,
             IOPMAssertionLevel(kIOPMAssertionLevelOn),
             "ElixirTorrent is downloading" as CFString,
