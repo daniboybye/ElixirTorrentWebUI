@@ -65,6 +65,9 @@ config :elixir_torrent_web_ui, ElixirTorrentWebUIWeb.Endpoint,
 # Enable dev routes for dashboard and mailbox
 config :elixir_torrent_web_ui, dev_routes: true
 
+# Show Debug-only tools (e.g. "Delete log files") in Settings.
+config :elixir_torrent_web_ui, debug_tools: true
+
 # Do not include metadata nor timestamps in development logs
 config :logger, :default_formatter, format: "[$level] $message\n"
 

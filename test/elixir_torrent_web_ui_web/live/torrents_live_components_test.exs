@@ -50,6 +50,7 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLiveComponentsTest do
 
     assert settings =~ ~s(id="settings-dialog")
     assert settings =~ ~s(id="settings-reset-statistics")
+    refute settings =~ ~s(id="settings-debug")
     assert settings =~ "/tmp/downloads"
     refute settings =~ ~s(id="settings-default-handler-banner")
 
@@ -61,6 +62,20 @@ defmodule ElixirTorrentWebUIWeb.TorrentsLiveComponentsTest do
         default_handler: %{supported: true, torrent: false, magnet: false},
         languages: [hd(ElixirTorrentWebUI.Languages.list())]
       )
+
+    debug =
+      render_component(&TorrentsLive.settings_dialog/1,
+        open: true,
+        locale: "en",
+        download_folder: "/tmp/downloads",
+        default_handler: %{supported: true, torrent: true, magnet: true},
+        languages: [hd(ElixirTorrentWebUI.Languages.list())],
+        debug_tools: true
+      )
+
+    assert debug =~ ~s(id="settings-debug")
+    assert debug =~ ~s(id="settings-delete-log-files")
+    assert debug =~ "Delete log files"
 
     assert banner =~ ~s(id="settings-default-handler-banner")
     assert banner =~ ~s(id="settings-default-handler-set")
