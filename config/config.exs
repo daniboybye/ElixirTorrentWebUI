@@ -37,7 +37,7 @@ config :elixir_torrent_web_ui, ElixirTorrentWebUIWeb.Endpoint,
 
 # Configure esbuild (the version is required)
 config :esbuild,
-  version: "0.28.1",
+  version: "0.28.2",
   elixir_torrent_web_ui: [
     args:
       ~w(js/app.js --bundle --target=es2022 --outdir=../priv/static/assets/js --external:/fonts/* --external:/images/* --alias:@=.),
