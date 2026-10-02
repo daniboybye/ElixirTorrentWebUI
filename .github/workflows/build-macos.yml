@@ -6,11 +6,13 @@ name: Build macOS
 # Runs the full ExUnit suite on macOS (arm64) and produces the signed DMG
 # artifact that release.yml uploads to the GitHub Release.
 #
-# macos-26 = Apple Silicon (M-series), latest Xcode preinstalled (26.6 as of
-# this writing — priv/macos/src/*.swift needs its toolchain for Swift 6 language mode
-# / strict concurrency checking). GitHub bills macOS runners 10x vs Linux, so
-# this workflow deliberately does not run on every PR — only on tags or
-# on-demand dispatch.
+# xcode-27 = Apple Silicon (M-series) macOS 27 image with Xcode 27 (Swift 6.4)
+# as the default toolchain — still a public-preview label, so move back to
+# the plain `macos-27` label once GitHub promotes it to GA. priv/macos/src/*.swift
+# is built in Swift 6 language mode (strict concurrency checking); the 6.4
+# compiler still accepts nothing newer than `-swift-version 6`. GitHub bills
+# macOS runners 10x vs Linux, so this workflow deliberately does not run on
+# every PR — only on tags or on-demand dispatch.
 
 on:
   workflow_call:
@@ -26,7 +28,7 @@ concurrency:
 jobs:
   build:
     name: Test and package (macOS arm64)
-    runs-on: macos-26
+    runs-on: xcode-27
     timeout-minutes: 45
 
     env:
@@ -35,6 +37,11 @@ jobs:
     steps:
       - name: Check out WebUI
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Show Swift toolchain
+        run: |
+          xcodebuild -version
+          swift --version
 
       - name: Install SwiftLint
         run: brew install swiftlint
