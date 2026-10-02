@@ -83,6 +83,7 @@ defmodule ElixirTorrentWebUI.MacOS.LauncherIntegrationTest do
             "IOKit",
             "-swift-version",
             "6",
+            "-strict-memory-safety",
             "-O"
           ],
         env: CommandEnvironment.scrubbed()

@@ -31,6 +31,17 @@ extension AppDelegate {
         }
     }
 
+    /// Fixed `.`-separated, ungrouped digits, as `String(format:)` produced,
+    /// without the C-varargs call strict memory safety rejects.
+    private static func formatSpeedValue(_ value: Double, fractionDigits: Int) -> String {
+        value.formatted(
+            .number
+                .precision(.fractionLength(fractionDigits))
+                .grouping(.never)
+                .locale(Locale(identifier: "en_US_POSIX"))
+        )
+    }
+
     func applicationDockMenu(_: NSApplication) -> NSMenu? {
         guard !dockTorrents.isEmpty else { return nil }
 
@@ -106,11 +117,11 @@ extension AppDelegate {
 
         let bytesPerSecond = kbps * 1024
         if bytesPerSecond >= 1024 * 1024 {
-            return String(format: "%.1f MB/s", bytesPerSecond / (1024 * 1024))
+            return "\(Self.formatSpeedValue(bytesPerSecond / (1024 * 1024), fractionDigits: 1)) MB/s"
         }
         if bytesPerSecond >= 1024 {
-            return String(format: "%.1f KB/s", bytesPerSecond / 1024)
+            return "\(Self.formatSpeedValue(bytesPerSecond / 1024, fractionDigits: 1)) KB/s"
         }
-        return String(format: "%.0f B/s", bytesPerSecond)
+        return "\(Self.formatSpeedValue(bytesPerSecond, fractionDigits: 0)) B/s"
     }
 }

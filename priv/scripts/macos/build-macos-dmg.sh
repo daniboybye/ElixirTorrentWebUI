@@ -62,6 +62,7 @@ swiftc "$ROOT"/priv/macos/src/*.swift \
   -framework AppKit \
   -framework IOKit \
   -swift-version 6 \
+  -strict-memory-safety \
   -O
 chmod +x "$APP/Contents/MacOS/${EXECUTABLE_NAME}"
 
@@ -89,11 +90,13 @@ mkdir -p "$STAGING"
 cp -R "$APP" "$STAGING/"
 ln -s /Applications "$STAGING/Applications"
 
-hdiutil create \
-  -volname "$APP_DISPLAY_NAME" \
-  -srcfolder "$STAGING" \
-  -ov \
-  -format UDZO \
+# `diskutil image` (macOS 15+) replaces the deprecated `hdiutil create`; it
+# overwrites an existing destination like `-ov` did, but prints percentage
+# progress on stdout, hence the redirect.
+diskutil image create from \
+  --format UDZO \
+  --volumeName "$APP_DISPLAY_NAME" \
+  "$STAGING" \
   "$DMG" >/dev/null
 
 rm -rf "$STAGING"

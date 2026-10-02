@@ -137,7 +137,9 @@ enum DefaultHandlerCoordinator: Sendable {
     }
 
     private static func handlerForContentType(_ uti: String) -> String? {
-        LSCopyDefaultRoleHandlerForContentType(uti as CFString, .viewer)?
+        // Copy rule: the returned handler is +1 retained, which is exactly
+        // what `takeRetainedValue()` consumes.
+        unsafe LSCopyDefaultRoleHandlerForContentType(uti as CFString, .viewer)?
             .takeRetainedValue() as String?
     }
 
