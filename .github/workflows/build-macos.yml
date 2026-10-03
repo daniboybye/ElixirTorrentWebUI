@@ -56,6 +56,11 @@ jobs:
 
       - name: Install Erlang and Elixir
         uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1.24.1
+        env:
+          # The xcode-27 image reports ImageOS=macos27, which setup-beam
+          # v1.24.1 cannot map to a prebuilt target (it knows up to macos26).
+          # Drop this once a setup-beam release adds macos27.
+          ImageOS: macos26
         with:
           version-file: .tool-versions
           version-type: strict
