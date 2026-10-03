@@ -83,7 +83,7 @@ mix mac.dmg
 ```
 
 Output lands in `dist/` (e.g. `ElixirTorrent Web.app`,
-`ElixirTorrent Web-0.4.0-macos-arm64.dmg` on Apple Silicon, or `…-macos-x64.dmg`
+`ElixirTorrent Web-0.4.1-macos-arm64.dmg` on Apple Silicon, or `…-macos-x64.dmg`
 on Intel).
 
 The **Liquid Glass** icon (`Assets.car`, macOS 26+) requires **Xcode 26+**
