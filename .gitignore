@@ -19,6 +19,9 @@ erl_crash.dump
 # Also ignore archive artifacts (built via "mix archive.build").
 *.ez
 
+# Dependency lock of a build against a local engine checkout (see mix.exs).
+/mix.local.lock
+
 # Temporary files, for example, from tests.
 /tmp/
 
