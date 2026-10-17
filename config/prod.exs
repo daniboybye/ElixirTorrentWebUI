@@ -23,8 +23,25 @@ end
 # A diagnostic build (`ELIXIR_TORRENT_DEBUG_BUILD=1 mix mac.dmg`) keeps the
 # `Logger.debug` call sites instead of purging them at compile time, so the
 # level can still be raised back to `:info` over RPC without a rebuild.
+#
+# Its volume (~500-900 lines/s with a dozen torrents) is above the default
+# handler's overload protection: `burst_limit_max_count: 500` per second and
+# `drop_mode_qlen: 200` silently discarded every line past the cap, info and
+# warning included, so a debug log read 501 lines in a median second and was
+# missing whole events. A diagnostic log that drops lines is no diagnostic, so
+# the debug build turns the burst limit off and lets the queue grow before it
+# blocks or drops.
 if System.get_env("ELIXIR_TORRENT_DEBUG_BUILD") == "1" do
   config :logger, level: :debug
+
+  config :logger, :default_handler,
+    config: [
+      burst_limit_enable: false,
+      sync_mode_qlen: 5_000,
+      drop_mode_qlen: 20_000,
+      flush_qlen: 50_000
+    ]
+
   config :elixir_torrent_web_ui, :debug_tools, true
 else
   config :logger,
