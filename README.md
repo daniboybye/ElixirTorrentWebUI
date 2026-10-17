@@ -107,16 +107,25 @@ handler registration.
 
 ## Engine dependency
 
-The committed dependency remains the published Hex package. While both projects
-evolve together, validate the WebUI against a local Engine checkout by setting:
+`mix.exs` picks the engine source in this order:
+
+1. `ELIXIR_TORRENT_PATH=<dir>`: that local Engine checkout.
+2. `ELIXIR_TORRENT_HEX=1`, or any CI run (`CI` set): the published Hex package
+   pinned by `mix.lock`.
+3. Otherwise the sibling `../ElixirTorrent` checkout when it exists, and Hex
+   when it does not.
+
+So with both repositories checked out side by side, `mix deps.get`, `mix test`
+and `mix mac.dmg` build against the local Engine with no extra setup.
+
+A local Engine resolves its own dependencies, which drift ahead of the committed
+lock whenever the Engine bumps one. Local builds therefore use their own
+`mix.local.lock` (gitignored, seeded from `mix.lock` on first use), and
+`mix.lock` changes only when the Hex dependency itself is updated:
 
 ```bash
-export ELIXIR_TORRENT_PATH=../ElixirTorrent
-mix deps.get
+ELIXIR_TORRENT_HEX=1 mix deps.update elixir_torrent
 ```
-
-The local path and Engine revision are development inputs, not committed pins.
-Do not commit lock-file changes caused only by switching dependency sources.
 
 ## Tests and quality
 
@@ -125,7 +134,6 @@ ExCoveralls currently enforces the first 55% project gate (57.2% at introduction
 the roadmap raises this to 70% and then above 80%.
 
 ```bash
-export ELIXIR_TORRENT_PATH=../ElixirTorrent
 mix format --check-formatted
 mix quality
 perl -e 'alarm shift; exec @ARGV' 60 mix coveralls

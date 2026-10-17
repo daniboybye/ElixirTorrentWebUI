@@ -22,11 +22,7 @@ mix setup
 mix phx.server
 ```
 
-Requires Elixir 1.20+ on OTP 29 (see `.tool-versions` for the exact toolchain CI pins). By default the engine is pulled from Hex. To develop against a local engine checkout instead, point `ELIXIR_TORRENT_PATH` at it — but never commit the resulting `mix.lock` change:
-
-```bash
-ELIXIR_TORRENT_PATH=../ElixirTorrent mix deps.get
-```
+Requires Elixir 1.20+ on OTP 29 (see `.tool-versions` for the exact toolchain CI pins). With the engine checked out next to this repository as `../ElixirTorrent`, it is used automatically; `ELIXIR_TORRENT_PATH` points at a checkout elsewhere, and `ELIXIR_TORRENT_HEX=1` (or CI) takes the published Hex package. A local engine build keeps its own gitignored `mix.local.lock`, so `mix.lock` only ever pins the Hex release. See the README's "Engine dependency" section.
 
 The native launchers are optional for most work and only build on their own platform: the Swift shell (`priv/macos/src/`) needs Xcode 27 with the Swift 6.4 toolchain, and the C# WinUI 3 shell (`priv/windows/Launcher/`) needs the .NET 10 SDK on Windows 11 x64.
 

@@ -11,6 +11,7 @@ defmodule ElixirTorrentWebUI.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
+      lockfile: lockfile(),
       test_coverage: [tool: ExCoveralls],
       compilers: [:phoenix_live_view] ++ Mix.compilers(),
       listeners: [Phoenix.CodeReloader]
@@ -85,9 +86,49 @@ defmodule ElixirTorrentWebUI.MixProject do
   #     ELIXIR_TORRENT_PATH=../ElixirTorrent mix deps.get
   #     ELIXIR_TORRENT_PATH=../ElixirTorrent mix phx.server
   defp elixir_torrent_dep do
-    case System.get_env("ELIXIR_TORRENT_PATH") do
+    case engine_path() do
       nil -> {:elixir_torrent, "~> 0.6.8"}
       path -> {:elixir_torrent, path: path}
+    end
+  end
+
+  # Where the engine comes from:
+  #   * `ELIXIR_TORRENT_PATH` names a local checkout explicitly;
+  #   * `ELIXIR_TORRENT_HEX=1`, or any CI run, takes the published package;
+  #   * otherwise the sibling `../ElixirTorrent` checkout, when it exists.
+  # So a developer machine with both repos builds against the local engine by
+  # default, and CI keeps building the release users get from Hex.
+  defp engine_path do
+    explicit = System.get_env("ELIXIR_TORRENT_PATH")
+    sibling = Path.expand("../ElixirTorrent", __DIR__)
+
+    cond do
+      explicit not in [nil, ""] -> explicit
+      System.get_env("ELIXIR_TORRENT_HEX") == "1" or System.get_env("CI") != nil -> nil
+      File.regular?(Path.join(sibling, "mix.exs")) -> sibling
+      true -> nil
+    end
+  end
+
+  # The committed `mix.lock` pins the Hex engine and the versions it brings. A
+  # local engine resolves its own dependencies, which drift ahead of that lock as
+  # soon as the engine bumps one, and `deps.get --check-locked` then fails. A local
+  # build therefore keeps its own lock, seeded from the committed one, so switching
+  # sources never touches `mix.lock`.
+  @local_lockfile "mix.local.lock"
+
+  defp lockfile do
+    if engine_path() do
+      local = Path.join(__DIR__, @local_lockfile)
+      committed = Path.join(__DIR__, "mix.lock")
+
+      if not File.exists?(local) and File.exists?(committed) do
+        File.cp!(committed, local)
+      end
+
+      @local_lockfile
+    else
+      "mix.lock"
     end
   end
 

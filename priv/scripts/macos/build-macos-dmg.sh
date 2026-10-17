@@ -6,7 +6,16 @@ cd "$ROOT"
 
 APP_DISPLAY_NAME="ElixirTorrent Web"
 EXECUTABLE_NAME="ElixirTorrentWebUI"
-VERSION="$(mix run -e 'IO.write(Mix.Project.config()[:version])' --no-start --no-compile 2>/dev/null || echo 0.1.0)"
+# --no-deps-check: these probes only read mix.exs, and must not fail (and fall
+# back to a stale default) just because deps are not fetched or locked yet.
+mix_config() {
+  mix run -e "IO.write(Mix.Project.config()[:$1])" --no-start --no-compile --no-deps-check 2>/dev/null
+}
+VERSION="$(mix_config version || echo 0.1.0)"
+# mix.exs builds against the sibling ../ElixirTorrent checkout when it exists
+# (or ELIXIR_TORRENT_PATH), with its own lock; only the Hex build is held to the
+# committed mix.lock.
+LOCKFILE="$(mix_config lockfile || echo mix.lock)"
 DIST="$ROOT/dist"
 APP="$DIST/${APP_DISPLAY_NAME}.app"
 STAGING="$DIST/dmg-staging"
@@ -38,7 +47,13 @@ echo "==> Building release (prod, desktop)…"
 export ELIXIR_TORRENT_DESKTOP_BUILD=1
 export MIX_ENV=prod
 
-mix deps.get --only prod --check-locked
+if [[ "$LOCKFILE" == "mix.lock" ]]; then
+  echo "==> Engine: elixir_torrent from Hex (mix.lock)"
+  mix deps.get --only prod --check-locked
+else
+  echo "==> Engine: local checkout (${LOCKFILE})"
+  mix deps.get --only prod
+fi
 MIX_ENV=prod mix compile
 mix phx.digest.clean --all
 mix assets.deploy

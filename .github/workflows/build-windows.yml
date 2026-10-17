@@ -87,8 +87,8 @@ jobs:
           mix local.rebar --force
 
       - name: Fetch dependencies
-        # No ELIXIR_TORRENT_PATH on CI: mix.exs falls back to the published
-        # :elixir_torrent package, never a local sibling checkout.
+        # CI is set on GitHub runners, so mix.exs takes the published
+        # :elixir_torrent package pinned by mix.lock, never a local checkout.
         run: mix deps.get
 
       - name: Compile (dev)
