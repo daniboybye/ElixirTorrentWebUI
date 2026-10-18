@@ -87,7 +87,7 @@ defmodule ElixirTorrentWebUI.MixProject do
   #     ELIXIR_TORRENT_PATH=../ElixirTorrent mix phx.server
   defp elixir_torrent_dep do
     case engine_path() do
-      nil -> {:elixir_torrent, "~> 0.6.8"}
+      nil -> {:elixir_torrent, "~> 0.7.0"}
       path -> {:elixir_torrent, path: path}
     end
   end
